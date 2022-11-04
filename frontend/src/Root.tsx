@@ -1,14 +1,15 @@
 // import { useQuery } from "@tanstack/react-query";
-import { SafeAreaView, StatusBar, StyleSheet, Text, View } from "react-native";
+import { useRef } from "react";
+import { Animated, StatusBar, StyleSheet, View } from "react-native";
 import { TaskList } from "./components/TaskList";
+import { World } from "./components/World";
 
 export default function Root() {
+  const scrollOffsetY = useRef(new Animated.Value(0)).current;
   return (
     <View style={styles.container}>
-      <Text style={{ marginTop: 500, marginBottom: 20 }}>asdfasdfas</Text>
-      <SafeAreaView style={styles.scrollView}>
-        <TaskList />
-      </SafeAreaView>
+      <World animWorldValue={scrollOffsetY} />
+      <TaskList scrollOffsetY={scrollOffsetY} />
     </View>
   );
 }
@@ -23,7 +24,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   scrollView: {
-    backgroundColor: "pink",
     height: "100%",
     width: "100%",
   },

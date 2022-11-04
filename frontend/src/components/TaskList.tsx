@@ -1,16 +1,40 @@
 import { useState } from "react";
-import { FlatList, StyleSheet } from "react-native";
+import { Animated, ScrollView, StyleSheet } from "react-native";
 import { Task } from "./Task";
 
-export const TaskList = () => {
+export const TaskList = (props: any) => {
   const [tasks, setTasks] = useState([
     {
       id: "1",
-      title: "Do the dishes",
+      title: "Modern JS: \n\nA curated collection",
     },
     {
       id: "2",
-      title: "Bike to school",
+      title: "Modern JS: \n\nA curated collection",
+    },
+    {
+      id: "3",
+      title: "Modern JS: \n\nA curated collection",
+    },
+    {
+      id: "4",
+      title: "Modern JS: \n\nA curated collection",
+    },
+    {
+      id: "5",
+      title: "Modern JS: \n\nA curated collection",
+    },
+    {
+      id: "6",
+      title: "Modern JS: \n\nA curated collection",
+    },
+    {
+      id: "7",
+      title: "Modern JS: \n\nA curated collection",
+    },
+    {
+      id: "8",
+      title: "Modern JS: \n\nA curated collection",
     },
   ]);
   // TODO: Do something else
@@ -24,20 +48,30 @@ export const TaskList = () => {
     setTasks(filteredData);
   };
   return (
-    <FlatList
-      style={styles.scrollView}
-      data={tasks}
-      keyExtractor={(item) => item.id}
-      renderItem={({ item }) => (
-        <Task {...item} didntDoTask={didntDoTask} didDoTask={didDoTask} />
+    <ScrollView
+      scrollEventThrottle={16}
+      onScroll={Animated.event(
+        [{ nativeEvent: { contentOffset: { y: props.scrollOffsetY } } }],
+        { useNativeDriver: false }
       )}
-    />
+      style={styles.scrollView}
+    >
+      {tasks.map((item) => {
+        return (
+          <Task
+            {...item}
+            key={item.id}
+            didntDoTask={didntDoTask}
+            didDoTask={didDoTask}
+          />
+        );
+      })}
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   scrollView: {
-    backgroundColor: "pink",
     height: "100%",
     width: "100%",
   },
