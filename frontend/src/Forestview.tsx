@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import React, { useRef, useState } from "react";
+import React, { Suspense, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber/native";
 import Maindisc from "./3d-elements/Maindisc";
 import { Model } from "./3d-elements/Pinetreetest3.js";
@@ -31,7 +31,9 @@ export default function Forestview() {
       <ambientLight />
       <directionalLight color="red" position={[0, 0, 5]} />
       <pointLight position={[10, 10, 10]} />
-      <Model />
+      <Suspense fallback={null}>
+        <Model />
+      </Suspense>
       <Maindisc position={[0, 0, 0]} />
     </Canvas>
   );
