@@ -3,8 +3,10 @@ import datetime as dt
 from pydantic import BaseModel
 from sqlalchemy.dialects.postgresql import UUID
 import sqlalchemy as sa
+from sqlalchemy.orm import relationship
 
 from ..db.base import Base
+
 
 class User(Base):
     __tablename__ = "user"
@@ -23,6 +25,10 @@ class User(Base):
         onupdate=sa.func.now(),
     )
 
+    task_completions = relationship(
+        "TaskCompletion", back_populates="user", primaryjoin="User.id == TaskCompletion.user_id"
+    )
+
 
 class UserIn(BaseModel):
     first_name: str
@@ -30,7 +36,7 @@ class UserIn(BaseModel):
 
 
 class UserOut(UserIn):
-    id: uuid.UUID 
+    id: uuid.UUID
     created_at: dt.datetime
     updated_at: dt.datetime
 

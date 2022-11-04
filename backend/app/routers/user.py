@@ -1,4 +1,4 @@
-from typing import Any, Optional,List
+from typing import Any, Optional, List
 
 from fastapi import APIRouter, Depends
 from sqlalchemy import String, bindparam
@@ -22,11 +22,10 @@ async def get_users(
     db_result = db.query(User)
 
     if search:
-        db_result = db_result.filter(
-            User.name.like(bindparam("search", type_=String))
-        ).params(search=f"%{search}%")
+        db_result = db_result.filter(User.name.like(bindparam("search", type_=String))).params(search=f"%{search}%")
 
     return db_result.limit(limit).offset(skip).all()
+
 
 @router.post(
     "/",

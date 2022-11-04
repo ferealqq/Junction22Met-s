@@ -17,6 +17,7 @@ depends_on = None
 
 
 def upgrade():
+    # depricated delete later 
     op.create_table('item',
         sa.Column("id", postgresql.UUID(as_uuid=True), nullable=False),
         sa.Column("name", sa.String(), nullable=True),

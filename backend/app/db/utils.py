@@ -50,12 +50,11 @@ operators_map = {
 }
 
 
-
 def save_model(db, model):
     # save model to the database
     db.add(model)
     db.commit()
-    #TODO this is a bit excessive. We should find a way to return the model without fetching it from the database
-    # refresh fecthes the item from the database 
+    # TODO this is a bit excessive. We should find a way to return the model without fetching it from the database
+    # refresh fecthes the item from the database
     db.refresh(model)
     return model
