@@ -13,7 +13,7 @@ export default function Root() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignSelf: "stretch",
+    margin: 10,
     paddingTop: StatusBar.currentHeight,
     backgroundColor: "#fff",
     alignItems: "center",
