@@ -32,6 +32,6 @@
 #### Luonto
 * Puun istutus
 
-* #### Ruokailu
+#### Ruokailu
 * Kasvisruoka
 * Ruoanlaiton aika
