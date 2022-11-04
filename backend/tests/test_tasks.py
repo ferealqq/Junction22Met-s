@@ -7,6 +7,7 @@ from app.models.task import Task
 from app.models.task_activity import TaskActivity
 from app.models.task_completion import TaskCompletion
 from app.models.user import User
+from seeders.seeder import seed_task, seed_task_activity, seed_user
 
 
 def test_task_relationship(db: Session):
@@ -34,7 +35,7 @@ def test_task_completion_relationships(db: Session):
     assert ta.task != None
     assert ta.task.id == task.id
 
-    user = User(first_name="jasse", last_name="juho")
+    user = User(username="jasse")
     user = save_model(db, user)
 
     tc = TaskCompletion(
@@ -46,10 +47,26 @@ def test_task_completion_relationships(db: Session):
 
     assert tc != None
     assert tc.user != None
-    assert tc.user.first_name == user.first_name
+    assert tc.user.username == user.username
     assert tc.task_activity.ends_at == ta.ends_at
     assert tc.task.title == task.title
 
     user = db.query(User).filter(User.id == tc.user.id).one_or_none()
     assert user is not None 
     assert len(user.task_completions) == 1
+
+
+def test_seeder(db: Session):
+    user = seed_user(db)
+
+    assert user != None 
+
+
+    ta = seed_task_activity(db)
+    assert ta != None 
+    assert ta.task != None 
+
+    task = seed_task(db)
+    assert task != None 
+    ta = seed_task_activity(db,task_id=task.id)
+    assert ta != None

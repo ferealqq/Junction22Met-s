@@ -31,6 +31,7 @@ httpx = "*"
 pytest = "*"
 pytest-cov = "*"
 pytest-asyncio = "*"
+Faker = "^15.2.0"
 
 
 [build-system]

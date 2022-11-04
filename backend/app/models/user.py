@@ -11,8 +11,7 @@ from ..db.base import Base
 class User(Base):
     __tablename__ = "user"
     id = sa.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    first_name = sa.Column(sa.String, nullable=False)
-    last_name = sa.Column(sa.String, nullable=False)
+    username = sa.Column(sa.String, nullable=False)
     created_at = sa.Column(
         sa.DateTime,
         nullable=True,
@@ -31,8 +30,7 @@ class User(Base):
 
 
 class UserIn(BaseModel):
-    first_name: str
-    last_name: str
+    username: str
 
 
 class UserOut(UserIn):

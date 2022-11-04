@@ -31,6 +31,6 @@ async def get_users(
     "/",
     response_model=UserOut,
 )
-def post_game(user: UserIn, db: Session = Depends(get_db)):
+def post_user(user: UserIn, db: Session = Depends(get_db)):
     db_game = User(**user.dict())
     return save_model(db, db_game)
