@@ -33,11 +33,9 @@ export const Task = (props: IProps) => {
   };
   const swipeFromLeftOpen = () => {
     props.didDoTask(props.id);
-    console.log("Saving the world!");
   };
   const swipeFromRightOpen = () => {
     props.didntDoTask(props.id);
-    console.log("I'm actually a horrible person :)");
   };
   const leftSwipeActions = () => {
     return (
@@ -81,7 +79,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   button: {
-    marginBottom: 5,
+    marginBottom: 12,
     width: "100%",
     alignItems: "center",
     backgroundColor: "#fff",

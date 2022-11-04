@@ -17,7 +17,7 @@ export default function Root() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "blue",
+    backgroundColor: "tomato",
     height: "100%",
     alignItems: "center",
     justifyContent: "center",
