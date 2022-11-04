@@ -4,7 +4,8 @@ import Swipeable from "react-native-gesture-handler/Swipeable";
 interface IProps {
   id: string;
   title: string;
-  deleteItemById: (id: string) => void;
+  didntDoTask: (id: string) => void;
+  didDoTask: (id: string) => void;
 }
 
 export const Task = (props: IProps) => {
@@ -31,11 +32,11 @@ export const Task = (props: IProps) => {
     );
   };
   const swipeFromLeftOpen = () => {
-    props.deleteItemById(props.id);
+    props.didDoTask(props.id);
     console.log("Saving the world!");
   };
   const swipeFromRightOpen = () => {
-    props.deleteItemById(props.id);
+    props.didntDoTask(props.id);
     console.log("I'm actually a horrible person :)");
   };
   const leftSwipeActions = () => {

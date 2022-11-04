@@ -1,11 +1,14 @@
 // import { useQuery } from "@tanstack/react-query";
-import { StatusBar, StyleSheet, View } from "react-native";
+import { SafeAreaView, StatusBar, StyleSheet, Text, View } from "react-native";
 import { TaskList } from "./components/TaskList";
 
 export default function Root() {
   return (
     <View style={styles.container}>
-      <TaskList />
+      <Text style={{ marginTop: 500, marginBottom: 20 }}>asdfasdfas</Text>
+      <SafeAreaView style={styles.scrollView}>
+        <TaskList />
+      </SafeAreaView>
     </View>
   );
 }
@@ -18,5 +21,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+  },
+  scrollView: {
+    backgroundColor: "pink",
+    height: "100%",
+    width: "100%",
   },
 });

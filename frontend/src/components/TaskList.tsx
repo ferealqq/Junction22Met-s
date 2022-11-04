@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FlatList, SafeAreaView, StyleSheet } from "react-native";
+import { FlatList, StyleSheet } from "react-native";
 import { Task } from "./Task";
 
 export const TaskList = () => {
@@ -13,21 +13,25 @@ export const TaskList = () => {
       title: "Bike to school",
     },
   ]);
-  // TODO: Change
-  const deleteItemById = (id: string) => {
+  // TODO: Do something else
+  const didntDoTask = (id: string) => {
+    const filteredData = tasks.filter((item) => item.id !== id);
+    setTasks(filteredData);
+  };
+  // TODO: Do something else
+  const didDoTask = (id: string) => {
     const filteredData = tasks.filter((item) => item.id !== id);
     setTasks(filteredData);
   };
   return (
-    <SafeAreaView style={styles.scrollView}>
-      <FlatList
-        data={tasks}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <Task {...item} deleteItemById={deleteItemById} />
-        )}
-      />
-    </SafeAreaView>
+    <FlatList
+      style={styles.scrollView}
+      data={tasks}
+      keyExtractor={(item) => item.id}
+      renderItem={({ item }) => (
+        <Task {...item} didntDoTask={didntDoTask} didDoTask={didDoTask} />
+      )}
+    />
   );
 };
 
@@ -36,10 +40,5 @@ const styles = StyleSheet.create({
     backgroundColor: "pink",
     height: "100%",
     width: "100%",
-  },
-  itemSeparator: {
-    flex: 1,
-    height: 1,
-    backgroundColor: "#444",
   },
 });
