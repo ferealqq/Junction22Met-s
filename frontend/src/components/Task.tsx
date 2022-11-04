@@ -84,12 +84,12 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     width: "100%",
     alignItems: "center",
-    backgroundColor: "#2196F3",
+    backgroundColor: "#fff",
     borderRadius: 15,
   },
   buttonText: {
     textAlign: "center",
-    padding: 20,
-    color: "white",
+    padding: 50,
+    color: "black",
   },
 });

@@ -1,6 +1,6 @@
 // import { useQuery } from "@tanstack/react-query";
 import { useRef } from "react";
-import { Animated, StatusBar, StyleSheet, View } from "react-native";
+import { Animated, StyleSheet, View } from "react-native";
 import { TaskList } from "./components/TaskList";
 import { World } from "./components/World";
 
@@ -17,14 +17,9 @@ export default function Root() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin: 10,
-    paddingTop: StatusBar.currentHeight,
-    backgroundColor: "#fff",
+    backgroundColor: "blue",
+    height: "100%",
     alignItems: "center",
     justifyContent: "center",
-  },
-  scrollView: {
-    height: "100%",
-    width: "100%",
   },
 });

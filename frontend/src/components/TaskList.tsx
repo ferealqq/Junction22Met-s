@@ -1,5 +1,6 @@
+/* eslint-disable indent */
 import { useState } from "react";
-import { Animated, ScrollView, StyleSheet } from "react-native";
+import { Animated, Button, ScrollView, StyleSheet, View } from "react-native";
 import { Task } from "./Task";
 
 export const TaskList = (props: any) => {
@@ -37,6 +38,7 @@ export const TaskList = (props: any) => {
       title: "Modern JS: \n\nA curated collection",
     },
   ]);
+  const [allTasks, setAllTasks] = useState(false);
   // TODO: Do something else
   const didntDoTask = (id: string) => {
     const filteredData = tasks.filter((item) => item.id !== id);
@@ -56,16 +58,34 @@ export const TaskList = (props: any) => {
       )}
       style={styles.scrollView}
     >
-      {tasks.map((item) => {
-        return (
-          <Task
-            {...item}
-            key={item.id}
-            didntDoTask={didntDoTask}
-            didDoTask={didDoTask}
-          />
-        );
-      })}
+      {allTasks ? (
+        tasks.map((item) => {
+          return (
+            <Task
+              {...item}
+              key={item.id}
+              didntDoTask={didntDoTask}
+              didDoTask={didDoTask}
+            />
+          );
+        })
+      ) : (
+        <View>
+          {tasks.slice(0, 2).map((item) => {
+            return (
+              <Task
+                {...item}
+                key={item.id}
+                didntDoTask={didntDoTask}
+                didDoTask={didDoTask}
+              />
+            );
+          })}
+          <View style={{ paddingBottom: 10 }}>
+            <Button title="All tasks" onPress={() => setAllTasks(true)} />
+          </View>
+        </View>
+      )}
     </ScrollView>
   );
 };
