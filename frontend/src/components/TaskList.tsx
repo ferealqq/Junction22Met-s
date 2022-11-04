@@ -71,7 +71,7 @@ export const TaskList = (props: any) => {
         })
       ) : (
         <View>
-          {tasks.slice(0, 2).map((item) => {
+          {tasks.slice(0, 3).map((item) => {
             return (
               <Task
                 {...item}
@@ -81,7 +81,7 @@ export const TaskList = (props: any) => {
               />
             );
           })}
-          <View style={{ paddingBottom: 10 }}>
+          <View style={{ paddingBottom: 50 }}>
             <Button title="All tasks" onPress={() => setAllTasks(true)} />
           </View>
         </View>

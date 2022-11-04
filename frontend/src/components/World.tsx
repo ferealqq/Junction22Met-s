@@ -1,4 +1,4 @@
-import { Animated, Text } from "react-native";
+import { Animated } from "react-native";
 export const World = (props: any) => {
   const Header_Max_Height = 500;
   const Header_Min_Height = 10;
@@ -7,9 +7,5 @@ export const World = (props: any) => {
     outputRange: [Header_Max_Height, Header_Min_Height],
     extrapolate: "clamp",
   });
-  return (
-    <Animated.View style={{ height: animateWorldHeight }}>
-      <Text>asdfasdfas</Text>
-    </Animated.View>
-  );
+  return <Animated.View style={{ height: animateWorldHeight }}></Animated.View>;
 };
