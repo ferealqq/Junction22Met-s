@@ -1,16 +1,11 @@
-import { useQuery } from "@tanstack/react-query";
-import { StyleSheet, Text, View } from "react-native";
+// import { useQuery } from "@tanstack/react-query";
+import { StatusBar, StyleSheet, View } from "react-native";
+import { TaskList } from "./components/TaskList";
 
 export default function Root() {
-  const { data, isLoading } = useQuery(["todos"], () =>
-    fetch("https://randomuser.me/api/?results=20").then((res) => res.json())
-  );
-  console.log(data);
-  console.log(isLoading);
-  // https://tanstack.com/query/v4/docs/quick-start
   return (
     <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
+      <TaskList />
     </View>
   );
 }
@@ -18,6 +13,8 @@ export default function Root() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignSelf: "stretch",
+    paddingTop: StatusBar.currentHeight,
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
