@@ -67,11 +67,11 @@ async def get_data(
 
     for point in res:
         if(point in valleys):
-            db.add(Peaks(time=point['time'], value=point['value'], isvalley=True))
+            db.add(Peaks(time=point['time'], value=point['value'], isValley=True))
         if(point in peaks):
-            db.add(Peaks(time=point['time'], value=point['value'], ispeak=False))
+            db.add(Peaks(time=point['time'], value=point['value'], isPeak=False))
         else:
-            db.add(Peaks(time=point['time'], value=point['value'], ispeak=False, isvalley=False))
+            db.add(Peaks(time=point['time'], value=point['value'], isPeak=False, isValley=False))
         db.commit()
     return db.query(Peaks).all()
 
@@ -90,12 +90,24 @@ def post_calculate_activites(
     db.add(User(username="crontriggered"))
     db.commit()
     peaks = get_data(datetime.datetime.now())
+    today = pd.DataFrame(requests.get('https://api.spot-hinta.fi/Today').json())
+    df = pd.DataFrame(today.json())
+    rank1 = df[df['Rank'] == 1]['PriceWithTax']
+    rank24 = df[df['Rank'] == 24]['PriceWithTax']
+    Bestsavings = float(rank24) - float(rank1)
     # create lunch activity
     bestTimeForLunch = peaks[10]
+    worstTimeForLunch = peaks[10]
+    bestTimeForLunchIndex = 10
+    worstTimeForLunchIndex = 10
     for i in range(10, 14):
         if peaks[i]['value'] < bestTimeForLunch['value']:
             bestTimeForLunch = peaks[i]
-    
+            bestTimeForLunchIndex = i
+        if peaks[i]['value'] > worstTimeForLunch['value']:
+            worstTimeForLunch = peaks[i]
+            worstTimeForLunchIndex = i
+    lunchSavings = float(df.iloc[worstTimeForLunch]) - float(df.iloc[bestTimeForLunch])
     startTime = bestTimeForLunch['time']
     endTime = bestTimeForLunch['time'] + datetime.timedelta(hours=1)
     db.add(TaskActivity(starts_at=startTime, ends_at=endTime, task_id=1))
@@ -111,13 +123,13 @@ def post_calculate_activites(
 
 
     for i in len(peaks):
-        if peaks[i]['ispeak'] == True:
+        if peaks[i]['isPeak'] == True:
             startTime = peaks[i]['time']
             endTime = peaks[i]['time'] + datetime.timedelta(hours=1)
             db.add(TaskActivity(starts_at=startTime, ends_at=endTime, task_id=3))
 
     for i in len(peaks):
-        if peaks[i]['isvalley'] == True:
+        if peaks[i]['isValley'] == True:
             startTime = peaks[i]['time']
             endTime = peaks[i]['time'] + datetime.timedelta(hours=1)
             db.add(TaskActivity(starts_at=startTime, ends_at=endTime, task_id=4))
