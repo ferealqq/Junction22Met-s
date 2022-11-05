@@ -8,6 +8,10 @@ processes = []
 [env]
   ENVIRONMENT = "prod"
   PORT = 8080
+  JWT_PASS = "pekka"
+  JWT_PUBLIC = "public.pem"
+  JWT_PRIVATE = "private.pem"
+  FINGRID_API_KEY = "uHCAxPXnPD6l7PssW0hUH9JSrDL5qg2x5bC08Y67"
 
 [experimental]
   allowed_public_ports = []
