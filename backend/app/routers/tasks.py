@@ -30,27 +30,3 @@ async def get_active_tasks(
     db: Session = Depends(get_db),
 ):
     return db.query(TaskActivity).limit(limit).offset(skip).all()
-
-
-@router.get("/mock_tasks")
-async def get_mock_tasks():
-    return [
-        {
-            "id": 1,
-            "title": "Task 1",
-            "desc": "Task 1 description",
-            "emission": 1.0,
-        },
-        {
-            "id": 2,
-            "title": "Task 2",
-            "desc": "Task 2 description",
-            "emission": 2.0,
-        },
-        {
-            "id": 3,
-            "title": "Task 3",
-            "desc": "Task 3 description",
-            "emission": 3.0,
-        },
-    ]
