@@ -1,11 +1,14 @@
-import styled from 'styled-components';
-import { ForestView } from './components/ForestView';
-import { useEffect, useState } from 'react';
-import { HomeView } from './components/HomeView';
-import { StatsView } from './components/StatsView';
-import { TaskListView } from './components/TaskListView';
-import { createBrowserRouter, RouterProvider, Route } from 'react-router-dom'
-import { TaskPage } from './components/TaskPage';
+import styled from "styled-components";
+import { ForestView } from "./components/ForestView";
+import { useState } from "react";
+import { HomeView } from "./components/HomeView";
+import { StatsView } from "./components/StatsView";
+import { TaskListView } from "./components/TaskListView";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { TaskPage } from "./components/TaskPage";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useWorldModelStore } from "./index";
 // import { QueryClient, QueryClientProvider } from 'react-query';
 
 interface BGprops {
@@ -13,48 +16,47 @@ interface BGprops {
 }
 
 const router = createBrowserRouter([
-  { path: '/', element: <Home /> },
-  { path: '/tasks', element: <TaskPage /> }
-])
-
-// const client = new QueryClient();
+  { path: "/", element: <Home /> },
+  { path: "/tasks", element: <TaskPage /> },
+]);
 
 function App() {
-  return (
-    // <QueryClientProvider client={client}>
-      <RouterProvider router={router}/>
-    // </QueryClientProvider>
-  );
+  return <RouterProvider router={router} />;
 }
 
 function Home() {
-  const [currentView, setCurrentView] = useState('stats');
+  const unsub3 = useWorldModelStore.subscribe(
+    (state: any) => state.modelNumber,
+    (num: any, previousNum: any) =>
+      num > previousNum &&
+      toast.success("Great job! You just decreased your ...", {
+        toastId: "success1",
+      })
+  );
+  const [currentView, setCurrentView] = useState("stats");
 
   const handleScroll = (e: any) => {
     const { scrollTop } = e.target;
 
     if (scrollTop < 300) {
-      setCurrentView('stats');
+      setCurrentView("stats");
     } else if (scrollTop < 750) {
-      setCurrentView('home');
+      setCurrentView("home");
     } else {
-      setCurrentView('tasks');
+      setCurrentView("tasks");
     }
-  }
-
-  useEffect(() => {
-
-  }, [currentView]);
+  };
 
   return (
-  <MainView onScroll={handleScroll}> 
-    <StatsView /> 
-    <HomeView />
-    <TaskListView currentView={currentView}/>
-    <ForestView currentView={currentView}/> 
-    
-    <BackgroundColor currentView={currentView}/>
-  </MainView> 
+    <MainView onScroll={handleScroll}>
+      <ToastContainer />
+      <StatsView />
+      <HomeView currentView={currentView}/>
+      <TaskListView currentView={currentView} />
+      <ForestView currentView={currentView} />
+
+      <BackgroundColor currentView={currentView} />
+    </MainView>
   );
 }
 
@@ -67,11 +69,22 @@ const MainView = styled.div`
 `;
 
 const BackgroundColor = styled.div<BGprops>`
-  background: linear-gradient(180deg, #FFF 0%, #D9F4FC 10%, #D9F4FC 30%, #89A38A 60%);
-  height: 130vh; 
+  background: linear-gradient(
+    180deg,
+    #fff 0%,
+    #d9f4fc 10%,
+    #d9f4fc 30%,
+    #89a38a 60%
+  );
+  height: 130vh;
   width: 100%;
   position: fixed;
-  top: ${props => props.currentView === 'stats' ? '30%' : props.currentView === 'home' ? '0%' : '-30%'};
+  top: ${(props) =>
+    props.currentView === "stats"
+      ? "30%"
+      : props.currentView === "home"
+      ? "0%"
+      : "-30%"};
   z-index: -2;
   transition: top ease-out 0.5s;
-`; 
+`;

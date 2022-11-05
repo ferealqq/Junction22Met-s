@@ -1,9 +1,8 @@
 # To Do
-* Monitor the current view and affect the UI based on it
-- Handle 3D z-index
-- Handle 3D opacity and size
-- Hide elements
-- Handle BG linear
+* Add notification
+* Add warning
+* Add disabled tasks
+* Add all tasks underneath current ones
 
 ### Tasks
 
@@ -20,8 +19,6 @@
 * Sähkösopimuksen vihreys
 * Striimaa TV:llä älä Pleikalla
 * Käytä LED:ejä 
-
-
 
 #### Kierrätys
 * Vältä pikamuotia
