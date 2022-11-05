@@ -18,8 +18,10 @@ export const ForestView = (props: ForestProps) => {
 
 const World = styled.div<ForestProps>`
   width: 100%;
+  height: 100vh;
   object-fit: cover;
   position: absolute;
+  padding-bottom: 50vh;
   transition: 0.7s;
   transition-timing-function: cubic-bezier(0.3, 0.1, 0.2, 0.3);
   top: ${(props) =>
@@ -43,5 +45,6 @@ const Container = styled.div<ForestProps>`
   height: 100vh;
   position: fixed;
   top: 0;
+  z-index: -1;
   overflow-x: hidden;
 `;

@@ -7,18 +7,25 @@ import { useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 
 export function DiscSmall(props) {
-  const { nodes, materials } = useGLTF("/disc1.gltf");
   const mesh = useRef(null);
+  const handleDoubleClick = (event) => {
+    console.log(event.detail);
+    switch (event.detail) {
+      case 2: {
+        props.zoomToView(mesh);
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+  };
+  const { nodes, materials } = useGLTF("/medium1disc.gltf");
   useFrame(
     (state, delta) => (mesh.current.rotation.y += props.rotationSpeed / 100)
   );
   return (
-    <group
-      ref={mesh}
-      {...props}
-      dispose={null}
-      onClick={() => props.zoomToView(mesh)}
-    >
+    <group ref={mesh} {...props} dispose={null} onClick={handleDoubleClick}>
       <mesh
         geometry={nodes.Cylinder.geometry}
         material={materials["Material.002"]}
@@ -68,4 +75,4 @@ export function DiscSmall(props) {
   );
 }
 
-useGLTF.preload("/disc1.gltf");
+useGLTF.preload("/medium1disc.gltf");
