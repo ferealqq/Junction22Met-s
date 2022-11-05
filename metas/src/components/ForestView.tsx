@@ -17,12 +17,11 @@ export const ForestView = (props: ForestProps) => {
 };
 
 const World = styled.div<ForestProps>`
-  width: 100%;
-  height: 100vh;
-  object-fit: cover;
+  height: 70vh;
   position: absolute;
-  padding-bottom: 50vh;
   transition: 0.7s;
+  width: 100%;
+  transform: scale(1.1);
   transition-timing-function: cubic-bezier(0.3, 0.1, 0.2, 0.3);
   top: ${(props) =>
     props.currentView === "stats"
@@ -36,8 +35,7 @@ const World = styled.div<ForestProps>`
       : props.currentView === "home"
       ? "0.9"
       : "0.6"};
-  left: 50%;
-  transform: translateX(-48%);
+  margin: auto 0;
 `;
 
 const Container = styled.div<ForestProps>`

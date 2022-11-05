@@ -17,8 +17,6 @@ const router = createBrowserRouter([
   { path: "/tasks", element: <TaskPage /> },
 ]);
 
-// const client = new QueryClient();
-
 function App() {
   return <RouterProvider router={router} />;
 }
