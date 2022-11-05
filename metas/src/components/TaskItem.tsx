@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Task } from "../types/tasks";
 import styled from "styled-components";
 import { Colors } from "../styles/colors";
@@ -9,22 +9,32 @@ interface TaskBoxProps {
     color: string,
 }
 
-export const TaskItem = ({ data }: { data: Task }) => {
+export const TaskItem = ({ data, removeTask }: { data: Task, removeTask: (id: string) => void }) => {
     const [posData, setPosData] = useState({ x: 0, y: 0 });
     const [color, setColor] = useState<string>("#FFF");
+    const draggableBox = useRef();
 
     const handleDrag = (event: any) => {
-        const xChange = event.changedTouches[0].clientX;
-
-
-        //Tarkistetaan kumpaan suuntaan laatikkoa vedetään
+        //@ts-ignore
+        const xChange = draggableBox.current.getBoundingClientRect().x;
 
         //if xChange is smaller than posData.x then the box is dragged to left
         //if dragged to left background color linearly from white to red
-        if (xChange < posData.x) {
-            const percentage = 100 - (xChange / window.innerWidth) * 100;
+        if (xChange < 10) {
+            const percentage = (-xChange / window.innerWidth) * 100;
             const red = 255;
             const green = 255 - percentage;
+            const blue = 255 - percentage;
+            const color = `rgb(${red}, ${green}, ${blue})`;
+            setColor(color);
+        }
+
+        //if xChange is bigger than posData.x then the box is dragged to right
+        //if dragged to right background color linearly from white to green
+        if (xChange >= 10) {
+            const percentage = (xChange / window.innerWidth) * 100;
+            const red = 255 - percentage;
+            const green = 255;
             const blue = 255 - percentage;
             const color = `rgb(${red}, ${green}, ${blue})`;
             setColor(color);
@@ -32,17 +42,22 @@ export const TaskItem = ({ data }: { data: Task }) => {
     };
 
     const handleStop = (event: any) => {
-        const xChange = event.changedTouches[0].clientX;
+        //@ts-ignore
+        const xChange = draggableBox.current.getBoundingClientRect().x;
+        console.log(xChange);
 
-        if (xChange < 100) {
+        if (xChange < -180) {
             console.log("delete");
             //Task deleted
+            removeTask(data.id);
             setPosData({ x: 0, y: 0 });
-        } else if (xChange > 270) {
+        } else if (xChange > 205) {
             console.log("complete");
             //Trigger task completion
+            removeTask(data.id);
             setPosData({ x: 0, y: 0 });
         } else {
+            console.log("reset");
             setPosData({ x: 0, y: 0 });
         }
         setColor("#FFF")
@@ -57,8 +72,10 @@ export const TaskItem = ({ data }: { data: Task }) => {
             scale={1}
             onDrag={handleDrag}
             onStop={handleStop}
-        >
-        <TaskItemContainer className="handle" color={color}>
+                    >
+        <TaskItemContainer className="handle" color={color} //@ts-ignore
+            ref={draggableBox}
+>
             <TaskContentLeft>
             <TaskItemTitle>{data.title}</TaskItemTitle>
             <TaskItemTimeLeft>4h 20min</TaskItemTimeLeft>

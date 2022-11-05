@@ -24,5 +24,14 @@ export const tasksMockup: Task[] = [
         emission: 15.7,
         created_at: new Date("2020-11-04"),
         updated_at: new Date("2022-08-24"),
-    }
+    },
+    {
+        id: "32467hj8",
+        title: "Use Public Transport",
+        desc: "Using public transport is a great way to reduce your carbon footprint",
+        emission: 10.7,
+        created_at: new Date("2021-01-01"),
+        updated_at: new Date("2022-05-12"),
+    },
+
 ]

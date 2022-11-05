@@ -1,11 +1,11 @@
-import styled from 'styled-components';
-import { ForestView } from './components/ForestView';
-import { useEffect, useState } from 'react';
-import { HomeView } from './components/HomeView';
-import { StatsView } from './components/StatsView';
-import { TaskListView } from './components/TaskListView';
-import { createBrowserRouter, RouterProvider, Route } from 'react-router-dom'
-import { TaskPage } from './components/TaskPage';
+import styled from "styled-components";
+import { ForestView } from "./components/ForestView";
+import { useEffect, useState } from "react";
+import { HomeView } from "./components/HomeView";
+import { StatsView } from "./components/StatsView";
+import { TaskListView } from "./components/TaskListView";
+import { createBrowserRouter, RouterProvider, Route } from "react-router-dom";
+import { TaskPage } from "./components/TaskPage";
 // import { QueryClient, QueryClientProvider } from 'react-query';
 
 interface BGprops {
@@ -38,15 +38,13 @@ function Home() {
     }
   };
 
-  useEffect(() => {
-    console.log("Current view: ", currentView);
-  }, [currentView]);
+  useEffect(() => {}, [currentView]);
 
   return (
     <MainView onScroll={handleScroll}>
       <StatsView />
       <HomeView />
-      <TaskListView />
+      <TaskListView currentView={currentView} />
       <ForestView currentView={currentView} />
 
       <BackgroundColor currentView={currentView} />
