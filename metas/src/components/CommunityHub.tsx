@@ -22,6 +22,11 @@ export const CommunityHub = ({ open, closeCommunity, createForest }: CommunityHu
         console.log(createStatus)
     }, [createStatus])
 
+    const createForestAndClose = () => {
+        setCreateStatus(false)
+        createForest()
+    }
+
     return (
         <Container open={open}>
             <TopBar onClick={() => setCreateStatus(false)}>
@@ -37,7 +42,7 @@ export const CommunityHub = ({ open, closeCommunity, createForest }: CommunityHu
                 <AddNewText>Plant New Forest</AddNewText>
             </AddNew>
 
-            <CreateCommunity createForest={createForest} open={createStatus}/>
+            <CreateCommunity createForest={createForestAndClose} open={createStatus}/>
         </Container>
     )
 }
