@@ -1,19 +1,72 @@
 import styled from "styled-components";
-import { Headline } from "./text";
+import { useState } from "react";
+import { Headline, SmallBold } from "./text";
+import { Colors } from "../styles/colors";
 
-export const HomeView = () => {
+interface HomeViewProps {
+  currentView: string;
+}
+
+export const HomeView = ({ currentView }: HomeViewProps) => {
+  const [user, setUser] = useState({name: "Jaakko"});
+
   return (
     <Container>
-      <ForestTitle>Pekka's Forest</ForestTitle>
+      <ForestBar>
+        <Titles active={currentView == 'home'}>
+          <SubTitle>Private Forest</SubTitle>
+          <Title>{user.name}</Title>
+        </Titles>
+        <CommunityButton active={currentView == 'home'}>
+          <CommunityText>Community</CommunityText>
+        </CommunityButton>
+      </ForestBar>
     </Container>
   );
 };
 
-const ForestTitle = styled(Headline)`
-  position: absolute;
+const CommunityText = styled(SmallBold)`
+  color: ${Colors.snow};
+`;
+
+const CommunityButton = styled.button<{ active: boolean }>`
+  background: ${Colors.analgreen};
+  border-radius: 12px;
+  padding: 1rem 2rem;
+  outline: none;
+  border: none;
+  transition: 0.6s;
+  //Translate to the right if not active
+  transform: ${(props) => (props.active ? "translateX(0)" : "translateX(200%)")};
+`;
+
+const SubTitle = styled.p`
+  font-size: 12px;
+  font-weight: 400;
+  margin-bottom: 8px;
+`;
+
+const Title = styled(Headline)` 
   left: 0;
-  top: 96px;
-  margin: 24px;
+`;
+
+const Titles = styled.div<{ active: boolean }>`
+  display: flex;
+  flex-direction: column;
+  transition: 0.6s;
+  //Translate to the left if not active
+  transform: translateX(${(props) => (props.active ? 0 : -200)}%);
+`;
+
+const ForestBar = styled.div`
+  position: absolute;
+  top: 64px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 85%;
+  height: 64px; 
 `;
 
 const Container = styled.section`
@@ -25,4 +78,5 @@ const Container = styled.section`
   height: 100vh;
   scroll-snap-align: start;
   scroll-snap-stop: always;
+  overflow: hidden;
 `;

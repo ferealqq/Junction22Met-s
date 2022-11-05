@@ -51,7 +51,7 @@ function Home() {
     <MainView onScroll={handleScroll}>
       <ToastContainer />
       <StatsView />
-      <HomeView />
+      <HomeView currentView={currentView}/>
       <TaskListView currentView={currentView} />
       <ForestView currentView={currentView} />
 
