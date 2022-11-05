@@ -1,12 +1,51 @@
 import styled from "styled-components";
-import Main3D from "./components/3d-elements/Main3D";
+import { ForestView } from "./components/ForestView";
+import { useEffect, useState } from "react";
+import { HomeView } from "./components/HomeView";
+import { StatsView } from "./components/StatsView";
+import { TaskListView } from "./components/TaskListView";
+import { createBrowserRouter, RouterProvider, Route } from "react-router-dom";
+import { TaskPage } from "./components/TaskPage";
+interface BGprops {
+  currentView: string;
+}
+
+const router = createBrowserRouter([
+  { path: "/", element: <Home /> },
+  { path: "/tasks", element: <TaskPage /> },
+]);
 
 function App() {
+  return <RouterProvider router={router} />;
+}
+
+function Home() {
+  const [currentView, setCurrentView] = useState("stats");
+
+  const handleScroll = (e: any) => {
+    const { scrollTop } = e.target;
+
+    if (scrollTop < 300) {
+      setCurrentView("stats");
+    } else if (scrollTop < 750) {
+      setCurrentView("home");
+    } else {
+      setCurrentView("tasks");
+    }
+  };
+
+  useEffect(() => {
+    console.log("Current view: ", currentView);
+  }, [currentView]);
+
   return (
-    <MainView>
-      <ThreeView id="threeView">
-        <Main3D />
-      </ThreeView>
+    <MainView onScroll={handleScroll}>
+      <StatsView />
+      <HomeView />
+      <TaskListView />
+      <ForestView currentView={currentView} />
+
+      <BackgroundColor currentView={currentView} />
     </MainView>
   );
 }
@@ -14,17 +53,28 @@ function App() {
 export default App;
 
 const MainView = styled.div`
-  //Linear gradient from top to bottom from snow to iceage to base
-  background: linear-gradient(180deg, #fff 0%, #d9f4fc 100%, #89a38a 100%);
+  scroll-snap-type: y mandatory;
+  height: 100vh;
+  overflow-y: scroll;
 `;
 
-const ThreeView = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 50vw;
-  //radial gradient from center to edge from iceage to white
-  background: radial-gradient(50% 50% at 50% 50%, #dbebff 0%, #ffe 100%);
-  z-index: -1;
+const BackgroundColor = styled.div<BGprops>`
+  background: linear-gradient(
+    180deg,
+    #fff 0%,
+    #d9f4fc 10%,
+    #d9f4fc 30%,
+    #89a38a 60%
+  );
+  height: 130vh;
+  width: 100%;
+  position: fixed;
+  top: ${(props) =>
+    props.currentView === "stats"
+      ? "30%"
+      : props.currentView === "home"
+      ? "0%"
+      : "-30%"};
+  z-index: -2;
+  transition: top ease-out 0.5s;
 `;

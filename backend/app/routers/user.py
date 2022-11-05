@@ -1,10 +1,12 @@
-from typing import Any, Optional,List
+from typing import Any, Optional, List
 
 from fastapi import APIRouter, Depends
+from pydantic import BaseModel
 from sqlalchemy import String, bindparam
 from sqlalchemy.orm import Session
 from app.db.deps import get_db
 from app.db.utils import save_model
+from app.dependencies.auth import JWTService
 
 from app.models.user import User, UserIn, UserOut
 
@@ -22,16 +24,23 @@ async def get_users(
     db_result = db.query(User)
 
     if search:
-        db_result = db_result.filter(
-            User.name.like(bindparam("search", type_=String))
-        ).params(search=f"%{search}%")
+        db_result = db_result.filter(User.name.like(bindparam("search", type_=String))).params(search=f"%{search}%")
 
     return db_result.limit(limit).offset(skip).all()
 
+class JwtResponse(BaseModel):
+    jwt: str
+
 @router.post(
-    "/",
-    response_model=UserOut,
+    "/login",
+    response_model=JwtResponse,
 )
-def post_game(user: UserIn, db: Session = Depends(get_db)):
-    db_game = User(**user.dict())
-    return save_model(db, db_game)
+def post_user(user: UserIn, db: Session = Depends(get_db)):
+    
+    model = db.query(User).filter(User.username == user.username).one_or_none()
+    if model == None:
+        model = save_model(db, User(username=user.username))
+    
+    token = JWTService().encode({"id": str(model.id)})
+
+    return {"jwt":str(token)}

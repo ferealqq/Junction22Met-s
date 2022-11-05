@@ -22,27 +22,9 @@ export const WrapperForDiscs = () => {
     state.camera.updateProjectionMatrix();
   });
 
-  //   controls.setLookAt(
-  //     positionX,
-  //     positionY,
-  //     positionZ,
-  //     targetX,
-  //     targetY,
-  //     targetZ,
-  //     true
-  //   );
-
   const zoomToView = (focusRef) => {
     setZoom(!zoom);
     setFocus(focusRef.current.position);
   };
-  //   const zoomWorld = () => {
-  //     console.log("asdfasdf");
-  //     if (zoom === 2) {
-  //       setZoom(5);
-  //     } else {
-  //       setZoom(2);
-  //     }
-  //   };
-  return <DiscSmall rotationSpeed={0.5} zoomToView={zoomToView} />;
+  return <DiscSmall rotationSpeed={0.3} zoomToView={zoomToView} />;
 };
