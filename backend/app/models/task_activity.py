@@ -34,6 +34,8 @@ class TaskActivityIn(BaseModel):
 
 class TaskActivityOut(TaskActivityIn):
     id: uuid.UUID
+    emissions_saved: float
+    money_saved: float
     created_at: dt.datetime
     updated_at: dt.datetime
     task: TaskOut

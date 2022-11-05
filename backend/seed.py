@@ -23,3 +23,5 @@ users = [
 #   tas.append(seed_task_activity(db,task_id=task.id))
 
 seed_analytics(db, pekka)
+
+print("seed analytics")
