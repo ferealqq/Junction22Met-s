@@ -1,11 +1,45 @@
+import { useState } from "react";
 import { Task } from "../types/tasks";
 import styled from "styled-components";
 import { Colors } from "../styles/colors";
 import { Body, Data, SmallData, TitleTwo } from "./text";
+import Draggable from "react-draggable";
 
 export const TaskItem = ({ data }: { data: Task }) => {
+    const [posData, setPosData] = useState({ x: 0, y: 0 });
+
+    const handleDrag = (event: any) => {
+        const xChange = event.changedTouches[0].clientX;
+        console.log(xChange);
+    };
+
+    const handleStop = (event: any) => {
+        //console.log(event);
+        const xChange = event.changedTouches[0].clientX;
+
+        if (xChange < 100) {
+            console.log("delete");
+            setPosData({ x: 0, y: 0 });
+        } else if (xChange > 270) {
+            console.log("complete");
+            setPosData({ x: 0, y: 0 });
+        } else {
+            setPosData({ x: 0, y: 0 });
+        }
+
+    }
+
     return (
-        <TaskItemContainer>
+        <Draggable
+            axis="x" 
+            handle=".handle"
+            defaultPosition={{x: 0, y: 0}}
+            position={posData}
+            scale={1}
+            onDrag={handleDrag}
+            onStop={handleStop}
+        >
+        <TaskItemContainer className="handle">
             <TaskContentLeft>
             <TaskItemTitle>{data.title}</TaskItemTitle>
             <TaskItemTimeLeft>4h 20min</TaskItemTimeLeft>
@@ -18,6 +52,7 @@ export const TaskItem = ({ data }: { data: Task }) => {
             </TaskItemEmission> 
             </TaskContentRight>
        </TaskItemContainer>
+       </Draggable>
     );
 };
 

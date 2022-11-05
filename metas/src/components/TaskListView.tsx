@@ -48,7 +48,6 @@ const Content = styled.div`
     width: 100%;
     height: 100%;
     top: -25vh;
-    position: absolute;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -57,7 +56,10 @@ const Content = styled.div`
 const TaskListContainer = styled.section`
     width: 100%;
     background: green opacity(30%);
-    height: 44vh;
+    height: 68vh;
     position: relative;
     scroll-snap-align: center;
+    overflow-x: hidden;
+    padding-top: 0vh;
+    margin-top: -25vh
 `;
