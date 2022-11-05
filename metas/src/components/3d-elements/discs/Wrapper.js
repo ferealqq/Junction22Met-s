@@ -6,7 +6,7 @@ import { Large1Disc } from "./Large1disc";
 import { useWorldModelStore } from "../../../index";
 export const WrapperForDiscs = () => {
   const modelNumber = useWorldModelStore((state) => state.modelNumber, shallow);
-  // TODO: animation
+  // TODO: animation & toast
   if (modelNumber === 1) {
     return <Medium1Disc rotationSpeed={0.3} />;
   }
