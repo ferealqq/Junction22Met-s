@@ -31,7 +31,7 @@ def seed_task(
 def seed_task_activity(
     db: Session, 
     starts_at=date.today(), 
-    ends_at=date.today() - timedelta(days=2),
+    ends_at=date.today() + timedelta(days=1),
     task_id=None
 ) -> TaskActivity:
     if task_id == None:

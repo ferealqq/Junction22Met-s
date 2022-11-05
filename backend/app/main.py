@@ -2,6 +2,7 @@ from fastapi import Depends, FastAPI
 
 from app import exceptions
 from app.routers.user import router as user_router
+from app.routers.tasks import router as tasks_router
 from app.settings import get_settings
 
 # from app.db.deps import set_db
@@ -16,6 +17,7 @@ app = FastAPI(
 )
 
 app.include_router(user_router, prefix="/api/user")
+app.include_router(tasks_router, prefix="/api/tasks")
 
 app.add_exception_handler(
     DatabaseValidationError,

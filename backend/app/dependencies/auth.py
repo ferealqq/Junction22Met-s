@@ -3,6 +3,7 @@ from typing import List
 
 
 import time
+import uuid
 
 import jwt
 from cryptography.hazmat.backends import default_backend
@@ -32,7 +33,7 @@ auth_scheme = HTTPBearer()
 
 
 class TokenUser(BaseModel):
-    id: int
+    id: uuid.UUID
 
 def credential_check(
     authorization: HTTPAuthorizationCredentials = Depends(auth_scheme),

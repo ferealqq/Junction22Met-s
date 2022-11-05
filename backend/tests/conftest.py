@@ -1,8 +1,7 @@
-import asyncio
-
 import pytest
 from sqlalchemy import create_engine, inspect
 from sqlalchemy.orm import Session
+from app.db.deps import get_db
 
 from app.main import app
 from app.settings import get_settings
@@ -25,6 +24,11 @@ def client_fixture():
     yield client
     app.dependency_overrides.clear()
 
+@pytest.fixture(name="auth_client")
+def auth_client_fixture(db: Session):
+    client = TestClient(app)
+    yield client
+    app.dependency_overrides.clear()
 
 def drop_everything(engine):
     from sqlalchemy.schema import (
