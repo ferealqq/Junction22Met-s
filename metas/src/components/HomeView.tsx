@@ -3,8 +3,7 @@ import styled from "styled-components";
 import { Headline } from "./text";
 
 export const HomeView = () => {
-    return (
-        
+    return ( 
         <Container>
             <ForestTitle>Pekka's Forest</ForestTitle>
         </Container>

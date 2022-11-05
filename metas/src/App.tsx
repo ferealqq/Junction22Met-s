@@ -38,14 +38,14 @@ function Home() {
   }
 
   useEffect(() => {
-    console.log('Current view: ', currentView);
+
   }, [currentView]);
 
   return (
   <MainView onScroll={handleScroll}> 
     <StatsView /> 
     <HomeView />
-    <TaskListView />
+    <TaskListView currentView={currentView}/>
     <ForestView currentView={currentView}/> 
     
     <BackgroundColor currentView={currentView}/>
