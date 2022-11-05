@@ -19,8 +19,8 @@ PyJWT = "^2.6.0"
 cryptography = "^38.0.3"
 pandas = "^1.5.1"
 scipy = "^1.9.3"
-psycopg2 = "^2.9.3"
-SQLAlchemy = "^1.4.37"
+SQLAlchemy = "^1.4.43"
+psycopg2-binary = "^2.9.5"
 
 
 [tool.poetry.dev-dependencies]

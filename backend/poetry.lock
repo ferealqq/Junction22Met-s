@@ -461,7 +461,7 @@ dev = ["pre-commit", "tox"]
 testing = ["pytest", "pytest-benchmark"]
 
 [[package]]
-name = "psycopg2"
+name = "psycopg2-binary"
 version = "2.9.5"
 description = "psycopg2 - Python-PostgreSQL Database Adapter"
 category = "main"
@@ -812,7 +812,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.8,<4.0"
-content-hash = "b3a1baf1ce6194ab28b58c83d9f7ae0eb5f2ba99050170c22c9d0a6021447012"
+content-hash = "c92baf4bf00b54354e9c9996ae4756274848ed4e2f36999fd2d124d11ad8ef54"
 
 [metadata.files]
 alembic = []
@@ -860,7 +860,7 @@ pandas = []
 pathspec = []
 platformdirs = []
 pluggy = []
-psycopg2 = []
+psycopg2-binary = []
 py = [
     {file = "py-1.11.0-py2.py3-none-any.whl", hash = "sha256:607c53218732647dff4acdfcd50cb62615cedf612e72d1724fb1a0cc6405b378"},
     {file = "py-1.11.0.tar.gz", hash = "sha256:51c75c4126074b472f746a24399ad32f6053d1b34b68d2fa41e558e6f4a98719"},
