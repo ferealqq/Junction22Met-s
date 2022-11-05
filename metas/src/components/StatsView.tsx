@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 import { Colors } from "../styles/colors";
 import { SmallBold, WOW } from "./text";
 import { Bar } from "react-chartjs-2";
@@ -15,14 +15,15 @@ import {
 import { fetchAnalytics } from "../data/api";
 
 export const StatsView = () => {
-    const [ data, setData ] = useState<any | null>(null)
-    const [ success, setSuccesss ] = useState(false);
-    useEffect(() => {
-        fetchAnalytics().then((data: any) => {
-            setData(data)
-            setSuccesss(true)
-        });
+  const [data, setData] = useState<any | null>(null);
+  const [success, setSuccesss] = useState(false);
+  useEffect(() => {
+    fetchAnalytics().then((data: any) => {
+      console.log(data);
+      setData(data);
+      setSuccesss(true);
     });
+  }, []);
   ChartJS.register(
     CategoryScale,
     LinearScale,
