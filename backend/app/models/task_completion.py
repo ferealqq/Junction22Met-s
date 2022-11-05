@@ -30,18 +30,16 @@ class TaskCompletion(Base):
 
 class TaskCompletionIn(BaseModel):
     task_id: uuid.UUID
-    ends_at: dt.datetime
-    starts_at: dt.datetime
+    user_id: uuid.UUID
 
 
 class TaskCompletionOut(TaskCompletionIn):
     id: uuid.UUID
-    created_at: dt.datetime
-    updated_at: dt.datetime
+    completed_at: dt.datetime
     # these are probably not necessary??
-    # task: TaskOut
-    # task_activity: TaskActivityOut
-    # user: UserOut
+    task: TaskOut
+    task_activity: TaskActivityOut
+    user: UserOut
 
     class Config:
         orm_mode = True
