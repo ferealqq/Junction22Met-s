@@ -50,5 +50,22 @@ def seed_task_activity(
 
 def seed_task_completion(
     db: Session,
-    
-)
+    task_id = None,
+    task_activity_id =None,
+    user_id = None,
+    completed_at = date.today()
+) -> TaskCompletion:
+    data = {
+        "task_id": task_id,
+        "task_activity_id":task_activity_id,
+        "user_id": user_id,
+        "completed_at": completed_at
+    }
+    if task_id == None:
+        data["task_id"] = seed_task(db).id
+    if task_activity_id == None:
+        data["task_activity_id"] = seed_task_activity(db,task_id=data["task_id"]).id
+    if user_id == None:
+        data["user_id"] = seed_user(db).id 
+
+    return save_model(db,TaskCompletion(**data))

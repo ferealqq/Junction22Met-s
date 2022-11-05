@@ -7,7 +7,7 @@ from app.models.task import Task
 from app.models.task_activity import TaskActivity
 from app.models.task_completion import TaskCompletion
 from app.models.user import User
-from seeders.seeder import seed_task, seed_task_activity, seed_user
+from seeders.seeder import seed_task, seed_task_activity, seed_task_completion, seed_user
 
 
 def test_task_relationship(db: Session):
@@ -70,3 +70,10 @@ def test_seeder(db: Session):
     assert task != None 
     ta = seed_task_activity(db,task_id=task.id)
     assert ta != None
+
+    tc = seed_task_completion(db)
+
+    assert tc != None
+    assert tc.user != None 
+    assert tc.task_activity != None 
+    assert tc.task != None
