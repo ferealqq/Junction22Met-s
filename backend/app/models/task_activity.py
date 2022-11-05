@@ -17,7 +17,7 @@ class TaskActivity(Base):
     starts_at = sa.Column("starts_at", sa.DateTime(), nullable=True)
     ends_at = sa.Column("ends_at", sa.DateTime(), nullable=True)
     task_id = sa.Column(UUID(as_uuid=True), sa.ForeignKey(Task.id))
-
+    emissions_saved = sa.Column(sa.DECIMAL, nullable=False, default=0.0)
     created_at = sa.Column("created_at", sa.DateTime(), server_default=sa.text("now()"), nullable=True)
     updated_at = sa.Column("updated_at", sa.DateTime(), server_default=sa.text("now()"), nullable=True)
 

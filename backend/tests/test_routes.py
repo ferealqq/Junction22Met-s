@@ -1,4 +1,5 @@
 from datetime import date, timedelta,datetime
+import random
 import uuid
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
@@ -6,7 +7,7 @@ from app.dependencies.auth import JWTService
 from app.models.task_completion import TaskCompletion
 
 from app.models.user import User
-from seeders.seeder import seed_task_activity, seed_task_completion, seed_user
+from seeders.seeder import seed_analytics, seed_task, seed_task_activity, seed_task_completion, seed_user
 
 
 def test_get_active_tasks(db: Session, auth_client: TestClient):
@@ -30,6 +31,20 @@ def test_get_active_tasks(db: Session, auth_client: TestClient):
     for (i,item) in enumerate(data):
         assert item["id"] == str(tas[i].id)
         assert item["task"]["id"] == str(tas[i].task.id)
+
+
+def test_get_user_analytics(db: Session, auth_client: TestClient):
+    user = seed_user(db)
+    seed_analytics(db, user)
+
+    auth_client = use_user(auth_client, user.id)
+
+    res = auth_client.get(f"/api/tasks/user/analytics")
+    data = res.json()
+    assert res.status_code == 200
+    
+    assert data != None
+    assert len(data) == 7 
 
 def test_get_active_tasks(db: Session, auth_client: TestClient):
     user = seed_user(db)
