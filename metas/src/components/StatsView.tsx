@@ -1,3 +1,4 @@
+import {format} from 'date-fns';
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { Colors } from "../styles/colors";
@@ -13,9 +14,13 @@ import {
   Legend,
 } from "chart.js";
 import { fetchAnalytics } from "../data/api";
+import { BackSide } from 'three';
+
+
+const barColors = [Colors.base, Colors.sins, Colors.mdma];
 
 export const StatsView = () => {
-  const [data, setData] = useState<any | null>(null);
+  const [data, setData] = useState<any[] | null>(null);
   const [success, setSuccesss] = useState(false);
   useEffect(() => {
     fetchAnalytics().then((data: any) => {
@@ -41,30 +46,51 @@ export const StatsView = () => {
         </WOWBody>
       </StatsText>
       <Statistics>
-        <Bar
-          options={{
-            responsive: true,
-            plugins: {
-              legend: {
-                position: "top" as const,
-              },
-            },
-          }}
-          data={{
-            datasets: [
-              {
-                label: "Dataset 1",
-                data: 1,
-                backgroundColor: "rgba(255, 99, 132, 0.5)",
-              },
-              {
-                label: "Dataset 2",
-                data: 2,
-                backgroundColor: "rgba(53, 162, 235, 0.5)",
-              },
-            ],
-          }}
-        />
+        {
+            success && data && data?.length > 0 && (
+                <Bar
+                options={{
+                  responsive: true,
+                  plugins: {
+                    legend: {
+                      display: false
+                    },
+                  },
+                  elements:{
+                    line: {
+                      fill: false,
+                      stepped: false
+                    }
+                  },
+                  scales: {
+                    x: {
+                      grid: {
+                        display: false,
+                        drawBorder: false
+                      },
+                    },
+                    y: {
+                      grid: {
+                        display: false,
+                        drawBorder: false 
+                      },
+                      title: {
+                        padding: 30099,
+                      }
+                    },
+                  }
+                }}
+                data={{
+                    labels: data.map(item => format(new Date(item["date"]), 'EE')),
+                    datasets: [{
+                        data: data.map(item => parseInt(item["emissions_saved"])),
+                        backgroundColor: [Colors.sins,Colors.base,Colors.mdma,Colors.sins, Colors.base, Colors.mdma, Colors.sins],
+                        maxBarThickness: 25
+                    }],
+                }}
+              />
+            )
+        }
       </Statistics>
     </Container>
   );
@@ -90,8 +116,8 @@ const StatsText = styled.div`
 `;
 
 const Statistics = styled.div`
-  width: 95%;
-  height: 40vh;
+  width: 85%;
+  height: 25vh;
   background: ${Colors.snow};
   border-radius: 20px;
   margin: 0 auto;
