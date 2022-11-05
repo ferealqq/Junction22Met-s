@@ -6,4 +6,6 @@ export const Colors = {
     analgreen: "#99A674",
     snow: "#FFF",
     iceage: "#D9F4FC",
+    grey: "#B5B5B5",
+    black: "#323232"
 }
