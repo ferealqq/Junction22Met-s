@@ -1,4 +1,5 @@
 from datetime import date, timedelta
+import random
 from app.db.utils import save_model
 from app.models.task import Task 
 from app.models.task_activity import TaskActivity 
@@ -32,26 +33,29 @@ def seed_task_activity(
     db: Session, 
     starts_at=date.today(), 
     ends_at=date.today() + timedelta(days=1),
+    emissions_saved=fake.pyint(),
     task_id=None
 ) -> TaskActivity:
     if task_id == None:
         ta = TaskActivity(
             starts_at = starts_at,
             ends_at = ends_at,
-            task_id = seed_task(db).id        
+            task_id = seed_task(db).id, 
+            emissions_saved = emissions_saved
         )
     else:
         ta = TaskActivity(
             starts_at = starts_at,
             ends_at = ends_at,
-            task_id = task_id
+            task_id = task_id,
+            emissions_saved = emissions_saved
         )
     return save_model(db,ta)
 
 def seed_task_completion(
     db: Session,
     task_id = None,
-    task_activity_id =None,
+    task_activity_id = None,
     user_id = None,
     completed_at = date.today()
 ) -> TaskCompletion:
@@ -69,3 +73,31 @@ def seed_task_completion(
         data["user_id"] = seed_user(db).id 
 
     return save_model(db,TaskCompletion(**data))
+
+def seed_analytics(db, user : User, tasks = None):
+    if tasks == None:
+        tasks = [seed_task(db) for _ in range(4)]
+    tas = []
+    tcs = []
+    for i in range(10):
+        for j in range(2):
+            tas.append(
+                ta := seed_task_activity(
+                    db, 
+                    starts_at=date.today() + timedelta(days=i) - timedelta(hours=j+2),
+                    ends_at=date.today() + timedelta(days=i) - timedelta(hours=j+2) - timedelta(minutes=i*random.randint(4,23)),
+                    emissions_saved = random.randint(13,100),
+                    task_id= tasks[random.randint(0,len(tasks)-1)].id
+                )
+            )
+            tcs.append(
+                seed_task_completion(
+                    db,
+                    task_id = ta.task_id,
+                    task_activity_id = ta.id,
+                    user_id = user.id,
+                    completed_at=date.today() - timedelta(days=i) - timedelta(hours=j+2) - timedelta(minutes=i*3),
+                )
+            )
+
+    return [tasks, tas, tcs]
