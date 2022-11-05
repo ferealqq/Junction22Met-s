@@ -26,7 +26,7 @@ function App() {
 
 function Home() {
   const unsub3 = useWorldModelStore.subscribe(
-    (state: any) => state.modelNumber,
+    (state: any) => state.personalModelNumber,
     (num: any, previousNum: any) =>
       num > previousNum &&
       toast.success("Great job! You just decreased your ...", {
@@ -51,7 +51,7 @@ function Home() {
     <MainView onScroll={handleScroll}>
       <ToastContainer />
       <StatsView />
-      <HomeView currentView={currentView}/>
+      <HomeView currentView={currentView} />
       <TaskListView currentView={currentView} />
       <ForestView currentView={currentView} />
 

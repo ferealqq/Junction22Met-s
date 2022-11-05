@@ -2,22 +2,25 @@ import styled from "styled-components";
 import { useState } from "react";
 import { Headline, SmallBold } from "./text";
 import { Colors } from "../styles/colors";
+import { useWorldModelStore } from "../index";
 
 interface HomeViewProps {
   currentView: string;
 }
 
 export const HomeView = ({ currentView }: HomeViewProps) => {
-  const [user, setUser] = useState({name: "Jaakko"});
+  const [user, setUser] = useState({ name: "Jaakko" });
+  // const setWorldType = useWorldModelStore((state: any) => state.setWorldType);
+  // const worldType = useWorldModelStore((state: any) => state.isCommunityWorld);
 
   return (
     <Container>
       <ForestBar>
-        <Titles active={currentView == 'home'}>
+        <Titles active={currentView == "home"}>
           <SubTitle>Private Forest</SubTitle>
           <Title>{user.name}</Title>
         </Titles>
-        <CommunityButton active={currentView == 'home'}>
+        <CommunityButton active={currentView == "home"}>
           <CommunityText>Community</CommunityText>
         </CommunityButton>
       </ForestBar>
@@ -37,7 +40,8 @@ const CommunityButton = styled.button<{ active: boolean }>`
   border: none;
   transition: 0.6s;
   //Translate to the right if not active
-  transform: ${(props) => (props.active ? "translateX(0)" : "translateX(200%)")};
+  transform: ${(props) =>
+    props.active ? "translateX(0)" : "translateX(200%)"};
 `;
 
 const SubTitle = styled.p`
@@ -46,7 +50,7 @@ const SubTitle = styled.p`
   margin-bottom: 8px;
 `;
 
-const Title = styled(Headline)` 
+const Title = styled(Headline)`
   left: 0;
 `;
 
@@ -66,7 +70,7 @@ const ForestBar = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 85%;
-  height: 64px; 
+  height: 64px;
 `;
 
 const Container = styled.section`

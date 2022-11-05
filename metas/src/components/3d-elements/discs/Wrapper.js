@@ -3,19 +3,28 @@
 import { Medium1Disc } from "./Medium1disc";
 import shallow from "zustand/shallow";
 import { Large1Disc } from "./Large1disc";
+import { CommunityFull } from "./Community-full";
 import { useWorldModelStore } from "../../../index";
 export const WrapperForDiscs = () => {
-  const modelNumber = useWorldModelStore((state) => state.modelNumber, shallow);
+  const personalModelNumber = useWorldModelStore(
+    (state) => state.personalModelNumber,
+    shallow
+  );
+  const isCommunityWorld = useWorldModelStore(
+    (state) => state.isCommunityWorld,
+    shallow
+  );
   // TODO: animation & toast
-  if (modelNumber === 1) {
+  if (!isCommunityWorld && personalModelNumber === 1) {
     return <Medium1Disc rotationSpeed={0.3} />;
   }
-  if (modelNumber === 2) {
+  if (!isCommunityWorld && personalModelNumber === 2) {
     return <Large1Disc rotationSpeed={0.3} />;
-  } else {
-    return <Medium1Disc rotationSpeed={0.3} />;
   }
-
+  if (isCommunityWorld) {
+    return <CommunityFull rotationSpeed={0.3} />;
+  }
+  return <Large1Disc rotationSpeed={0.3} />;
   //   const [zoom, setZoom] = useState(false);
   //   const [focus, setFocus] = useState(true);
   //   const vec = new THREE.Vector3();
