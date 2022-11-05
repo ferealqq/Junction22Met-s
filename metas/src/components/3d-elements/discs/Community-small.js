@@ -6,7 +6,7 @@ import React, { useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 
-export function CommunityFull(props) {
+export function CommunitySmall(props) {
   const mesh = useRef(null);
   useFrame(
     (state, delta) => (mesh.current.rotation.y += props.rotationSpeed / 100)

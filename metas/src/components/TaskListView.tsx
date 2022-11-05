@@ -17,8 +17,21 @@ interface TitleProps {
 
 export const TaskListView = ({ currentView }: TaskListViewProps) => {
   const [tasks, setTasks] = useState<Task[]>(tasksMockup);
-  const decrease = useWorldModelStore((state: any) => state.decreasePopulation);
-  const increase = useWorldModelStore((state: any) => state.increasePopulation);
+  const isCommunityWorld = useWorldModelStore(
+    (state: any) => state.isCommunityWorld
+  );
+  const decreasePersonal = useWorldModelStore(
+    (state: any) => state.decreasePersonalPopulation
+  );
+  const increasePersonal = useWorldModelStore(
+    (state: any) => state.increasePersonalPopulation
+  );
+  const increaseCommunity = useWorldModelStore(
+    (state: any) => state.increaseCommunityPopulation
+  );
+  const decreaseCommunity = useWorldModelStore(
+    (state: any) => state.decreaseCommunityPopulation
+  );
   const removeTask = (id: string) => {
     setTasks(tasks.filter((task) => task.id !== id));
   };
@@ -36,8 +49,12 @@ export const TaskListView = ({ currentView }: TaskListViewProps) => {
                 removeTask={removeTask}
                 key={task.id}
                 data={task}
-                increase={increase}
-                decrease={decrease}
+                increase={
+                  isCommunityWorld ? increaseCommunity : increasePersonal
+                }
+                decrease={
+                  isCommunityWorld ? decreaseCommunity : decreasePersonal
+                }
               />
             </div>
           ))}

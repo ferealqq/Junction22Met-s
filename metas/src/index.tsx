@@ -8,11 +8,20 @@ import { subscribeWithSelector } from "zustand/middleware";
 export const useWorldModelStore = create(
   subscribeWithSelector((set) => ({
     personalModelNumber: 1,
-    increasePopulation: () =>
+    communityModelNumber: 1,
+    increaseCommunityPopulation: () =>
+      set((state: any) => ({
+        communityModelNumber: state.communityModelNumber + 1,
+      })),
+    decreaseCommunityPopulation: () =>
+      set((state: any) => ({
+        communityModelNumber: state.communityModelNumber - 1,
+      })),
+    increasePersonalPopulation: () =>
       set((state: any) => ({
         personalModelNumber: state.personalModelNumber + 1,
       })),
-    decreasePopulation: () =>
+    decreasePersonalPopulation: () =>
       set((state: any) => ({
         personalModelNumber: state.personalModelNumber - 1,
       })),
