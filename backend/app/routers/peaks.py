@@ -72,10 +72,10 @@ async def get_data(
 
     for point in data:
         if(point in valleys):
-            db.add(Peaks(time=point['time'], value=point['value'], isvalley=True))
+            db.add(Peaks(time=point['time'], value=point['value'], isValley=True))
         if(point in peaks):
-            db.add(Peaks(time=point['time'], value=point['value'], ispeak=False))
+            db.add(Peaks(time=point['time'], value=point['value'], isPeak=False))
         else:
-            db.add(Peaks(time=point['time'], value=point['value'], ispeak=False, isvalley=False))
+            db.add(Peaks(time=point['time'], value=point['value'], isPeak=False, isValley=False))
         db.commit()
     return db.query(Peaks).all()

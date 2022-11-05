@@ -14,8 +14,8 @@ class Peaks(Base):
     id = sa.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     time = sa.Column(sa.String, nullable=False)
     value = sa.Column(sa.DECIMAL, nullable=False)
-    ispeak = sa.Column(sa.Boolean, nullable=False)
-    isvalley = sa.Column(sa.Boolean, nullable=False)
+    isPeak = sa.Column(sa.Boolean, nullable=False)
+    isValley = sa.Column(sa.Boolean, nullable=False)
 
     created_at = sa.Column("created_at", sa.DateTime(), server_default=sa.text("now()"), nullable=True)
     updated_at = sa.Column("updated_at", sa.DateTime(), server_default=sa.text("now()"), nullable=True)
@@ -24,8 +24,8 @@ class Peaks(Base):
 class peaksIn(BaseModel):
     time: dt.datetime
     value: str
-    ispeak: bool
-    isvalley: bool
+    isPeak: bool
+    isValley: bool
 
 
 class peaksOut(peaksIn):
