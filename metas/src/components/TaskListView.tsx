@@ -18,13 +18,13 @@ export const TaskListView = () => {
                 </div>
                             ))}
  
-            <AllTasksButton>All Tasks</AllTasksButton>
+            <AllTasksButton href={`tasks`}>All Tasks</AllTasksButton>
             </Content>
        </TaskListContainer>
        
     )};
 
-const AllTasksButton = styled.button`
+const AllTasksButton = styled.a`
     background: ${Colors.mdma};
     padding: 1rem 2rem;
     border-radius: 50px;
@@ -33,9 +33,14 @@ const AllTasksButton = styled.button`
     font-size: 15px;
     color: ${Colors.snow};
     transition: background ease-out 0.1s;
+    text-decoration: none;
 
     &:active {
         background: ${Colors.mdmaDark};
+    }
+
+    &:focus {
+        outline: none;
     }
 `;
 
@@ -52,7 +57,7 @@ const Content = styled.div`
 const TaskListContainer = styled.section`
     width: 100%;
     background: green opacity(30%);
-    height: 38vh;
+    height: 44vh;
     position: relative;
     scroll-snap-align: center;
 `;

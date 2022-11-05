@@ -1,7 +1,7 @@
 import { Task } from "../types/tasks";
 import styled from "styled-components";
 import { Colors } from "../styles/colors";
-import { Body, Data, TitleTwo } from "./text";
+import { Body, Data, SmallData, TitleTwo } from "./text";
 
 export const TaskItem = ({ data }: { data: Task }) => {
     return (
@@ -12,15 +12,21 @@ export const TaskItem = ({ data }: { data: Task }) => {
             <TaskItemDesc>{data.desc}</TaskItemDesc>
             </TaskContentLeft>
             <TaskContentRight>
-            <TaskItemEmission>{data.emission} kg CO2</TaskItemEmission> 
+            <TaskItemEmission>
+                <EmissionValue>{data.emission} kg</EmissionValue>     
+                <EmissionUnit>of CO2</EmissionUnit>
+            </TaskItemEmission> 
             </TaskContentRight>
        </TaskItemContainer>
     );
 };
 
+const EmissionUnit = styled(SmallData)`
+    color: ${Colors.mdma}
+`;
 
-const TaskItemEmissionText = styled(Data)`
-    
+const EmissionValue = styled(Data)`
+    color: ${Colors.analgreen};
 `;
 
 const TaskItemEmission = styled.div`
@@ -29,8 +35,10 @@ const TaskItemEmission = styled.div`
     border: solid 1px ${Colors.analgreen};
     border-radius: 12px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-left: 18px;
 `;
 
 const TaskItemDesc = styled(Body)`
@@ -64,7 +72,7 @@ const TaskItemContainer = styled.div`
     margin: 0px auto;
     margin-top: 16px;
     max-width: 400px;
-    padding: 20px;
+    padding: 30px;
     background: #fff;
     border-radius: 20px;
     display: flex;

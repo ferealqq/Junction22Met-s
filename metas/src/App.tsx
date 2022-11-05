@@ -4,12 +4,25 @@ import { useEffect, useState } from 'react';
 import { HomeView } from './components/HomeView';
 import { StatsView } from './components/StatsView';
 import { TaskListView } from './components/TaskListView';
+import { createBrowserRouter, RouterProvider, Route } from 'react-router-dom'
+import { TaskPage } from './components/TaskPage';
 
 interface BGprops {
   currentView: string;
 }
 
+const router = createBrowserRouter([
+  { path: '/', element: <Home /> },
+  { path: '/tasks', element: <TaskPage /> }
+])
+
 function App() {
+  return (
+    <RouterProvider router={router}/>
+  );
+}
+
+function Home() {
   const [currentView, setCurrentView] = useState('stats');
 
   const handleScroll = (e: any) => {

@@ -18,7 +18,7 @@ const Image = styled.img<ForestProps>`
     width: 100%;
     object-fit: cover;
     position: absolute;
-    transition: top 0.7s;
+    transition: 0.7s;
     transition-timing-function: cubic-bezier(0.3, 0.1, 0.2, 0.3);
     top: ${props => props.currentView === 'stats' ? '50%' : props.currentView === 'home' ? '25%' : '-7%'};
     opacity: ${props => props.currentView === 'stats' ? '1' : props.currentView === 'home' ? '0.9' : '0.6'};
