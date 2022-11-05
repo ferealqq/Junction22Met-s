@@ -1,8 +1,19 @@
 import styled from "styled-components";
+import { useEffect,useState } from "react";
 import { Colors } from "../styles/colors";
 import { SmallBold, WOW } from "./text";
+import { fetchAnalytics } from "../data/api";
 
 export const StatsView = () => {
+    const [ data, setData ] = useState<any | null>(null)
+    const [ success, setSuccesss ] = useState(false);
+    useEffect(() => {
+        fetchAnalytics().then(data => {
+            setData(data)
+            setSuccesss(true)
+        });
+    });
+    console.log(data);
     return ( 
         <Container>
             <StatsText>
@@ -10,7 +21,7 @@ export const StatsView = () => {
                 <WOWBody>You have saved up to 300kg of CO2 this week compared to average Finn..</WOWBody>
             </StatsText>
             <Statistics>
-
+                {success && <h1> success</h1>}
             </Statistics>
         </Container> 
     );
