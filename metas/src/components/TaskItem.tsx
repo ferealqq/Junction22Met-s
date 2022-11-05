@@ -59,11 +59,13 @@ export const TaskItem = ({
     if (xChange < -180) {
       //Task deleted
       removeTask(data.id);
+      console.log("Task deleted");
       decrease();
       setPosData({ x: 0, y: 0 });
     } else if (xChange > 205) {
       //Trigger task completion
       removeTask(data.id);
+      console.log("Task done");
       increase();
       setPosData({ x: 0, y: 0 });
     } else {

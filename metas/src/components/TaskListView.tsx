@@ -5,7 +5,7 @@ import { tasksMockup } from "../data/tasksMockup";
 import { TaskItem } from "./TaskItem";
 import { Colors } from "../styles/colors";
 import { TitleThree } from "./text";
-import { useWorldModelStore } from "../App";
+import { useWorldModelStore } from "../index";
 
 interface TaskListViewProps {
   currentView: string;

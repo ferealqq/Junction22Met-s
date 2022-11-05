@@ -111,4 +111,4 @@ export function SmallestDisc(props) {
   );
 }
 
-useGLTF.preload("/medium2disc.gltf");
+useGLTF.preload("/disc1.gltf");

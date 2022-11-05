@@ -6,19 +6,12 @@ import { StatsView } from "./components/StatsView";
 import { TaskListView } from "./components/TaskListView";
 import { createBrowserRouter, RouterProvider, Route } from "react-router-dom";
 import { TaskPage } from "./components/TaskPage";
-import create from "zustand";
 // import { QueryClient, QueryClientProvider } from 'react-query';
 
 interface BGprops {
   currentView: string;
 }
 
-export const useWorldModelStore = create((set) => ({
-  modelNumber: 0,
-  increasePopulation: () => set((state: any) => ({ model: state.model + 1 })),
-  decreasePopulation: () => set((state: any) => ({ model: state.model - 1 })),
-  zeroOut: () => set({ modelNumber: 0 }),
-}));
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
   { path: "/tasks", element: <TaskPage /> },
@@ -43,19 +36,6 @@ function Home() {
     }
   };
 
-<<<<<<< HEAD
-  return (
-  <MainView onScroll={handleScroll}> 
-    <StatsView /> 
-    <HomeView/>
-    <TaskListView currentView={currentView}/>
-    <ForestView currentView={currentView}/> 
-    
-    <BackgroundColor currentView={currentView}/>
-  </MainView> 
-=======
-  useEffect(() => {}, [currentView]);
-
   return (
     <MainView onScroll={handleScroll}>
       <StatsView />
@@ -65,7 +45,6 @@ function Home() {
 
       <BackgroundColor currentView={currentView} />
     </MainView>
->>>>>>> e21dd8f33ebd41e3a211342383eb50c09f0c257f
   );
 }
 

@@ -1,18 +1,21 @@
-// import { useState } from "react";
 // import * as THREE from "three";
 // import { useFrame } from "@react-three/fiber";
 import { Medium1Disc } from "./Medium1disc";
+import shallow from "zustand/shallow";
 import { SmallestDisc } from "./SmallestDisc";
-import { useWorldModelStore } from "../../../App";
+import { useWorldModelStore } from "../../../index";
 export const WrapperForDiscs = () => {
-  const modelNumber = useWorldModelStore((state) => state.model);
-
+  const modelNumber = useWorldModelStore((state) => state.modelNumber, shallow);
+  console.log("modelNumber", modelNumber);
   if (modelNumber === 1) {
-    return <SmallestDisc rotationSpeed={0.3} />;
-  }
-  if (modelNumber === 2) {
     return <Medium1Disc rotationSpeed={0.3} />;
   }
+  if (modelNumber === 2) {
+    return <SmallestDisc rotationSpeed={0.3} />;
+  } else {
+    return <SmallestDisc rotationSpeed={0.3} />;
+  }
+
   //   const [zoom, setZoom] = useState(false);
   //   const [focus, setFocus] = useState(true);
   //   const vec = new THREE.Vector3();
@@ -36,5 +39,4 @@ export const WrapperForDiscs = () => {
   //     setFocus(focusRef.current.position);
   //   };
   //   return <DiscSmall rotationSpeed={0.3} zoomToView={zoomToView} />;
-  return <Medium1Disc rotationSpeed={0.1} />;
 };
