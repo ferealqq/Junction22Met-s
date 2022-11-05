@@ -17,8 +17,9 @@ export const useWorldModelStore = create(
         personalModelNumber: state.personalModelNumber - 1,
       })),
     isCommunityWorld: false,
+    setCommunityWorld: () => set({ isCommunityWorld: true }),
     // If true, it's community world otherwise personal
-    setWorldType: () =>
+    toggleWorldType: () =>
       set((state: any) => ({ isCommunityWorld: !state.isCommunityWorld })),
   }))
 );

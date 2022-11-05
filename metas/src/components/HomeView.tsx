@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Headline, SmallBold } from "./text";
 import { Colors } from "../styles/colors";
 import { useWorldModelStore } from "../index";
+import { CommunityHub } from "./CommunityHub";
 
 interface HomeViewProps {
   currentView: string;
@@ -10,36 +11,60 @@ interface HomeViewProps {
 
 export const HomeView = ({ currentView }: HomeViewProps) => {
   const [user, setUser] = useState({ name: "Jaakko" });
-  // const setWorldType = useWorldModelStore((state: any) => state.setWorldType);
-  // const worldType = useWorldModelStore((state: any) => state.isCommunityWorld);
+  const isCommunityWorld = useWorldModelStore(
+    (state: any) => state.isCommunityWorld
+  );
+  const toggleWorldType = useWorldModelStore(
+    (state: any) => state.toggleWorldType
+  );
+  const [communityOpen, setCommunityOpen] = useState(false);
 
   return (
     <Container>
       <ForestBar>
         <Titles active={currentView == "home"}>
-          <SubTitle>Private Forest</SubTitle>
+          <SubTitle>
+            {isCommunityWorld ? "Community Forest" : "Private Forest"}
+          </SubTitle>
           <Title>{user.name}</Title>
         </Titles>
-        <CommunityButton active={currentView == "home"}>
-          <CommunityText>Community</CommunityText>
+        <CommunityButton
+          active={currentView == "home"}
+          isCommunity={isCommunityWorld}
+          onClick={() => {
+            !isCommunityWorld ? setCommunityOpen(true) : toggleWorldType();
+          }}
+        >
+          <CommunityText isCommunity={isCommunityWorld}>
+            {isCommunityWorld ? "Home Forest" : "Community"}
+          </CommunityText>
         </CommunityButton>
       </ForestBar>
+
+      <CommunityHub
+        open={communityOpen}
+        closeCommunity={() => setCommunityOpen(false)}
+      />
     </Container>
   );
 };
 
-const CommunityText = styled(SmallBold)`
-  color: ${Colors.snow};
+const CommunityText = styled(SmallBold)<{ isCommunity: boolean }>`
+  color: ${(props) => (props.isCommunity ? Colors.analgreen : Colors.snow)};
 `;
 
-const CommunityButton = styled.button<{ active: boolean }>`
-  background: ${Colors.analgreen};
+const CommunityButton = styled.button<{
+  active: boolean;
+  isCommunity: boolean;
+}>`
   border-radius: 12px;
+  border: ${(props) =>
+    props.isCommunity ? `3px solid ${Colors.analgreen}` : "none"};
+  background: ${(props) =>
+    props.isCommunity ? "transparent" : Colors.analgreen};
   padding: 1rem 2rem;
   outline: none;
-  border: none;
   transition: 0.6s;
-  //Translate to the right if not active
   transform: ${(props) =>
     props.active ? "translateX(0)" : "translateX(200%)"};
 `;
@@ -58,7 +83,6 @@ const Titles = styled.div<{ active: boolean }>`
   display: flex;
   flex-direction: column;
   transition: 0.6s;
-  //Translate to the left if not active
   transform: translateX(${(props) => (props.active ? 0 : -200)}%);
 `;
 
