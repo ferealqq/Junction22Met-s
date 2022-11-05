@@ -81,12 +81,16 @@ async def get_active_tasks(
         limit(limit).offset(skip).all()
     )
 
-class Analytics(BaseModel):
+class EmissionAnalytics(BaseModel):
     emissions_saved: float
     date: dt.datetime 
 
+class MoneyAnalytics(BaseModel):
+    money_saved: float
+    date: dt.datetime 
 
-@router.get("/user/analytics", response_model=List[Analytics])
+
+@router.get("/emission/analytics", response_model=List[EmissionAnalytics])
 async def get_active_tasks(
     days: Optional[int] = 6,
     db: Session = Depends(get_db),
@@ -96,6 +100,30 @@ async def get_active_tasks(
         db.query(
             func.sum(TaskActivity.emissions_saved).label(
                 "emissions_saved"
+            ),
+            func.date_trunc('day', TaskCompletion.completed_at).label("date")
+        ).
+        outerjoin(TaskActivity, TaskActivity.id == TaskCompletion.task_activity_id).
+        filter(
+            TaskCompletion.user_id == user.id,
+            func.date(TaskCompletion.completed_at) >= dt.date.today() - dt.timedelta(days=days)
+        ).group_by(
+            func.date_trunc('day', TaskCompletion.completed_at)
+        )
+    )
+
+    return query.all()
+
+@router.get("/money/analytics", response_model=List[MoneyAnalytics])
+async def get_active_tasks(
+    days: Optional[int] = 6,
+    db: Session = Depends(get_db),
+    user: TokenUser = Depends(credential_check)
+):
+    query = (
+        db.query(
+            func.sum(TaskActivity.money_saved).label(
+                "money_saved"
             ),
             func.date_trunc('day', TaskCompletion.completed_at).label("date")
         ).

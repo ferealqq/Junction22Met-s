@@ -14,7 +14,7 @@ from app.models.user import User
 
 # revision identifiers, used by Alembic.
 revision = 'cfe4d1cf8fd3'
-down_revision = 'c65a165d8fbf'
+down_revision = '0454f2e51980'
 branch_labels = None
 depends_on = None
 
