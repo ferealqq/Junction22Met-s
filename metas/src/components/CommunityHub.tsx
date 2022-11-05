@@ -8,13 +8,14 @@ import { CreateCommunity } from "./CreateCommunity"
 interface CommunityHubProps {
     open: boolean,
     closeCommunity: () => void,
+    createForest: () => void
 }
 
 interface ContainerProps {
     open: boolean
 }
 
-export const CommunityHub = ({ open, closeCommunity }: CommunityHubProps) => {
+export const CommunityHub = ({ open, closeCommunity, createForest }: CommunityHubProps) => {
     const [createStatus, setCreateStatus] = useState(false)
 
     useEffect(() => {
@@ -36,7 +37,7 @@ export const CommunityHub = ({ open, closeCommunity }: CommunityHubProps) => {
                 <AddNewText>Plant New Forest</AddNewText>
             </AddNew>
 
-            <CreateCommunity open={createStatus}/>
+            <CreateCommunity createForest={createForest} open={createStatus}/>
         </Container>
     )
 }
