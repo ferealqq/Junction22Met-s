@@ -6,6 +6,7 @@ import { StatsView } from './components/StatsView';
 import { TaskListView } from './components/TaskListView';
 import { createBrowserRouter, RouterProvider, Route } from 'react-router-dom'
 import { TaskPage } from './components/TaskPage';
+// import { QueryClient, QueryClientProvider } from 'react-query';
 
 interface BGprops {
   currentView: string;
@@ -16,9 +17,13 @@ const router = createBrowserRouter([
   { path: '/tasks', element: <TaskPage /> }
 ])
 
+// const client = new QueryClient();
+
 function App() {
   return (
-    <RouterProvider router={router}/>
+    // <QueryClientProvider client={client}>
+      <RouterProvider router={router}/>
+    // </QueryClientProvider>
   );
 }
 
