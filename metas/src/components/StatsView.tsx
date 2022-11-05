@@ -1,4 +1,4 @@
-import {format} from 'date-fns';
+import { format } from "date-fns";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { Colors } from "../styles/colors";
@@ -14,8 +14,6 @@ import {
   Legend,
 } from "chart.js";
 import { fetchAnalytics } from "../data/api";
-import { BackSide } from 'three';
-
 
 const barColors = [Colors.base, Colors.sins, Colors.mdma];
 
@@ -46,51 +44,61 @@ export const StatsView = () => {
         </WOWBody>
       </StatsText>
       <Statistics>
-        {
-            success && data && data?.length > 0 && (
-                <Bar
-                options={{
-                  responsive: true,
-                  plugins: {
-                    legend: {
-                      display: false
-                    },
+        {success && data && data?.length > 0 ? (
+          <Bar
+            options={{
+              responsive: true,
+              plugins: {
+                legend: {
+                  display: false,
+                },
+              },
+              elements: {
+                line: {
+                  fill: false,
+                  stepped: false,
+                },
+              },
+              scales: {
+                x: {
+                  grid: {
+                    display: false,
+                    drawBorder: false,
                   },
-                  elements:{
-                    line: {
-                      fill: false,
-                      stepped: false
-                    }
+                },
+                y: {
+                  grid: {
+                    display: false,
+                    drawBorder: false,
                   },
-                  scales: {
-                    x: {
-                      grid: {
-                        display: false,
-                        drawBorder: false
-                      },
-                    },
-                    y: {
-                      grid: {
-                        display: false,
-                        drawBorder: false 
-                      },
-                      title: {
-                        padding: 30099,
-                      }
-                    },
-                  }
-                }}
-                data={{
-                    labels: data.map(item => format(new Date(item["date"]), 'EE')),
-                    datasets: [{
-                        data: data.map(item => parseInt(item["emissions_saved"])),
-                        backgroundColor: [Colors.sins,Colors.base,Colors.mdma,Colors.sins, Colors.base, Colors.mdma, Colors.sins],
-                        maxBarThickness: 25
-                    }],
-                }}
-              />
-            )
-        }
+                  title: {
+                    padding: 30099,
+                  },
+                },
+              },
+            }}
+            data={{
+              labels: data.map((item) => format(new Date(item["date"]), "EE")),
+              datasets: [
+                {
+                  data: data.map((item) => parseInt(item["emissions_saved"])),
+                  backgroundColor: [
+                    Colors.sins,
+                    Colors.base,
+                    Colors.mdma,
+                    Colors.sins,
+                    Colors.base,
+                    Colors.mdma,
+                    Colors.sins,
+                  ],
+                  maxBarThickness: 25,
+                },
+              ],
+            }}
+          />
+        ) : (
+          "Loading..."
+        )}
       </Statistics>
     </Container>
   );

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { ForestView } from "./components/ForestView";
-import { useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { HomeView } from "./components/HomeView";
 import { StatsView } from "./components/StatsView";
 import { TaskListView } from "./components/TaskListView";
