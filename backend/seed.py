@@ -10,7 +10,8 @@ users = [
   seed_user(db, "jasse"),
   seed_user(db, "jaakko"),
   seed_user(db, "aleksi"),
-  seed_user(db, "ilkka")
+  seed_user(db, "ilkka"),
+  seed_user(db, "gcp_cron_trigger"),
 ]
 
 tasks = []
