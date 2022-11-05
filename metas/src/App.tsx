@@ -1,19 +1,17 @@
 import styled from 'styled-components';
+import { Forest } from './components/Forest';
 
 function App() {
   return (
   <MainView>
-    <h1>Hello World</h1>
+    <Forest /> 
   </MainView> 
-      
-   
   );
 }
 
 export default App;
 
 const MainView = styled.div`
-  //Linear gradient from top to bottom from snow to iceage to base
-  background: linear-gradient(180deg, #FFF 0%, #D9F4FC 100%, #89A38A 100%);
-  
+  background: linear-gradient(180deg, #FFF 0%, #D9F4FC 60%, #89A38A 100%);
+  min-height: 100vh;
 `;
