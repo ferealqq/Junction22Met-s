@@ -12,6 +12,7 @@ class User(Base):
     __tablename__ = "user"
     id = sa.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     username = sa.Column(sa.String, nullable=False)
+    emissions_saved = sa.Column(sa.DECIMAL, nullable=False, default=0.0)
     created_at = sa.Column(
         sa.DateTime,
         nullable=True,
@@ -35,6 +36,7 @@ class UserIn(BaseModel):
 
 class UserOut(UserIn):
     id: uuid.UUID
+    emissions_saved: float
     created_at: dt.datetime
     updated_at: dt.datetime
 

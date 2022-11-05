@@ -1,7 +1,10 @@
+import datetime as dt
 from typing import Optional, List
 import uuid
 
 from fastapi import APIRouter, Depends
+from pydantic import BaseModel
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 from app.db.deps import get_db
 from app.db.utils import NOT_FOUND_EXCEPTION, save_model
@@ -77,3 +80,37 @@ async def get_active_tasks(
         filter(TaskCompletion.user_id == user.id).
         limit(limit).offset(skip).all()
     )
+
+class Analytics(BaseModel):
+    emissions_saved: float
+    date: dt.datetime 
+
+
+@router.get("/user/analytics", response_model=List[dict])
+async def get_active_tasks(
+    days: Optional[int] = 6,
+    db: Session = Depends(get_db),
+    user: TokenUser = Depends(credential_check)
+):
+    query = (
+        db.query(
+            func.sum(TaskActivity.emissions_saved).label(
+                "emissions_saved"
+            ),
+            func.date_trunc('day', TaskCompletion.completed_at).label("completed_at")
+            # TaskCompletion.completed_at.label("completed_at")
+        ).
+        outerjoin(TaskActivity, TaskActivity.id == TaskCompletion.task_activity_id).
+        filter(
+            TaskCompletion.user_id == user.id,
+            func.date(TaskCompletion.completed_at) >= dt.date.today() - dt.timedelta(days=days)
+        ).group_by(
+            func.date_trunc('day', TaskCompletion.completed_at)
+        )
+    )
+    print(str(query))
+
+    # data = query.limit(limit).offset(skip).all()
+    data = query.all()
+
+    return data
