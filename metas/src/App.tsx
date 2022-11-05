@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { ForestView } from './components/ForestView';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { HomeView } from './components/HomeView';
 import { StatsView } from './components/StatsView';
 import { TaskListView } from './components/TaskListView';
@@ -42,14 +42,10 @@ function Home() {
     }
   }
 
-  useEffect(() => {
-    window.addEventListener('scroll', (scr) => console.log(scr));
-  }, []);
-
   return (
   <MainView onScroll={handleScroll}> 
     <StatsView /> 
-    <HomeView />
+    <HomeView/>
     <TaskListView currentView={currentView}/>
     <ForestView currentView={currentView}/> 
     

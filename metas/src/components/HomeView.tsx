@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import styled from "styled-components";
 import { Headline } from "./text";
 
-export const HomeView = () => {
+export const HomeView = ({ ref }: any) => {
     return ( 
         <Container>
             <ForestTitle>Pekka's Forest</ForestTitle>
