@@ -28,6 +28,54 @@ async def get_peaks(
     return db.query(Peaks).limit(limit).offset(skip).all()
 
 
+
+
+
+async def get_data(
+    date: datetime.datetime,
+    db: Session = Depends(get_db),
+):
+    # https://api.fingrid.fi/v1/variable/165/events/csv?start_time=2022-10-01T00%3A00%3A00Z&end_time=2022-10-01T00%3A00%3A00Z
+    baseurl = 'https://api.fingrid.fi/v1/variable/165/events/csv'
+    startTime = (date + datetime.timedelta(days=-1)).strftime("%Y-%m-%dT") + '22:00:00Z'
+    endTime = (date).strftime("%Y-%m-%dT") + '22:00:00Z'
+    response = requests.get(baseurl, params={'start_time': startTime, 'end_time': endTime})
+    data = pd.DataFrame([x.split(',') for x in response.text.split('\n')])[1:-1]
+    data.columns = ['time', 'drop', 'value']
+    data = data.drop(['drop'],axis=1)
+    data['time'] = pd.to_datetime(data['time'])
+    data['value'] = data['value'].astype(str).astype(float).astype(int)
+    res = pd.DataFrame({"time": [],"value": []})
+    values = data.groupby([data['time'].dt.hour]).sum()
+    time = []
+    for i in range(24):
+        time.append(datetime.datetime(date.year, date.month, date.day, i, 0, 0))
+
+    res['time'] = time
+    res['value'] = values['value']
+    valleys = []
+    x = res['value']
+    peaks, _ = find_peaks(x, distance=3)
+    for i in range(len(peaks)-1):
+        min = 10000000000
+        val = 0
+        for y in range(peaks[i], peaks[i+1]):
+            if(min > data['value'][y]):
+                min = data['value'][y]
+                val = y
+        valleys.append(val)
+
+    for point in res:
+        if(point in valleys):
+            db.add(Peaks(time=point['time'], value=point['value'], isvalley=True))
+        if(point in peaks):
+            db.add(Peaks(time=point['time'], value=point['value'], ispeak=False))
+        else:
+            db.add(Peaks(time=point['time'], value=point['value'], ispeak=False, isvalley=False))
+        db.commit()
+    return db.query(Peaks).all()
+
+
 @router.post(
     "/calculate_activities",
     dependencies=[Depends(credential_check)],
@@ -41,41 +89,39 @@ def post_calculate_activites(
     # äddää tässä ne activityt tietokantaan
     db.add(User(username="crontriggered"))
     db.commit()
+    peaks = get_data(datetime.datetime.now())
+    # create lunch activity
+    bestTimeForLunch = peaks[10]
+    for i in range(10, 14):
+        if peaks[i]['value'] < bestTimeForLunch['value']:
+            bestTimeForLunch = peaks[i]
+    
+    startTime = bestTimeForLunch['time']
+    endTime = bestTimeForLunch['time'] + datetime.timedelta(hours=1)
+    db.add(TaskActivity(starts_at=startTime, ends_at=endTime, task_id=1))
+
+    # create dinner activity
+    bestTimeForDinner = peaks[16]
+    for i in range(16, 20):
+        if peaks[i]['value'] < bestTimeForDinner['value']:
+            bestTimeForDinner = peaks[i]
+    startTime = bestTimeForDinner['time']
+    endTime = bestTimeForDinner['time'] + datetime.timedelta(hours=1)
+    db.add(TaskActivity(starts_at=startTime, ends_at=endTime, task_id=2))
+
+
+    for i in len(peaks):
+        if peaks[i]['ispeak'] == True:
+            startTime = peaks[i]['time']
+            endTime = peaks[i]['time'] + datetime.timedelta(hours=1)
+            db.add(TaskActivity(starts_at=startTime, ends_at=endTime, task_id=3))
+
+    for i in len(peaks):
+        if peaks[i]['isvalley'] == True:
+            startTime = peaks[i]['time']
+            endTime = peaks[i]['time'] + datetime.timedelta(hours=1)
+            db.add(TaskActivity(starts_at=startTime, ends_at=endTime, task_id=4))
+            
+    db.commit()
+
     return "OK"
-
-
-async def get_data(
-    db: Session = Depends(get_db),
-):
-    # https://api.fingrid.fi/v1/variable/165/events/csv?start_time=2022-10-01T00%3A00%3A00Z&end_time=2022-10-01T00%3A00%3A00Z
-    date = datetime.date.today() 
-    baseurl = 'https://api.fingrid.fi/v1/variable/165/events/csv'
-    startTime = (date + datetime.timedelta(days=-1)).strftime("%Y-%m-%dT") + '22:00:00Z'
-    endTime = (date + datetime.timedelta(days=1)).strftime("%Y-%m-%dT%H:%M:%SZ")
-    response = requests.get(baseurl, params={'start_time': startTime, 'end_time': endTime})
-    data = pd.DataFrame([x.split(',') for x in response.text.split('\n')])[1:-1]
-    data.columns = ['time', 'drop', 'value']
-    data = data.drop(['drop'],axis=1)
-    data['time'] = pd.to_datetime(data['time'])
-    data['value'] = data['value'].astype(str).astype(float).astype(int)
-    data = data.groupby([data['time'].dt.hour])['value'].sum()
-    valleys = []
-    peaks, _ = find_peaks(data['value'], height=0)
-    for i in range(len(peaks)-1):
-        min = 10000000000
-        val = 0
-        for y in range(peaks[i], peaks[i+1]):
-            if(min > data['value'][y]):
-                min = data['value'][y]
-                val = y
-        valleys.append(val)
-
-    for point in data:
-        if(point in valleys):
-            db.add(Peaks(time=point['time'], value=point['value'], isvalley=True))
-        if(point in peaks):
-            db.add(Peaks(time=point['time'], value=point['value'], ispeak=False))
-        else:
-            db.add(Peaks(time=point['time'], value=point['value'], ispeak=False, isvalley=False))
-        db.commit()
-    return db.query(Peaks).all()

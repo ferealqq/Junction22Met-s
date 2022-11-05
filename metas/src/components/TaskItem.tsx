@@ -1,11 +1,64 @@
+import { useState } from "react";
 import { Task } from "../types/tasks";
 import styled from "styled-components";
 import { Colors } from "../styles/colors";
 import { Body, Data, SmallData, TitleTwo } from "./text";
+import Draggable from "react-draggable";
+
+interface TaskBoxProps {
+    color: string,
+}
 
 export const TaskItem = ({ data }: { data: Task }) => {
+    const [posData, setPosData] = useState({ x: 0, y: 0 });
+    const [color, setColor] = useState<string>("#FFF");
+
+    const handleDrag = (event: any) => {
+        const xChange = event.changedTouches[0].clientX;
+
+
+        //Tarkistetaan kumpaan suuntaan laatikkoa vedetään
+
+        //if xChange is smaller than posData.x then the box is dragged to left
+        //if dragged to left background color linearly from white to red
+        if (xChange < posData.x) {
+            const percentage = 100 - (xChange / window.innerWidth) * 100;
+            const red = 255;
+            const green = 255 - percentage;
+            const blue = 255 - percentage;
+            const color = `rgb(${red}, ${green}, ${blue})`;
+            setColor(color);
+        }
+    };
+
+    const handleStop = (event: any) => {
+        const xChange = event.changedTouches[0].clientX;
+
+        if (xChange < 100) {
+            console.log("delete");
+            //Task deleted
+            setPosData({ x: 0, y: 0 });
+        } else if (xChange > 270) {
+            console.log("complete");
+            //Trigger task completion
+            setPosData({ x: 0, y: 0 });
+        } else {
+            setPosData({ x: 0, y: 0 });
+        }
+        setColor("#FFF")
+    }
+
     return (
-        <TaskItemContainer>
+        <Draggable
+            axis="x" 
+            handle=".handle"
+            defaultPosition={{x: 0, y: 0}}
+            position={posData}
+            scale={1}
+            onDrag={handleDrag}
+            onStop={handleStop}
+        >
+        <TaskItemContainer className="handle" color={color}>
             <TaskContentLeft>
             <TaskItemTitle>{data.title}</TaskItemTitle>
             <TaskItemTimeLeft>4h 20min</TaskItemTimeLeft>
@@ -18,6 +71,7 @@ export const TaskItem = ({ data }: { data: Task }) => {
             </TaskItemEmission> 
             </TaskContentRight>
        </TaskItemContainer>
+       </Draggable>
     );
 };
 
@@ -67,14 +121,15 @@ const TaskContentLeft = styled.div`
     flex-direction: column;
 `;
 
-const TaskItemContainer = styled.div`
+const TaskItemContainer = styled.div<TaskBoxProps>`
     width: 95%;
     margin: 0px auto;
     margin-top: 16px;
     max-width: 400px;
     padding: 30px;
-    background: #fff;
+    background: ${props => props.color};
     border-radius: 20px;
     display: flex;
     align-items: center;
+    transition: 0.08s linear;
 `;

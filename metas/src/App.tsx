@@ -1,11 +1,13 @@
-import styled from "styled-components";
-import { ForestView } from "./components/ForestView";
-import { useEffect, useState } from "react";
-import { HomeView } from "./components/HomeView";
-import { StatsView } from "./components/StatsView";
-import { TaskListView } from "./components/TaskListView";
-import { createBrowserRouter, RouterProvider, Route } from "react-router-dom";
-import { TaskPage } from "./components/TaskPage";
+import styled from 'styled-components';
+import { ForestView } from './components/ForestView';
+import { useEffect, useState } from 'react';
+import { HomeView } from './components/HomeView';
+import { StatsView } from './components/StatsView';
+import { TaskListView } from './components/TaskListView';
+import { createBrowserRouter, RouterProvider, Route } from 'react-router-dom'
+import { TaskPage } from './components/TaskPage';
+// import { QueryClient, QueryClientProvider } from 'react-query';
+
 interface BGprops {
   currentView: string;
 }
@@ -14,6 +16,8 @@ const router = createBrowserRouter([
   { path: "/", element: <Home /> },
   { path: "/tasks", element: <TaskPage /> },
 ]);
+
+// const client = new QueryClient();
 
 function App() {
   return <RouterProvider router={router} />;
