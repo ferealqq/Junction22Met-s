@@ -2,18 +2,18 @@
 // import { useFrame } from "@react-three/fiber";
 import { Medium1Disc } from "./Medium1disc";
 import shallow from "zustand/shallow";
-import { SmallestDisc } from "./SmallestDisc";
+import { Large1Disc } from "./Large1disc";
 import { useWorldModelStore } from "../../../index";
 export const WrapperForDiscs = () => {
   const modelNumber = useWorldModelStore((state) => state.modelNumber, shallow);
-  console.log("modelNumber", modelNumber);
+  // TODO: animation
   if (modelNumber === 1) {
     return <Medium1Disc rotationSpeed={0.3} />;
   }
   if (modelNumber === 2) {
-    return <SmallestDisc rotationSpeed={0.3} />;
+    return <Large1Disc rotationSpeed={0.3} />;
   } else {
-    return <SmallestDisc rotationSpeed={0.3} />;
+    return <Medium1Disc rotationSpeed={0.3} />;
   }
 
   //   const [zoom, setZoom] = useState(false);
