@@ -86,7 +86,7 @@ class Analytics(BaseModel):
     date: dt.datetime 
 
 
-@router.get("/user/analytics", response_model=List[dict])
+@router.get("/user/analytics", response_model=List[Analytics])
 async def get_active_tasks(
     days: Optional[int] = 6,
     db: Session = Depends(get_db),
@@ -97,8 +97,7 @@ async def get_active_tasks(
             func.sum(TaskActivity.emissions_saved).label(
                 "emissions_saved"
             ),
-            func.date_trunc('day', TaskCompletion.completed_at).label("completed_at")
-            # TaskCompletion.completed_at.label("completed_at")
+            func.date_trunc('day', TaskCompletion.completed_at).label("date")
         ).
         outerjoin(TaskActivity, TaskActivity.id == TaskCompletion.task_activity_id).
         filter(
@@ -108,9 +107,5 @@ async def get_active_tasks(
             func.date_trunc('day', TaskCompletion.completed_at)
         )
     )
-    print(str(query))
 
-    # data = query.limit(limit).offset(skip).all()
-    data = query.all()
-
-    return data
+    return query.all()
