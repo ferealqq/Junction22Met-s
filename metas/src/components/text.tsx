@@ -46,7 +46,7 @@ export const SmallNotificationFont = styled.p`
 `;
 
 export const Data = styled.p`
-    font-size: 17px;
+    font-size: 15px;
     font-weight: 400px;
 `;
 
