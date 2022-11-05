@@ -56,7 +56,7 @@ const Content = styled.div`
 const TaskListContainer = styled.section`
     width: 100%;
     background: green opacity(30%);
-    height: 68vh;
+    height: 72vh;
     position: relative;
     scroll-snap-align: center;
     overflow-x: hidden;
