@@ -6,12 +6,19 @@ import { StatsView } from "./components/StatsView";
 import { TaskListView } from "./components/TaskListView";
 import { createBrowserRouter, RouterProvider, Route } from "react-router-dom";
 import { TaskPage } from "./components/TaskPage";
+import create from "zustand";
 // import { QueryClient, QueryClientProvider } from 'react-query';
 
 interface BGprops {
   currentView: string;
 }
 
+export const useWorldModelStore = create((set) => ({
+  modelNumber: 0,
+  increasePopulation: () => set((state: any) => ({ model: state.model + 1 })),
+  decreasePopulation: () => set((state: any) => ({ model: state.model - 1 })),
+  zeroOut: () => set({ modelNumber: 0 }),
+}));
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
   { path: "/tasks", element: <TaskPage /> },
