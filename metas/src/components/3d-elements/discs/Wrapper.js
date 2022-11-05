@@ -36,5 +36,5 @@ export const WrapperForDiscs = () => {
   //     setFocus(focusRef.current.position);
   //   };
   //   return <DiscSmall rotationSpeed={0.3} zoomToView={zoomToView} />;
-  return <Medium1Disc rotationSpeed={0.3} />;
+  return <Medium1Disc rotationSpeed={0.1} />;
 };

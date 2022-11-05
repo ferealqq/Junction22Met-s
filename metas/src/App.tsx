@@ -24,8 +24,6 @@ const router = createBrowserRouter([
   { path: "/tasks", element: <TaskPage /> },
 ]);
 
-// const client = new QueryClient();
-
 function App() {
   return <RouterProvider router={router} />;
 }
@@ -45,6 +43,17 @@ function Home() {
     }
   };
 
+<<<<<<< HEAD
+  return (
+  <MainView onScroll={handleScroll}> 
+    <StatsView /> 
+    <HomeView/>
+    <TaskListView currentView={currentView}/>
+    <ForestView currentView={currentView}/> 
+    
+    <BackgroundColor currentView={currentView}/>
+  </MainView> 
+=======
   useEffect(() => {}, [currentView]);
 
   return (
@@ -56,6 +65,7 @@ function Home() {
 
       <BackgroundColor currentView={currentView} />
     </MainView>
+>>>>>>> e21dd8f33ebd41e3a211342383eb50c09f0c257f
   );
 }
 
