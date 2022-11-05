@@ -1,11 +1,14 @@
 import styled from "styled-components";
 import { ForestView } from "./components/ForestView";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { HomeView } from "./components/HomeView";
 import { StatsView } from "./components/StatsView";
 import { TaskListView } from "./components/TaskListView";
-import { createBrowserRouter, RouterProvider, Route } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { TaskPage } from "./components/TaskPage";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useWorldModelStore } from "./index";
 // import { QueryClient, QueryClientProvider } from 'react-query';
 
 interface BGprops {
@@ -17,13 +20,19 @@ const router = createBrowserRouter([
   { path: "/tasks", element: <TaskPage /> },
 ]);
 
-// const client = new QueryClient();
-
 function App() {
   return <RouterProvider router={router} />;
 }
 
 function Home() {
+  const unsub3 = useWorldModelStore.subscribe(
+    (state: any) => state.modelNumber,
+    (num: any, previousNum: any) =>
+      num > previousNum &&
+      toast.success("Great job! You just decreased your ...", {
+        toastId: "success1",
+      })
+  );
   const [currentView, setCurrentView] = useState("stats");
 
   const handleScroll = (e: any) => {
@@ -38,10 +47,9 @@ function Home() {
     }
   };
 
-  useEffect(() => {}, [currentView]);
-
   return (
     <MainView onScroll={handleScroll}>
+      <ToastContainer />
       <StatsView />
       <HomeView />
       <TaskListView currentView={currentView} />

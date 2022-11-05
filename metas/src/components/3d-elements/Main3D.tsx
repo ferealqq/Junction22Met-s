@@ -6,7 +6,7 @@ import { WrapperForDiscs } from "./discs/Wrapper";
 
 export default function Main3D() {
   return (
-    <Canvas camera={{ position: [0, 0, 10], zoom: 4 }}>
+    <Canvas camera={{ position: [0, 0, 30], zoom: 3 }}>
       <ambientLight />
       <pointLight position={[10, 10, 10]} />
       <Suspense fallback={null}>

@@ -1,3 +1,10 @@
+## To Do
+1. Multiplayeriin vaihtaminen
+2. Multiplayer view
+3. Kavereiden lisääminen
+4. Kenen metsä
+5. Singleplayeriin vaihtaminen
+
 ### Tasks
 
 #### Liikkuminen

@@ -6,12 +6,12 @@ import React, { useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 
-export function Medium1Disc(props) {
+export function SmallestDisc(props) {
   const mesh = useRef(null);
   useFrame(
     (state, delta) => (mesh.current.rotation.y += props.rotationSpeed / 100)
   );
-  const { nodes, materials } = useGLTF("/medium1disc.gltf");
+  const { nodes, materials } = useGLTF("/medium2disc.gltf");
   return (
     <group {...props} dispose={null} ref={mesh}>
       <mesh
@@ -111,4 +111,4 @@ export function Medium1Disc(props) {
   );
 }
 
-useGLTF.preload("/medium1disc.gltf");
+useGLTF.preload("/disc1.gltf");
