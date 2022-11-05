@@ -64,3 +64,16 @@ async def post_complete_task(
     )
 
     return save_model(db,tc)
+
+@router.get("/user/completed", response_model=List[TaskActivityOut])
+async def get_active_tasks(
+    limit: Optional[int] = 100,
+    skip: Optional[int] = 0,
+    db: Session = Depends(get_db),
+    user: TokenUser = Depends(credential_check)
+):
+    return (
+        db.query(TaskCompletion).   
+        filter(TaskCompletion.user_id == user.id).
+        limit(limit).offset(skip).all()
+    )

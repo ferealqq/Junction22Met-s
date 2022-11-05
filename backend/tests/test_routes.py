@@ -45,6 +45,18 @@ def test_get_active_tasks(db: Session, auth_client: TestClient):
 
     assert db.query(TaskCompletion).filter(TaskCompletion.id == data["id"]).one_or_none() != None 
 
+def test_login(db: Session, client: TestClient):
+    res = client.post("api/user/login",
+        json={
+            "username": "pekka"
+        }
+    )
+
+    assert res.status_code == 200 
+    data = res.json()
+    assert data["jwt"] != None
+    assert JWTService().decode(data["jwt"])["id"] != None
+
 def use_user(
     client: TestClient, user_id: uuid.UUID
 ) -> TestClient:
