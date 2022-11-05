@@ -1,9 +1,11 @@
 import logging
 from contextlib import asynccontextmanager
 from typing import AsyncGenerator
+from fastapi import HTTPException
 
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.sql import operators
+from fastapi import HTTPException, status
 
 from app.db.deps import get_db
 
@@ -58,3 +60,31 @@ def save_model(db, model):
     # refresh fecthes the item from the database
     db.refresh(model)
     return model
+
+NOT_FOUND_EXCEPTION = HTTPException(
+    status_code=status.HTTP_404_NOT_FOUND, detail="Resource not found"
+)
+
+INVALID_CREDENTIALS_EXCEPTION = HTTPException(
+    status_code=status.HTTP_400_BAD_REQUEST,
+    detail="Could not validate credentials",
+)
+
+UNAUTHORIZED_EXCEPTION = HTTPException(
+    status_code=status.HTTP_401_UNAUTHORIZED,
+    detail="Unauthorized request",
+)
+
+FORBIDDEN_EXCEPTION = HTTPException(
+    status_code=status.HTTP_403_FORBIDDEN, detail="Forbidden request"
+)
+
+ISE_EXCEPTION = HTTPException(
+    status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+    detail="Internal server error",
+)
+
+BAD_REQUEST_EXCEPTION = HTTPException(
+    status_code=status.HTTP_400_BAD_REQUEST,
+    detail="Malformed request sent to the server",
+)

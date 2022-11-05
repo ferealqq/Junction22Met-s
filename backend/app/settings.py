@@ -12,6 +12,11 @@ class Settings(BaseSettings):
     DB_ECHO: bool = False
     DB_DSN: str
 
+
+    JWT_PASS: str
+    JWT_PUBLIC: str
+    JWT_PRIVATE: str
+
     class Config:
         env_file = ".env"
         env_file_encoding = "utf-8"
