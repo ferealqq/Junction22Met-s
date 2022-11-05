@@ -8,7 +8,6 @@ from alembic import op
 import sqlalchemy as sa
 
 # from app.db.deps import get_db
-from app.db.base import engine
 from app.models.task_activity import TaskActivity
 from app.models.user import User
 
