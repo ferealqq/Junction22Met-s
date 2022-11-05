@@ -44,6 +44,8 @@ export const TaskListView = ({ currentView }: TaskListViewProps) => {
 
         {tasks.length === 0 && <NoTasks>No tasks available...</NoTasks>}
 
+        {tasks.length === 0 && <NoTasks>No tasks available...</NoTasks>}
+
         <AllTasksButton href={`tasks`}>All Tasks</AllTasksButton>
       </Content>
     </TaskListContainer>
