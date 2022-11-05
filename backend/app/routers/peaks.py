@@ -6,6 +6,8 @@ import requests
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from app.db.deps import get_db
+from app.dependencies.auth import credential_check
+from app.models.user import User
 from scipy.signal import find_peaks
 
 # from app.db.utils import save_model
@@ -26,9 +28,25 @@ async def get_peaks(
     return db.query(Peaks).limit(limit).offset(skip).all()
 
 
+@router.post(
+    "/calculate_activities",
+    dependencies=[Depends(credential_check)],
+)
+def post_calculate_activites(
+    db : Session = Depends(get_db),
+):  
+    """
+        This function will be called from google cloud every 15 minutes.
+    """
+    # äddää tässä ne activityt tietokantaan
+    db.add(User(username="crontriggered"))
+    db.commit()
+    return "OK"
+
+
 async def get_data(
     db: Session = Depends(get_db),
-    ):
+):
     # https://api.fingrid.fi/v1/variable/165/events/csv?start_time=2022-10-01T00%3A00%3A00Z&end_time=2022-10-01T00%3A00%3A00Z
     date = datetime.date.today() 
     baseurl = 'https://api.fingrid.fi/v1/variable/165/events/csv'
