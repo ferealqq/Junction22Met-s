@@ -12,7 +12,7 @@ export const StatsView = () => {
             setData(data)
             setSuccesss(true)
         });
-    });
+    }, []);
     console.log(data);
     return ( 
         <Container>

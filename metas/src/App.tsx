@@ -43,8 +43,8 @@ function Home() {
   }
 
   useEffect(() => {
-
-  }, [currentView]);
+    window.addEventListener('scroll', (scr) => console.log(scr));
+  }, []);
 
   return (
   <MainView onScroll={handleScroll}> 
