@@ -1,8 +1,3 @@
-from contextvars import ContextVar
-from typing import Optional
-
-from sqlalchemy.orm import Session
-
 from app.db.base import SessionLocal
 
 

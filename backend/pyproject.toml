@@ -16,6 +16,9 @@ python-dotenv = "*"
 alembic = "*"
 psycopg2-binary = "*"
 sqlalchemy = "*"
+requests = "^2.28.1"
+PyJWT = "^2.6.0"
+cryptography = "^38.0.3"
 
 
 [tool.poetry.dev-dependencies]
@@ -30,6 +33,7 @@ httpx = "*"
 pytest = "*"
 pytest-cov = "*"
 pytest-asyncio = "*"
+Faker = "^15.2.0"
 
 
 [build-system]

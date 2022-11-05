@@ -1,21 +1,12 @@
-import asyncio
-
 import pytest
 from sqlalchemy import create_engine, inspect
-from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import Session
+from app.db.deps import get_db
 
-from app.db.deps import session_context_var
 from app.main import app
 from app.settings import get_settings
 from app.db.base import Base
 from fastapi.testclient import TestClient
-
-@pytest.fixture
-def db_context(db: AsyncSession):
-    token = session_context_var.set(db)
-    yield
-    session_context_var.reset(token)
 
 
 @pytest.fixture(name="db")
@@ -29,6 +20,12 @@ def session_fixture():
 
 @pytest.fixture(name="client")
 def client_fixture():
+    client = TestClient(app)
+    yield client
+    app.dependency_overrides.clear()
+
+@pytest.fixture(name="auth_client")
+def auth_client_fixture(db: Session):
     client = TestClient(app)
     yield client
     app.dependency_overrides.clear()
