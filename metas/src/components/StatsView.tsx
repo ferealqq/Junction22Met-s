@@ -19,16 +19,15 @@ import { useUserInfoStore } from "..";
 const barColors = [Colors.base, Colors.sins, Colors.mdma];
 
 export const StatsView = () => {
-  const token = useUserInfoStore((state: any) => state.token);
   const [emissionData, setEmissionData] = useState<any[] | null>(null);
   const [spendingData, setSpendingData] = useState<any[] | null>(null);
   const [success, setSuccess] = useState(false);
   useEffect(() => {
-    fetchEmissionAnalytics(token.jwt).then((data: any) => {
+    fetchEmissionAnalytics("").then((data: any) => {
       setEmissionData(data);
       setSuccess(true);
     });
-    fetchSpendingAnalytics(token.jwt).then((data: any) => {
+    fetchSpendingAnalytics("").then((data: any) => {
       setSpendingData(data);
       setSuccess(true);
     });
@@ -130,29 +129,29 @@ export const StatsView = () => {
                   display: false,
                 },
               },
-              // elements: {
-              //   line: {
-              //     fill: false,
-              //     stepped: false,
-              //   },
-              // },
-              // scales: {
-              //   x: {
-              //     grid: {
-              //       display: false,
-              //       drawBorder: false,
-              //     },
-              //   },
-              //   y: {
-              //     grid: {
-              //       display: false,
-              //       drawBorder: false,
-              //     },
-              //     title: {
-              //       padding: 30099,
-              //     },
-              //   },
-              // }
+              elements: {
+                line: {
+                  fill: false,
+                  stepped: false,
+                },
+              },
+              scales: {
+                x: {
+                  grid: {
+                    display: false,
+                    drawBorder: false,
+                  },
+                },
+                y: {
+                  grid: {
+                    display: false,
+                    drawBorder: false,
+                  },
+                  title: {
+                    padding: 30099,
+                  },
+                },
+              }
             }}
             data={{
               labels: spendingData.map((item) => format(new Date(item["date"]), "EE")),

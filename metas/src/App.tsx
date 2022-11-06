@@ -18,8 +18,7 @@ interface BGprops {
 }
 
 const router = createBrowserRouter([
-  { path: "/", element: <Login /> },
-  { path: "/app", element: <Home /> },
+  { path: "/", element: <Home /> },
 ]);
 
 function App() {
@@ -47,9 +46,6 @@ function Home() {
       })
   );
   const [currentView, setCurrentView] = useState("stats");
-  if(!token) {
-    navigate("/");
-  }
   const handleScroll = (e: any) => {
     const { scrollTop } = e.target;
 
@@ -62,13 +58,6 @@ function Home() {
     }
   };
 
-  useEffect(() => {
-    checkToken().catch(err => {
-      console.log(err);
-      navigate("/");
-    })
-  }, [])
-  
   return (
     <MainView onScroll={handleScroll}>
       <ToastContainer />
