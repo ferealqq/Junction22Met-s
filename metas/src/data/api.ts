@@ -33,3 +33,7 @@ export const fetchTasks = () => {
 export const sendCompleteTask = (id: string) => {
   return api.post(`tasks/complete/${id}`).then(({ data }) => data);
 };
+
+export const loginInUser = (username: string) => {
+  return api.post("user/login", { username }).then(({ data }) => data);
+}
