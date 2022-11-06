@@ -1,5 +1,5 @@
 from typing import Any, Optional, List
-from backend.app.dependencies.auth import TokenUser
+from app.dependencies.auth import TokenUser
 
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel
@@ -16,8 +16,7 @@ router = APIRouter()
 
 @router.get("/user", response_model=UserOut)
 async def get_user(db: Session = Depends(get_db),user : TokenUser = Depends(credential_check)):
-    user_id = user.id
-    user = db.query(User).filter(str(User.id) == user_id).one_or_none()
+    user = db.query(User).filter(User.id == user.id).one_or_none()
     return user
 
 
