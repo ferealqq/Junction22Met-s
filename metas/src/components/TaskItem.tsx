@@ -5,7 +5,7 @@ import { Colors } from "../styles/colors";
 import { Body, Data, SmallData, TitleTwo } from "./text";
 import Draggable from "react-draggable";
 import { sendCompleteTask } from "../data/api";
-import { useUserInfoStore } from "../index";
+import { useUserInfoStore, useWorldModelStore } from "../index";
 
 interface TaskBoxProps {
   color: string;

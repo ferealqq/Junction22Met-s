@@ -4,7 +4,7 @@ import { Colors } from "../styles/colors";
 import { Body, Headline, SmallData, TitleOne } from "./text";
 import backArrow from "../assets/images/backArrow.png";
 import { CreateCommunity } from "./CreateCommunity";
-import { useWorldModelStore,useCommunityStore } from "../index";
+import { useWorldModelStore,useCommunityStore,useUserInfoStore } from "../index";
 import { postCommunity } from "../data/api";
 
 interface CommunityHubProps {
@@ -22,6 +22,7 @@ export const CommunityHub = ({
   closeCommunity,
   createForest,
 }: CommunityHubProps) => {
+  const token = useUserInfoStore((state: any) => state.token)
   const comms = useCommunityStore((state: any) => state.communities)
   const fetchCommunity = useCommunityStore((state: any) => state.fetchCommunity);
   const setCommunities = useCommunityStore((state: any) => state.setCommunities);
@@ -41,7 +42,7 @@ export const CommunityHub = ({
   }, [createStatus]);
 
   const createForestAndClose = async (names: string[]) => {
-    postCommunity({names}).then((comm)=>{
+    postCommunity({names},token).then((comm)=>{
       setCommunities({
         comm,
         ...comms,
@@ -49,16 +50,6 @@ export const CommunityHub = ({
       setCreateStatus(false);
       createForest();
     });
-    // const comm = await postCommunity({names})
-
-    // postCommunity({names}).then((new) => {
-    //   setCommunities({
-    //     new,
-    //     ...comms,
-    //   });
-    //   setCreateStatus(false);
-    //   createForest();
-    // });
   };
 
   console.log("community")
@@ -75,8 +66,6 @@ export const CommunityHub = ({
           return <Community openCommunityForest={openCommunityForest} data={item} key={item.created_at} />;
         })
       }
-      {/* <Community openCommunityForest={openCommunityForest} />
-      <Community openCommunityForest={openCommunityForest} /> */}
 
       <AddNew onClick={() => setCreateStatus(true)}>
         <AddNewText>Plant New Forest</AddNewText>

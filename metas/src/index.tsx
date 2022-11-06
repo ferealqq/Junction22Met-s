@@ -26,11 +26,11 @@ export const useTaskStore = create(
 );
 export const useCommunityStore = create(
   subscribeWithSelector((set) => ({
-    communityInfo: {},
-    fetchCommunity: async (communityId: string) => {
+    communities: {},
+    fetchCommunity: async () => {
       const token = (useUserInfoStore.getState() as any).token;
-      const userInfo = await fetchCommunityData(communityId, token.jwt);
-      set({ userInfo });
+      const communities = await fetchCommunityData(token.jwt);
+      set({ communities });
     },
   }))
 );

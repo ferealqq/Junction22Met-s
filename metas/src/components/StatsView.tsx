@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { Colors } from "../styles/colors";
 import { SmallBold, WOW } from "./text";
-import { Bar } from "react-chartjs-2";
+import { Bar,Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -130,35 +130,35 @@ export const StatsView = () => {
                   display: false,
                 },
               },
-              elements: {
-                line: {
-                  fill: false,
-                  stepped: false,
-                },
-              },
-              scales: {
-                x: {
-                  grid: {
-                    display: false,
-                    drawBorder: false,
-                  },
-                },
-                y: {
-                  grid: {
-                    display: false,
-                    drawBorder: false,
-                  },
-                  title: {
-                    padding: 30099,
-                  },
-                },
-              }
+              // elements: {
+              //   line: {
+              //     fill: false,
+              //     stepped: false,
+              //   },
+              // },
+              // scales: {
+              //   x: {
+              //     grid: {
+              //       display: false,
+              //       drawBorder: false,
+              //     },
+              //   },
+              //   y: {
+              //     grid: {
+              //       display: false,
+              //       drawBorder: false,
+              //     },
+              //     title: {
+              //       padding: 30099,
+              //     },
+              //   },
+              // }
             }}
             data={{
               labels: spendingData.map((item) => format(new Date(item["date"]), "EE")),
               datasets: [
                 {
-                  data: spendingData.map((item) => parseInt(item["emissions_saved"])),
+                  data: spendingData.map((item) => parseInt(item["money_saved"])),
                   backgroundColor: [
                     Colors.sins,
                     Colors.base,
