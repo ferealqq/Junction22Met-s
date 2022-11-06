@@ -94,6 +94,13 @@ def seed_analytics(db, user : User, tasks = None):
                     task_id= tasks[random.randint(0,len(tasks)-1)].id
                 )
             )
+            print(user)
+            print(f"emissions saved user {user.emissions_saved}")
+            print(f"emissions saved task {ta.emissions_saved}")
+            user.emissions_saved += ta.emissions_saved
+            user.money_saved += ta.money_saved
+            db.add(user)
+
             tcs.append(
                 seed_task_completion(
                     db,

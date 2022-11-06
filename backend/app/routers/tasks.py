@@ -55,7 +55,7 @@ async def post_complete_task(
     db : Session = Depends(get_db),
     user : TokenUser = Depends(credential_check)  
 ):
-
+    # TODO TEST
     task_activity = db.query(TaskActivity).filter(TaskActivity.id == task_activity_id).one_or_none()
     if task_activity == None:
         raise NOT_FOUND_EXCEPTION
@@ -65,6 +65,15 @@ async def post_complete_task(
         task_id = task_activity.task.id,
         user_id = user.id
     )
+
+    usr = db.query(User).filter(User.id == user.id).one_or_none()
+
+    if user == None:
+        raise NOT_FOUND_EXCEPTION
+
+    usr.emissions_saved += task_activity.emissions_saved
+    usr.money_saved += task_activity.money_saved
+    db.add(usr)
 
     return save_model(db,tc)
 

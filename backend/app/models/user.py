@@ -30,7 +30,6 @@ class User(Base):
         "TaskCompletion", back_populates="user", primaryjoin="User.id == TaskCompletion.user_id"
     )
 
-
 class UserIn(BaseModel):
     username: str
 
