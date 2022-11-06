@@ -30,7 +30,7 @@ export const TaskListView = ({ currentView }: TaskListViewProps) => {
           Swipe To Complete Or Pass
         </ListTitle>
         {tasks.length !== 0 &&
-          tasks.map((task) => (
+          tasks.slice(0,3).map((task) => (
             <div>
               <TaskItem
                 removeTask={removeTask}
@@ -103,4 +103,6 @@ const TaskListContainer = styled.section`
   overflow-x: hidden;
   padding-top: 0vh;
   margin-top: -25vh;
+  margin-bottom: 10vh;
+  transition: 1s;
 `;
