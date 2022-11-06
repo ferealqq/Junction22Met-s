@@ -1,14 +1,14 @@
 import styled from "styled-components";
 import { ForestView } from "./components/ForestView";
-import { useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { HomeView } from "./components/HomeView";
 import { StatsView } from "./components/StatsView";
 import { TaskListView } from "./components/TaskListView";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { TaskPage } from "./components/TaskPage";
+import { Login } from "./components/Login";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useWorldModelStore } from "./index";
+import { useTaskStore, useUserInfoStore, useWorldModelStore } from "./index";
 // import { QueryClient, QueryClientProvider } from 'react-query';
 
 interface BGprops {
@@ -17,7 +17,7 @@ interface BGprops {
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
-  { path: "/tasks", element: <TaskPage /> },
+  { path: "/login", element: <Login /> },
 ]);
 
 function App() {
@@ -25,8 +25,15 @@ function App() {
 }
 
 function Home() {
+  const fetchUserInfo = useUserInfoStore((state: any) => state.fetchUser);
+  const fetchTasks = useTaskStore((state: any) => state.fetchTasks);
+  useEffect(() => {
+    fetchUserInfo("1");
+    fetchTasks();
+  }, []);
+
   const unsub3 = useWorldModelStore.subscribe(
-    (state: any) => state.modelNumber,
+    (state: any) => state.personalModelNumber,
     (num: any, previousNum: any) =>
       num > previousNum &&
       toast.success("Great job! You just decreased your ...", {
@@ -49,9 +56,9 @@ function Home() {
 
   return (
     <MainView onScroll={handleScroll}>
-      <ToastContainer/>
+      <ToastContainer />
       <StatsView />
-      <HomeView currentView={currentView}/>
+      <HomeView currentView={currentView} />
       <TaskListView currentView={currentView} />
       <ForestView currentView={currentView} />
 

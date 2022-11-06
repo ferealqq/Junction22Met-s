@@ -1,11 +1,9 @@
 import styled from "styled-components";
-import { useState } from "react";
-import { Task } from "../types/tasks";
-import { tasksMockup } from "../data/tasksMockup";
+import { TaskActivity } from "../types/tasks";
 import { TaskItem } from "./TaskItem";
 import { Colors } from "../styles/colors";
 import { TitleThree } from "./text";
-import { useWorldModelStore } from "../index";
+import { useTaskStore, useWorldModelStore } from "../index";
 
 interface TaskListViewProps {
   currentView: string;
@@ -16,36 +14,55 @@ interface TitleProps {
 }
 
 export const TaskListView = ({ currentView }: TaskListViewProps) => {
-  const [tasks, setTasks] = useState<Task[]>(tasksMockup);
-  const decrease = useWorldModelStore((state: any) => state.decreasePopulation);
-  const increase = useWorldModelStore((state: any) => state.increasePopulation);
+  const tasks = useTaskStore((state: any) => state.tasks);
+  const setTasks = useTaskStore((state: any) => state.setTasks);
+
+  const isCommunityWorld = useWorldModelStore(
+    (state: any) => state.isCommunityWorld
+  );
+  const decreasePersonal = useWorldModelStore(
+    (state: any) => state.decreasePersonalPopulation
+  );
+  const increasePersonal = useWorldModelStore(
+    (state: any) => state.increasePersonalPopulation
+  );
+  const increaseCommunity = useWorldModelStore(
+    (state: any) => state.increaseCommunityPopulation
+  );
+  const decreaseCommunity = useWorldModelStore(
+    (state: any) => state.decreaseCommunityPopulation
+  );
   const removeTask = (id: string) => {
-    setTasks(tasks.filter((task) => task.id !== id));
+    setTasks(tasks.filter((task: TaskActivity) => task.id !== id));
   };
 
   return (
     <TaskListContainer>
       <Content>
-        <ListTitle active={currentView == "tasks"}>
+        <ListTitle active={currentView === "tasks"}>
           Swipe To Complete Or Pass
         </ListTitle>
         {tasks.length !== 0 &&
-          tasks.slice(0,3).map((task) => (
-            <div>
+          tasks
+            .slice(0, 3)
+            .map((task: TaskActivity) => (
               <TaskItem
                 removeTask={removeTask}
                 key={task.id}
                 data={task}
-                increase={increase}
-                decrease={decrease}
+                increase={
+                  isCommunityWorld ? increaseCommunity : increasePersonal
+                }
+                decrease={
+                  isCommunityWorld ? decreaseCommunity : decreasePersonal
+                }
               />
-            </div>
-          ))}
+            ))}
 
         {tasks.length === 0 && <NoTasks>No tasks available...</NoTasks>}
 
         {
-        //<AllTasksButton href={`tasks`}>All Tasks</AllTasksButton>
+          //<AllTasksButton href={`tasks`}>All Tasks</AllTasksButton>
         }
       </Content>
     </TaskListContainer>
@@ -96,8 +113,6 @@ const Content = styled.div`
 
 const TaskListContainer = styled.section`
   width: 100%;
-  background: green opacity(30%);
-  //height: 72vh;
   position: relative;
   scroll-snap-align: center;
   overflow-x: hidden;
