@@ -14,6 +14,14 @@ from app.models.user import User, UserIn, UserOut
 router = APIRouter()
 
 
+@router.get("/{user_id}")
+async def get_user(user_id: str, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.id == user_id).one_or_none()
+    if user == None:
+        raise NOT_FOUND_EXCEPTION
+    return user
+
+
 @router.get("/", response_model=List[UserOut])
 async def get_users(
     search: Optional[str] = None,
@@ -28,19 +36,21 @@ async def get_users(
 
     return db_result.limit(limit).offset(skip).all()
 
+
 class JwtResponse(BaseModel):
     jwt: str
+
 
 @router.post(
     "/login",
     response_model=JwtResponse,
 )
 def post_user(user: UserIn, db: Session = Depends(get_db)):
-    
+
     model = db.query(User).filter(User.username == user.username).one_or_none()
     if model == None:
         model = save_model(db, User(username=user.username))
-    
+
     token = JWTService().encode({"id": str(model.id)})
 
-    return {"jwt":str(token)}
+    return {"jwt": str(token)}
