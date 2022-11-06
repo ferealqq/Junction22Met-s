@@ -16,7 +16,7 @@ router = APIRouter()
 
 @router.get("/{user_id}")
 async def get_user(user_id: str, db: Session = Depends(get_db)):
-    user = db.query(User).filter(User.id == user_id).one_or_none()
+    user = db.query(User).filter(str(User.id) == user_id).one_or_none()
     return user
 
 
