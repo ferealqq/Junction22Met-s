@@ -1,30 +1,31 @@
-import styled from "styled-components";
-import { Colors } from "../styles/colors";
-import { Body, Headline, SmallData, TitleOne } from "./text";
-import backArrow from "../assets/images/backArrow.png";
-import { useWorldModelStore } from "../index";
+import styled from "styled-components"
+import { useEffect, useState } from "react"
+import { Colors } from "../styles/colors"
+import { Body, Headline, SmallData, TitleOne } from "./text"
+import backArrow from '../assets/images/backArrow.png'
+import { CreateCommunity } from "./CreateCommunity"
 
 interface CommunityHubProps {
-  open: boolean;
-  closeCommunity: () => void;
+    open: boolean,
+    closeCommunity: () => void,
+    createForest: () => void
 }
 
 interface ContainerProps {
   open: boolean;
 }
 
-export const CommunityHub = ({ open, closeCommunity }: CommunityHubProps) => {
-  const setCommunityForest = useWorldModelStore(
-    (state: any) => state.setCommunityWorld
-  );
+export const CommunityHub = ({ open, closeCommunity, createForest }: CommunityHubProps) => {
+    const [createStatus, setCreateStatus] = useState(false)
 
-  const openCommunityForest = () => {
-    setCommunityForest();
-    closeCommunity();
-  };
-  const createNew = () => {
-    console.log("Create new forest");
-  };
+    useEffect(() => {
+        console.log(createStatus)
+    }, [createStatus])
+
+    const createForestAndClose = () => {
+        setCreateStatus(false)
+        createForest()
+    }
 
   return (
     <Container open={open}>
@@ -34,63 +35,63 @@ export const CommunityHub = ({ open, closeCommunity }: CommunityHubProps) => {
         <Space />
       </TopBar>
 
-      <Community openCommunityForest={openCommunityForest} />
-      <Community openCommunityForest={openCommunityForest} />
+      <Community/>
+      <Community/>
 
-      <AddNew onClick={createNew}>
-        <AddNewText>Plant New Forest</AddNewText>
-      </AddNew>
-    </Container>
-  );
-};
+            <AddNew onClick={() => setCreateStatus(true)}>
+                <AddNewText>Plant New Forest</AddNewText>
+            </AddNew>
 
-interface CommunityProps {
-  openCommunityForest: () => void;
+            <CreateCommunity createForest={createForestAndClose} open={createStatus}/>
+        </Container>
+    )
 }
 
-const Community = (props: CommunityProps) => {
-  return (
-    <SingleCommunity>
-      <Row>
-        <TextBox>
-          <SubTitle>Community Forest</SubTitle>
-          <SmallTitle>Pekka, Aleksi, Jasse</SmallTitle>
-        </TextBox>
-        <HalfBox>
-          <InfoText>12 mil €</InfoText>
-          <Desc>total saved</Desc>
-        </HalfBox>
-      </Row>
-      <Row>
-        <Box>
-          <InfoText>3</InfoText>
-          <Desc>players</Desc>
-        </Box>
-        <Box>
-          <InfoText>17 days</InfoText>
-          <Desc>since seeding</Desc>
-        </Box>
-        <CTA>
-          <InfoText onClick={props.openCommunityForest}>Enter Woods</InfoText>
-        </CTA>
-      </Row>
-    </SingleCommunity>
-  );
-};
+
+const Community = () => {
+    return (
+        <SingleCommunity>
+                <Row>
+                    <TextBox>
+                        <SubTitle>Community Forest</SubTitle>
+                        <SmallTitle>Pekka, Aleksi, Jasse</SmallTitle>
+                    </TextBox>
+                    <HalfBox>
+                        <InfoText>12 mil €</InfoText>
+                        <Desc>total saved</Desc>
+                    </HalfBox>
+                </Row>
+                <Row>
+                    <Box>
+                        <InfoText>3</InfoText>
+                        <Desc>players</Desc>
+                    </Box>
+                    <Box>
+                        <InfoText>17 days</InfoText>
+                        <Desc>since seeding</Desc>
+                    </Box>
+                    <CTA>
+                        <InfoText>Enter Woods</InfoText> 
+                    </CTA>
+                </Row>
+            </SingleCommunity>
+    )
+}
 
 const AddNewText = styled(Body)`
   color: ${Colors.sins};
 `;
 
 const AddNew = styled.button`
-  background: ${Colors.snow};
-  margin-top: 32px;
-  padding: 1rem 1.5rem;
-  border-radius: 8px;
-  outline: none;
-  border: none;
-  transition: 0.1s;
-  filter: drop-shadow(0px 4px 0px rgba(0, 0, 0, 0.25));
+    background: ${Colors.snow};
+    margin-top: 32px;
+    padding: 1rem 1.5rem; 
+    border-radius: 8px;
+    outline: none;
+    border: none;
+    transition: 0.1s;
+    z-index: 9;
+    filter: drop-shadow(0px 4px 0px rgba(0, 0, 0, 0.25));
 
   &:active {
     filter: drop-shadow(0px 0px 0px rgba(0, 0, 0, 0.25));
