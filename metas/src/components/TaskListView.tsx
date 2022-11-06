@@ -30,7 +30,7 @@ export const TaskListView = ({ currentView }: TaskListViewProps) => {
           Swipe To Complete Or Pass
         </ListTitle>
         {tasks.length !== 0 &&
-          tasks.slice(0, 3).map((task) => (
+          tasks.map((task) => (
             <div>
               <TaskItem
                 removeTask={removeTask}
@@ -44,7 +44,9 @@ export const TaskListView = ({ currentView }: TaskListViewProps) => {
 
         {tasks.length === 0 && <NoTasks>No tasks available...</NoTasks>}
 
-        <AllTasksButton href={`tasks`}>All Tasks</AllTasksButton>
+        {
+        //<AllTasksButton href={`tasks`}>All Tasks</AllTasksButton>
+        }
       </Content>
     </TaskListContainer>
   );
