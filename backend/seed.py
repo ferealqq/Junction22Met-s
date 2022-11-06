@@ -27,14 +27,14 @@ users = [
   seed_user(db, "gcp_cron_trigger"),
 ]
 
-pyykinpesu = seed_task(db, "pyykinpesu", "pyykinpesu", 1.2)
-astianpesukone = seed_task(db, "astianpesukone", "astianpesukone", 1)
-lappari = seed_task(db, "lappari", "lappari", 0.12)
-lamput = seed_task(db, "lamput", "lamput", 0.05)
-kiuas = seed_task(db, "kiuas", "kiuas", 10)
-lounas = seed_task(db, "lounas", "lounas", 1.1)
-dinner = seed_task(db, "dinner", "dinner", 1.1)
-tesla = seed_task(db, "tesla", "tesla", 80)
+pyykinpesu = seed_task(db, "Washing clothes", "You should program your washing machine to run at this time to optimise savings and minimize your carbon footprint", 1.2)
+astianpesukone = seed_task(db, "Washing Dishes", "You should program your dishwasher to run at this time to optimise savings and minimize your carbon footprint", 1)
+lappari = seed_task(db, "Laptop charging", "An energy consumption peak is coming! Don't charge your laptop for the next hour to save on energy.", 0.12)
+lamput = seed_task(db, "Turn lamps off", "An energy consumption peak is coming and it's still sunny outside, save energy by turning the ligths of.", 0.05)
+kiuas = seed_task(db, "Sauna", "This day has higher energy prices and consumption than unsual. You should avoid going to the sauna today.", 10)
+lounas = seed_task(db, "Lunch", "We have determined that this time is the most efficient time slot to take a lunch.", 1.1)
+dinner = seed_task(db, "Dinner", "We have determined that this time is the most efficient time slot to take a lunch.", 1.1)
+tesla = seed_task(db, "Electric vehicles charging", "Charge your electric vehicle at this time to get massive savings and you'll also have a big impact on your carbon footprint.", 80)
 
 now = datetime.datetime.now()
 today = datetime.date.today()
