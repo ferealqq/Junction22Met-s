@@ -16,7 +16,8 @@ export const useTaskStore = create(
   subscribeWithSelector((set) => ({
     tasks: [],
     fetchTasks: async () => {
-      const tasks = await fetchTasks();
+      const token = (useUserInfoStore.getState() as any).token;
+      const tasks = await fetchTasks(token.jwt);
       set({ tasks });
     },
     setTasks: (tasks: any) => set({ tasks }),
@@ -26,17 +27,19 @@ export const useCommunityStore = create(
   subscribeWithSelector((set) => ({
     communityInfo: {},
     fetchCommunity: async (communityId: string) => {
-      const userInfo = await fetchCommunityData(communityId);
+      const token = (useUserInfoStore.getState() as any).token;
+      const userInfo = await fetchCommunityData(communityId, token.jwt);
       set({ userInfo });
     },
   }))
 );
 export const useUserInfoStore = create(
-  subscribeWithSelector((set) => ({
+  subscribeWithSelector((set, get) => ({
     token: "",
     userInfo: { id: "", username: "", emission_saved: 0 },
     fetchUser: async (userId: string) => {
-      const userInfo = await fetchUserData(userId);
+      const tok = (get() as any).token;
+      const userInfo = await fetchUserData(tok.jwt);
       set({ userInfo });
     },
     setToken: (token: string) => set({ token }),

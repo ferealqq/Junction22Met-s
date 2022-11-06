@@ -14,19 +14,21 @@ import {
   Legend,
 } from "chart.js";
 import { fetchEmissionAnalytics, fetchSpendingAnalytics } from "../data/api";
+import { useUserInfoStore } from "..";
 
 const barColors = [Colors.base, Colors.sins, Colors.mdma];
 
 export const StatsView = () => {
+  const token = useUserInfoStore((state: any) => state.token);
   const [emissionData, setEmissionData] = useState<any[] | null>(null);
   const [spendingData, setSpendingData] = useState<any[] | null>(null);
   const [success, setSuccess] = useState(false);
   useEffect(() => {
-    fetchEmissionAnalytics().then((data: any) => {
+    fetchEmissionAnalytics(token.jwt).then((data: any) => {
       setEmissionData(data);
       setSuccess(true);
     });
-    fetchSpendingAnalytics().then((data: any) => {
+    fetchSpendingAnalytics(token.jwt).then((data: any) => {
       setSpendingData(data);
       setSuccess(true);
     });
