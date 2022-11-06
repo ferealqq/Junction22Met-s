@@ -17,7 +17,7 @@ interface BGprops {
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
-  { path: "/tasks", element: <TaskPage /> },
+  { path: "/login", element: <TaskPage /> },
 ]);
 
 function App() {
