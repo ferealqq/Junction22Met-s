@@ -20,10 +20,16 @@ export const WrapperForDiscs = () => {
     shallow
   );
   // TODO: animation & toast
+  if (!isCommunityWorld && personalModelNumber < 1) {
+    return <Medium1Disc rotationSpeed={0.3} />;
+  }
   if (!isCommunityWorld && personalModelNumber === 1) {
     return <Medium1Disc rotationSpeed={0.3} />;
   }
-  if (!isCommunityWorld && personalModelNumber === 2) {
+  if (
+    !isCommunityWorld &&
+    (personalModelNumber === 2 || personalModelNumber > 2)
+  ) {
     return <Large1Disc rotationSpeed={0.3} />;
   }
   if (isCommunityWorld && communityModelNumber === 1) {
@@ -31,6 +37,10 @@ export const WrapperForDiscs = () => {
   }
   if (isCommunityWorld && communityModelNumber === 2) {
     return <CommunityFull rotationSpeed={0.1} />;
+  } else if (isCommunityWorld && communityModelNumber > 2) {
+    return <CommunityFull rotationSpeed={0.3} />;
+  } else if (isCommunityWorld && communityModelNumber < 1) {
+    return <CommunitySmall rotationSpeed={0.1} />;
   }
   return <Large1Disc rotationSpeed={0.3} />;
 };
