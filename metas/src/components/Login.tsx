@@ -13,7 +13,7 @@ export const Login = () => {
   const handleLogin = async (username: string) => {
     const token = await loginUser(username);
     setToken(token);
-    navigate("/");
+    navigate("/app");
   };
 
   return (
