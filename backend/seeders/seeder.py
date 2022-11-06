@@ -34,6 +34,7 @@ def seed_task_activity(
     starts_at=date.today(), 
     ends_at=date.today() + timedelta(days=1),
     emissions_saved=fake.pyint(),
+    money_saved=random.uniform(0.01, 0.19),
     task_id=None
 ) -> TaskActivity:
     if task_id == None:
@@ -41,14 +42,16 @@ def seed_task_activity(
             starts_at = starts_at,
             ends_at = ends_at,
             task_id = seed_task(db).id, 
-            emissions_saved = emissions_saved
+            emissions_saved = emissions_saved,
+            money_saved = money_saved
         )
     else:
         ta = TaskActivity(
             starts_at = starts_at,
             ends_at = ends_at,
             task_id = task_id,
-            emissions_saved = emissions_saved
+            emissions_saved = emissions_saved,
+            money_saved = money_saved
         )
     return save_model(db,ta)
 
@@ -87,6 +90,7 @@ def seed_analytics(db, user : User, tasks = None):
                     starts_at=date.today() + timedelta(days=i) - timedelta(hours=j+2),
                     ends_at=date.today() + timedelta(days=i) - timedelta(hours=j+2) - timedelta(minutes=i*random.randint(4,23)),
                     emissions_saved = random.randint(13,100),
+                    money_saved = random.uniform(0.01, 0.29),
                     task_id= tasks[random.randint(0,len(tasks)-1)].id
                 )
             )

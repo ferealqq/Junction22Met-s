@@ -13,6 +13,7 @@ class User(Base):
     id = sa.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     username = sa.Column(sa.String, nullable=False)
     emissions_saved = sa.Column(sa.DECIMAL, nullable=False, default=0.0)
+    money_saved = sa.Column(sa.DECIMAL, nullable=False, default=0.0)
     created_at = sa.Column(
         sa.DateTime,
         nullable=True,
