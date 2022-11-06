@@ -33,7 +33,7 @@ auth_scheme = HTTPBearer()
 
 
 class TokenUser(BaseModel):
-    id: uuid.UUID
+    id: str
 
 def credential_check(
     authorization: HTTPAuthorizationCredentials = Depends(auth_scheme),

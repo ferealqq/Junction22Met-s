@@ -2,11 +2,21 @@
 
 from fastapi import Depends
 from app.db.deps import get_db
+
 from seeders.seeder import seed_analytics, seed_task, seed_task_activity, seed_user, seed_task_completion
 import datetime
 
 # db = Depends(get_db)
 db = next(get_db())
+def vanha():
+  users = [
+    pekka := seed_user(db, "pekka"),
+    seed_user(db, "jasse"),
+    seed_user(db, "jaakko"),
+    seed_user(db, "aleksi"),
+    seed_user(db, "ilkka"),
+    seed_user(db, "gcp_cron_trigger"),
+  ]
 
 users = [
   pekka := seed_user(db, "pekka"),
@@ -133,5 +143,3 @@ seed_task_completion(db, user_id=aleksi.id, task_id=lounas.id, task_activity_id=
 #   tas.append(seed_task_activity(db,task_id=task.id))
 
 # seed_analytics(db, pekka)
-
-print("seed analytics")

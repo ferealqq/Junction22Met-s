@@ -11,6 +11,6 @@ drop_everything(engine)
 import os
 os.system('poetry run alembic upgrade head')
 
-time.sleep(1)
+# time.sleep(3)
 
 import seed

@@ -74,6 +74,15 @@ async def post_complete_task(
     usr.money_saved += task_activity.money_saved
     db.add(usr)
 
+    usr = db.query(User).filter(User.id == user.id).one_or_none()
+
+    if user == None:
+        raise NOT_FOUND_EXCEPTION
+
+    usr.emissions_saved += task_activity.emissions_saved
+    usr.money_saved += task_activity.money_saved
+    db.add(usr)
+
     return save_model(db,tc)
 
 @router.get("/user/completed", response_model=List[TaskActivityOut])

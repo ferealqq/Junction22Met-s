@@ -4,6 +4,7 @@ from app import exceptions
 from app.routers.user import router as user_router
 from app.routers.tasks import router as tasks_router
 from app.routers.peaks import router as peaks_router
+from app.routers.community import router as community_router
 from app.settings import get_settings
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -29,6 +30,7 @@ app.add_middleware(
 app.include_router(user_router, prefix="/api/user")
 app.include_router(tasks_router, prefix="/api/tasks")
 app.include_router(peaks_router, prefix="/api/peaks")
+app.include_router(community_router, prefix="/api/communities")
 
 app.add_exception_handler(
     DatabaseValidationError,

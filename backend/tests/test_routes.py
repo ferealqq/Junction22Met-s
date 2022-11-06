@@ -39,7 +39,7 @@ def test_get_user_analytics(db: Session, auth_client: TestClient):
 
     auth_client = use_user(auth_client, user.id)
 
-    res = auth_client.get(f"/api/tasks/user/analytics")
+    res = auth_client.get(f"/api/tasks/emission/analytics")
     data = res.json()
     assert res.status_code == 200
     
