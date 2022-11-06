@@ -10,7 +10,29 @@ interface HomeViewProps {
 }
 
 export const HomeView = ({ currentView }: HomeViewProps) => {
-  const [user, setUser] = useState({ name: "Jaakko" });
+  const [users, setUsers] = useState([
+    {
+      id: "3fa85f64-5737-4562-b3fc-2c963f66afa6",
+      username: "Jaakko",
+      emissions_saved: 6969,
+      created_at: new Date("2022-11-06T00:54:54.178Z"),
+      updated_at: new Date("2022-11-06T00:54:54.178Z"),
+    },
+    {
+      id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      username: "Pekka",
+      emissions_saved: 2200,
+      created_at: new Date("2022-11-06T00:53:54.178Z"),
+      updated_at: new Date("2022-11-06T00:54:54.178Z"),
+    },
+    {
+      id: "3fa85f64-3717-4562-b3fc-2c963f66afa6",
+      username: "Juuso",
+      emissions_saved: 200,
+      created_at: new Date("2022-11-06T00:52:54.178Z"),
+      updated_at: new Date("2022-11-06T00:54:54.178Z"),
+    }
+  ]);
   const isCommunityWorld = useWorldModelStore(
     (state: any) => state.isCommunityWorld
   );
@@ -26,7 +48,9 @@ export const HomeView = ({ currentView }: HomeViewProps) => {
           <SubTitle>
             {isCommunityWorld ? "Community Forest" : "Private Forest"}
           </SubTitle>
-          <Title>{user.name}</Title>
+          <Title>{isCommunityWorld ? users.map((user, index) => (
+            <>{user.username}{index !== (users.length - 1) && ', '}</>
+          )): <>{users[0].username}</>}</Title>
         </Titles>
         <CommunityButton
           active={currentView == "home"}
