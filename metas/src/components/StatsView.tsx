@@ -13,17 +13,22 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { fetchAnalytics } from "../data/api";
+import { fetchEmissionAnalytics, fetchSpendingAnalytics } from "../data/api";
 
 const barColors = [Colors.base, Colors.sins, Colors.mdma];
 
 export const StatsView = () => {
-  const [data, setData] = useState<any[] | null>(null);
-  const [success, setSuccesss] = useState(false);
+  const [emissionData, setEmissionData] = useState<any[] | null>(null);
+  const [spendingData, setSpendingData] = useState<any[] | null>(null);
+  const [success, setSuccess] = useState(false);
   useEffect(() => {
-    fetchAnalytics().then((data: any) => {
-      setData(data);
-      setSuccesss(true);
+    fetchEmissionAnalytics().then((data: any) => {
+      setEmissionData(data);
+      setSuccess(true);
+    });
+    fetchSpendingAnalytics().then((data: any) => {
+      setSpendingData(data);
+      setSuccess(true);
     });
   }, []);
   ChartJS.register(
@@ -47,7 +52,7 @@ export const StatsView = () => {
         </WOWBody>
       </StatsText>
       <Statistics>
-        {success && data && data?.length > 0 ? (
+        {success && emissionData && emissionData?.length > 0 ? (
           <Bar
             options={{
               responsive: true,
@@ -81,10 +86,10 @@ export const StatsView = () => {
               },
             }}
             data={{
-              labels: data.map((item) => format(new Date(item["date"]), "EE")),
+              labels: emissionData.map((item) => format(new Date(item["date"]), "EE")),
               datasets: [
                 {
-                  data: data.map((item) => parseInt(item["emissions_saved"])),
+                  data: emissionData.map((item) => parseInt(item["emissions_saved"])),
                   backgroundColor: [
                     Colors.sins,
                     Colors.base,
@@ -114,7 +119,7 @@ export const StatsView = () => {
         </WOWBody>
       </StatsText>
       <Statistics>
-        {success && data && data?.length > 0 ? (
+        {success && spendingData && spendingData?.length > 0 ? (
           <Bar
             options={{
               responsive: true,
@@ -145,13 +150,13 @@ export const StatsView = () => {
                     padding: 30099,
                   },
                 },
-              },
+              }
             }}
             data={{
-              labels: data.map((item) => format(new Date(item["date"]), "EE")),
+              labels: spendingData.map((item) => format(new Date(item["date"]), "EE")),
               datasets: [
                 {
-                  data: data.map((item) => parseInt(item["emissions_saved"])),
+                  data: spendingData.map((item) => parseInt(item["emissions_saved"])),
                   backgroundColor: [
                     Colors.sins,
                     Colors.base,
@@ -172,6 +177,74 @@ export const StatsView = () => {
       </Statistics>
       </StatWrapper>
 
+        <StatsText>
+          <WOWW>Wow!</WOWW>
+          <WOWBody>
+            You have saved up to 1 million bitcoins this week compared to
+            average
+          </WOWBody>
+        </StatsText>
+        <Statistics>
+          {success && spendingData && spendingData?.length > 0 ? (
+            <Bar
+              options={{
+                responsive: true,
+                plugins: {
+                  legend: {
+                    display: false,
+                  },
+                },
+                elements: {
+                  line: {
+                    fill: false,
+                    stepped: false,
+                  },
+                },
+                scales: {
+                  x: {
+                    grid: {
+                      display: false,
+                      drawBorder: false,
+                    },
+                  },
+                  y: {
+                    grid: {
+                      display: false,
+                      drawBorder: false,
+                    },
+                    title: {
+                      padding: 30099,
+                    },
+                  },
+                },
+              }}
+              data={{
+                labels: spendingData.map((item) =>
+                  format(new Date(item["date"]), "EE")
+                ),
+                datasets: [
+                  {
+                    data: spendingData.map((item) =>
+                      parseInt(item["money_saved"])
+                    ),
+                    backgroundColor: [
+                      Colors.sins,
+                      Colors.base,
+                      Colors.mdma,
+                      Colors.sins,
+                      Colors.base,
+                      Colors.mdma,
+                      Colors.sins,
+                    ],
+                    maxBarThickness: 25,
+                  },
+                ],
+              }}
+            />
+          ) : (
+            "Loading..."
+          )}
+        </Statistics>
       </StatisticsWrapper>
       </Container>
   );
