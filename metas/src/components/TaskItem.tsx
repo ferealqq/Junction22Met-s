@@ -24,6 +24,19 @@ export const TaskItem = ({
   const [color, setColor] = useState<string>("#FFF");
   const draggableBox = useRef();
 
+  const [usersDone, setUsersDone] = useState([
+    {
+      id: "3fa85f64-5737-4562-b3fc-2c963f66afa6",
+      username: "Jasse",
+      color: 'orange'
+    },
+    {
+      id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      username: "Pekka",
+      color: 'violet'  
+    }
+  ]);
+
   const handleDrag = (event: any) => {
     //@ts-ignore
     const xChange = draggableBox.current.getBoundingClientRect().x;
@@ -54,7 +67,6 @@ export const TaskItem = ({
   const handleStop = (event: any) => {
     //@ts-ignore
     const xChange = draggableBox.current.getBoundingClientRect().x;
-    console.log(xChange);
 
     if (xChange < -180) {
       //Task deleted
@@ -101,10 +113,36 @@ export const TaskItem = ({
             <EmissionUnit>of CO2</EmissionUnit>
           </TaskItemEmission>
         </TaskContentRight>
+        <CommunityDoneBalloons>
+          {usersDone.map((user) => (
+            <CommunityDoneBalloon color={user.color}/>
+          ))}          
+        </CommunityDoneBalloons>
       </TaskItemContainer>
     </Draggable>
   );
 };
+
+interface CommunityDoneBalloonProps {
+  color: string;
+}
+
+const CommunityDoneBalloon = styled.div<CommunityDoneBalloonProps>`
+  width: 12px;
+  height: 12px;
+  margin-left: 8px;
+  border-radius: 50%;
+  background: ${(props) => 
+    props.color === 'violet' ? Colors.violet : Colors.orange};
+`;
+
+const CommunityDoneBalloons = styled.div`
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  justify-content: space-between;
+`;
 
 const EmissionUnit = styled(SmallData)`
   color: ${Colors.mdma};
@@ -163,4 +201,5 @@ const TaskItemContainer = styled.div<TaskBoxProps>`
   display: flex;
   align-items: center;
   transition: 0.08s linear;
+  min-height: 164px;
 `;
