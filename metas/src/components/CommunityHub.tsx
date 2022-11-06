@@ -1,29 +1,42 @@
 import styled from "styled-components";
+import { useEffect, useState } from "react";
 import { Colors } from "../styles/colors";
 import { Body, Headline, SmallData, TitleOne } from "./text";
 import backArrow from "../assets/images/backArrow.png";
+import { CreateCommunity } from "./CreateCommunity";
 import { useWorldModelStore } from "../index";
 
 interface CommunityHubProps {
   open: boolean;
   closeCommunity: () => void;
+  createForest: () => void;
 }
 
 interface ContainerProps {
   open: boolean;
 }
 
-export const CommunityHub = ({ open, closeCommunity }: CommunityHubProps) => {
+export const CommunityHub = ({
+  open,
+  closeCommunity,
+  createForest,
+}: CommunityHubProps) => {
   const setCommunityForest = useWorldModelStore(
     (state: any) => state.setCommunityWorld
   );
-
   const openCommunityForest = () => {
     setCommunityForest();
     closeCommunity();
   };
-  const createNew = () => {
-    console.log("Create new forest");
+  const [createStatus, setCreateStatus] = useState(false);
+
+  useEffect(() => {
+    console.log(createStatus);
+  }, [createStatus]);
+
+  const createForestAndClose = () => {
+    setCreateStatus(false);
+    createForest();
   };
 
   return (
@@ -37,18 +50,19 @@ export const CommunityHub = ({ open, closeCommunity }: CommunityHubProps) => {
       <Community openCommunityForest={openCommunityForest} />
       <Community openCommunityForest={openCommunityForest} />
 
-      <AddNew onClick={createNew}>
+      <AddNew onClick={() => setCreateStatus(true)}>
         <AddNewText>Plant New Forest</AddNewText>
       </AddNew>
+
+      <CreateCommunity
+        createForest={createForestAndClose}
+        open={createStatus}
+      />
     </Container>
   );
 };
 
-interface CommunityProps {
-  openCommunityForest: () => void;
-}
-
-const Community = (props: CommunityProps) => {
+const Community = (props: any) => {
   return (
     <SingleCommunity>
       <Row>
@@ -90,6 +104,7 @@ const AddNew = styled.button`
   outline: none;
   border: none;
   transition: 0.1s;
+  z-index: 9;
   filter: drop-shadow(0px 4px 0px rgba(0, 0, 0, 0.25));
 
   &:active {

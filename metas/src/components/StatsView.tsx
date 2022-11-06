@@ -22,7 +22,6 @@ export const StatsView = () => {
   const [success, setSuccesss] = useState(false);
   useEffect(() => {
     fetchAnalytics().then((data: any) => {
-      console.log(data);
       setData(data);
       setSuccesss(true);
     });
