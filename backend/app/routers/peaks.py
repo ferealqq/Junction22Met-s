@@ -123,7 +123,7 @@ async def post_calculate_activites(
     lunchSavings = -(float(df.iloc[worstTimeForLunchIndex]['PriceWithTax']) - float(df.iloc[bestTimeForLunchIndex]['PriceWithTax']))
     startTime = bestTimeForLunch['time']
     endTime = bestTimeForLunch['time'] + datetime.timedelta(hours=1)
-    lunchTask = tasks[tasks['title'] == 'lounas']
+    lunchTask = tasks[tasks['title'] == 'Lunch']
     lunchEmissionSaving = (lunchTask.iloc[0]['emission'] * 47) * ((worstTimeForLunch['value'] - bestTimeForLunch['value']) / (worstTimeForLunch['value']))
     db.add(TaskActivity(starts_at=startTime, ends_at=endTime, task_id=lunchTask.iloc[0]['id'], money_saved=(float(lunchSavings)*float(lunchTask['emission'])), emissions_saved=(lunchEmissionSaving)))
     # create dinner activity
@@ -142,16 +142,16 @@ async def post_calculate_activites(
 
     startTime = bestTimeForDinner['time']
     endTime = bestTimeForDinner['time'] + datetime.timedelta(hours=1)
-    dinnerTask = tasks[tasks['title'] == 'dinner']
+    dinnerTask = tasks[tasks['title'] == 'Dinner']
     dinnerEmissionSaving = (dinnerTask.iloc[0]['emission'] * 47) * ((worstTimeForDinner['value'] - bestTimeForDinner['value']) / (worstTimeForDinner['value']))
     db.add(TaskActivity(starts_at=startTime, ends_at=endTime, task_id=dinnerTask.iloc[0]['id'], money_saved=(float(dinnerSavings)*float(dinnerTask['emission'])), emissions_saved=dinnerEmissionSaving))
 
-    lappariTask = tasks[tasks['title'] == 'lappari']
-    lamputTask = tasks[tasks['title'] == 'lamput']
-    kiuasTask = tasks[tasks['title'] == 'kiuas']
-    pyykinpesukoneTask = tasks[tasks['title'] == 'pyykinpesu']
-    astianpesukoneTask = tasks[tasks['title'] == 'astianpesukone']
-    teslaTask = tasks[tasks['title'] == 'tesla']
+    lappariTask = tasks[tasks['title'] == 'Laptop charging']
+    lamputTask = tasks[tasks['title'] == 'Turn lamps off']
+    kiuasTask = tasks[tasks['title'] == 'Sauna']
+    pyykinpesukoneTask = tasks[tasks['title'] == 'Washing clothes']
+    astianpesukoneTask = tasks[tasks['title'] == 'Washing Dishes']
+    teslaTask = tasks[tasks['title'] == 'Electric vehicles charging']
     for i in range(len(peaks)):
         if peaks.iloc[i]['isPeak'] == True:
             startTime = peaks.iloc[i]['time']
