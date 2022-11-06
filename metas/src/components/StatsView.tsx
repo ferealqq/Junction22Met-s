@@ -177,76 +177,7 @@ export const StatsView = () => {
           "Loading..."
         )}
       </Statistics>
-      </StatWrapper>
-
-        <StatsText>
-          <WOWW>Wow!</WOWW>
-          <WOWBody>
-            You have saved up to 1 million bitcoins this week compared to
-            average
-          </WOWBody>
-        </StatsText>
-        <Statistics>
-          {success && spendingData && spendingData?.length > 0 ? (
-            <Bar
-              options={{
-                responsive: true,
-                plugins: {
-                  legend: {
-                    display: false,
-                  },
-                },
-                elements: {
-                  line: {
-                    fill: false,
-                    stepped: false,
-                  },
-                },
-                scales: {
-                  x: {
-                    grid: {
-                      display: false,
-                      drawBorder: false,
-                    },
-                  },
-                  y: {
-                    grid: {
-                      display: false,
-                      drawBorder: false,
-                    },
-                    title: {
-                      padding: 30099,
-                    },
-                  },
-                },
-              }}
-              data={{
-                labels: spendingData.map((item) =>
-                  format(new Date(item["date"]), "EE")
-                ),
-                datasets: [
-                  {
-                    data: spendingData.map((item) =>
-                      parseInt(item["money_saved"])
-                    ),
-                    backgroundColor: [
-                      Colors.sins,
-                      Colors.base,
-                      Colors.mdma,
-                      Colors.sins,
-                      Colors.base,
-                      Colors.mdma,
-                      Colors.sins,
-                    ],
-                    maxBarThickness: 25,
-                  },
-                ],
-              }}
-            />
-          ) : (
-            "Loading..."
-          )}
-        </Statistics>
+      </StatWrapper> 
       </StatisticsWrapper>
       </Container>
   );

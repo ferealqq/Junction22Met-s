@@ -19,6 +19,7 @@ export const useTaskStore = create(
       const token = (useUserInfoStore.getState() as any).token;
       const tasks = await fetchTasks(token.jwt);
       set({ tasks });
+      return Promise.resolve(tasks);
     },
     setTasks: (tasks: any) => set({ tasks }),
   }))
