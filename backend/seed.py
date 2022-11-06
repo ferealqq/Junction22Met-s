@@ -143,3 +143,5 @@ seed_task_completion(db, user_id=aleksi.id, task_id=lounas.id, task_activity_id=
 #   tas.append(seed_task_activity(db,task_id=task.id))
 
 # seed_analytics(db, pekka)
+
+print("Done!")
