@@ -34,6 +34,6 @@ export const sendCompleteTask = (id: string) => {
   return api.post(`tasks/complete/${id}`).then(({ data }) => data);
 };
 
-export const loginInUser = (username: string) => {
+export const loginUser = (username: string) => {
   return api.post("user/login", { username }).then(({ data }) => data);
-}
+};

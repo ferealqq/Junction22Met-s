@@ -33,11 +33,13 @@ export const useCommunityStore = create(
 );
 export const useUserInfoStore = create(
   subscribeWithSelector((set) => ({
+    token: "",
     userInfo: { id: "", username: "", emission_saved: 0 },
     fetchUser: async (userId: string) => {
       const userInfo = await fetchUserData(userId);
       set({ userInfo });
     },
+    setToken: (token: string) => set({ token }),
   }))
 );
 

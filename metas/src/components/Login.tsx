@@ -1,17 +1,30 @@
 import { useState } from "react";
 import { Colors } from "../styles/colors";
-import Image from '../assets/images/placeholder3D.png'
+import Image from "../assets/images/placeholder3D.png";
 import styled from "styled-components";
+import { loginUser } from "../data/api";
+import { useUserInfoStore } from "../index";
+import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
-  const [email, setEmail] = useState(""); 
-
+  const navigate = useNavigate();
+  const [username, setUsername] = useState("");
+  const setToken = useUserInfoStore((state: any) => state.setToken);
+  const handleLogin = async (username: string) => {
+    const token = await loginUser(username);
+    setToken(token);
+    navigate("/");
+  };
   return (
     <Container>
-      <BGImage src={Image}/>
+      <BGImage src={Image} />
       <Title>Aarn.io</Title>
-      <Input placeholder="Username here..." value={email} onChange={(event) => setEmail(event.target.value)}/>
-      <Button>Log In</Button>
+      <Input
+        placeholder="Username here..."
+        value={username}
+        onChange={(event) => setUsername(event.target.value)}
+      />
+      <Button onClick={() => handleLogin(username)}>Log In</Button>
       <Copyright>AARNIO ® 2022</Copyright>
     </Container>
   );
@@ -65,7 +78,7 @@ const Title = styled.h1`
 
 const Container = styled.div`
   height: 100vh;
-  background: linear-gradient(180deg, #9AB4A2 0%, #5C7564 100%);
+  background: linear-gradient(180deg, #9ab4a2 0%, #5c7564 100%);
   display: flex;
   flex-direction: column;
 `;
