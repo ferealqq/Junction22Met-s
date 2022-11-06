@@ -9,8 +9,12 @@ export const api = axios.create({
   },
 });
 
-export const fetchAnalytics = () => {
+export const fetchEmissionAnalytics = () => {
   return api.get("tasks/emission/analytics").then(({ data }) => data);
+};
+
+export const fetchSpendingAnalytics = () => {
+  return api.get("tasks/money/analytics").then(({ data }) => data);
 };
 
 export const fetchUserData = (userId: string) => {

@@ -13,17 +13,22 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { fetchAnalytics } from "../data/api";
+import { fetchEmissionAnalytics, fetchSpendingAnalytics } from "../data/api";
 
 const barColors = [Colors.base, Colors.sins, Colors.mdma];
 
 export const StatsView = () => {
-  const [data, setData] = useState<any[] | null>(null);
-  const [success, setSuccesss] = useState(false);
+  const [emissionData, setEmissionData] = useState<any[] | null>(null);
+  const [spendingData, setSpendingData] = useState<any[] | null>(null);
+  const [success, setSuccess] = useState(false);
   useEffect(() => {
-    fetchAnalytics().then((data: any) => {
-      setData(data);
-      setSuccesss(true);
+    fetchEmissionAnalytics().then((data: any) => {
+      setEmissionData(data);
+      setSuccess(true);
+    });
+    fetchSpendingAnalytics().then((data: any) => {
+      setSpendingData(data);
+      setSuccess(true);
     });
   }, []);
   ChartJS.register(
@@ -36,130 +41,146 @@ export const StatsView = () => {
   );
   return (
     <Container>
-      <StatsText>
-        <WOWW>Wow!</WOWW>
-        <WOWBody>
-          You have saved up to 300kg of CO2 this week compared to average Finn..
-        </WOWBody>
-      </StatsText>
       <StatisticsWrapper>
-      <Statistics>
-        {success && data && data?.length > 0 ? (
-          <Bar
-            options={{
-              responsive: true,
-              plugins: {
-                legend: {
-                  display: false,
-                },
-              },
-              elements: {
-                line: {
-                  fill: false,
-                  stepped: false,
-                },
-              },
-              scales: {
-                x: {
-                  grid: {
+        <StatsText>
+          <WOWW>Wow!</WOWW>
+          <WOWBody>
+            You have saved up to 300kg of CO2 this week compared to average
+            Finn..
+          </WOWBody>
+        </StatsText>
+        <Statistics>
+          {success && emissionData && emissionData?.length > 0 ? (
+            <Bar
+              options={{
+                responsive: true,
+                plugins: {
+                  legend: {
                     display: false,
-                    drawBorder: false,
                   },
                 },
-                y: {
-                  grid: {
-                    display: false,
-                    drawBorder: false,
-                  },
-                  title: {
-                    padding: 30099,
+                elements: {
+                  line: {
+                    fill: false,
+                    stepped: false,
                   },
                 },
-              },
-            }}
-            data={{
-              labels: data.map((item) => format(new Date(item["date"]), "EE")),
-              datasets: [
-                {
-                  data: data.map((item) => parseInt(item["emissions_saved"])),
-                  backgroundColor: [
-                    Colors.sins,
-                    Colors.base,
-                    Colors.mdma,
-                    Colors.sins,
-                    Colors.base,
-                    Colors.mdma,
-                    Colors.sins,
-                  ],
-                  maxBarThickness: 25,
-                },
-              ],
-            }}
-          />
-        ) : (
-          "Loading..."
-        )}
-      </Statistics>
-      <Statistics>
-        {success && data && data?.length > 0 ? (
-          <Bar
-            options={{
-              responsive: true,
-              plugins: {
-                legend: {
-                  display: false,
-                },
-              },
-              elements: {
-                line: {
-                  fill: false,
-                  stepped: false,
-                },
-              },
-              scales: {
-                x: {
-                  grid: {
-                    display: false,
-                    drawBorder: false,
+                scales: {
+                  x: {
+                    grid: {
+                      display: false,
+                      drawBorder: false,
+                    },
+                  },
+                  y: {
+                    grid: {
+                      display: false,
+                      drawBorder: false,
+                    },
+                    title: {
+                      padding: 30099,
+                    },
                   },
                 },
-                y: {
-                  grid: {
-                    display: false,
-                    drawBorder: false,
+              }}
+              data={{
+                labels: emissionData.map((item) =>
+                  format(new Date(item["date"]), "EE")
+                ),
+                datasets: [
+                  {
+                    data: emissionData.map((item) =>
+                      parseInt(item["emissions_saved"])
+                    ),
+                    backgroundColor: [
+                      Colors.sins,
+                      Colors.base,
+                      Colors.mdma,
+                      Colors.sins,
+                      Colors.base,
+                      Colors.mdma,
+                      Colors.sins,
+                    ],
+                    maxBarThickness: 25,
                   },
-                  title: {
-                    padding: 30099,
-                  },
-                },
-              },
-            }}
-            data={{
-              labels: data.map((item) => format(new Date(item["date"]), "EE")),
-              datasets: [
-                {
-                  data: data.map((item) => parseInt(item["emissions_saved"])),
-                  backgroundColor: [
-                    Colors.sins,
-                    Colors.base,
-                    Colors.mdma,
-                    Colors.sins,
-                    Colors.base,
-                    Colors.mdma,
-                    Colors.sins,
-                  ],
-                  maxBarThickness: 25,
-                },
-              ],
-            }}
-          />
-        ) : (
-          "Loading..."
-        )}
-      </Statistics>
+                ],
+              }}
+            />
+          ) : (
+            "Loading..."
+          )}
+        </Statistics>
 
+        <StatsText>
+          <WOWW>Wow!</WOWW>
+          <WOWBody>
+            You have saved up to 1 million bitcoins this week compared to
+            average
+          </WOWBody>
+        </StatsText>
+        <Statistics>
+          {success && spendingData && spendingData?.length > 0 ? (
+            <Bar
+              options={{
+                responsive: true,
+                plugins: {
+                  legend: {
+                    display: false,
+                  },
+                },
+                elements: {
+                  line: {
+                    fill: false,
+                    stepped: false,
+                  },
+                },
+                scales: {
+                  x: {
+                    grid: {
+                      display: false,
+                      drawBorder: false,
+                    },
+                  },
+                  y: {
+                    grid: {
+                      display: false,
+                      drawBorder: false,
+                    },
+                    title: {
+                      padding: 30099,
+                    },
+                  },
+                },
+              }}
+              data={{
+                labels: spendingData.map((item) =>
+                  format(new Date(item["date"]), "EE")
+                ),
+                datasets: [
+                  {
+                    data: spendingData.map((item) =>
+                      parseInt(item["money_saved"])
+                    ),
+                    backgroundColor: [
+                      Colors.sins,
+                      Colors.base,
+                      Colors.mdma,
+                      Colors.sins,
+                      Colors.base,
+                      Colors.mdma,
+                      Colors.sins,
+                    ],
+                    maxBarThickness: 25,
+                  },
+                ],
+              }}
+            />
+          ) : (
+            "Loading..."
+          )}
+        </Statistics>
       </StatisticsWrapper>
-          </Container>
+    </Container>
   );
 };
 
@@ -172,7 +193,8 @@ const WOWBody = styled(SmallBold)`
 `;
 
 const StatsText = styled.div`
-  position: absolute;
+  width: 85vw;
+  flex-shrink: 0;
   color: ${Colors.analgreen};
   top: 36px;
   left: 0;
