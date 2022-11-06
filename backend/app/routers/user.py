@@ -14,7 +14,7 @@ from app.models.user import User, UserIn, UserOut
 router = APIRouter()
 
 
-@router.get("/{user_id}")
+@router.get("/{user_id}", response_model=UserOut)
 async def get_user(user_id: str, db: Session = Depends(get_db)):
     user = db.query(User).filter(str(User.id) == user_id).one_or_none()
     return user
