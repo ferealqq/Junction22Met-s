@@ -46,7 +46,7 @@ def test_get_user_analytics(db: Session, auth_client: TestClient):
     assert data != None
     assert len(data) == 7 
 
-def test_get_active_tasks(db: Session, auth_client: TestClient):
+def test_post_complete(db: Session, auth_client: TestClient):
     user = seed_user(db)
 
     ta = seed_task_activity(db)
@@ -59,6 +59,7 @@ def test_get_active_tasks(db: Session, auth_client: TestClient):
     data = res.json()
 
     assert db.query(TaskCompletion).filter(TaskCompletion.id == data["id"]).one_or_none() != None 
+
 
 def test_login(db: Session, client: TestClient):
     res = client.post("api/user/login",
