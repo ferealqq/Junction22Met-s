@@ -10,11 +10,13 @@ export const Login = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const setToken = useUserInfoStore((state: any) => state.setToken);
+  // const token = useUserInfoStore((state: any) => state.token);
   const handleLogin = async (username: string) => {
     const token = await loginUser(username);
     setToken(token);
-    navigate("/");
+    navigate("/app");
   };
+
   return (
     <Container>
       <BGImage src={Image} />

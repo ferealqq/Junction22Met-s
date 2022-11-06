@@ -5,6 +5,7 @@ import { Colors } from "../styles/colors";
 import { Body, Data, SmallData, TitleTwo } from "./text";
 import Draggable from "react-draggable";
 import { sendCompleteTask } from "../data/api";
+import { useUserInfoStore } from "../index";
 
 interface TaskBoxProps {
   color: string;
@@ -65,6 +66,7 @@ export const TaskItem = ({
     }
   };
 
+  const token = useUserInfoStore((state: any) => state.token);
   const handleStop = (event: any) => {
     //@ts-ignore
     const xChange = draggableBox.current.getBoundingClientRect().x;
@@ -79,7 +81,7 @@ export const TaskItem = ({
       //Trigger task completion
       removeTask(data.id);
       console.log(data);
-      sendCompleteTask(data.id);
+      sendCompleteTask(data.id, token.jwt);
       increase();
       setPosData({ x: 0, y: 0 });
     } else {
@@ -106,7 +108,10 @@ export const TaskItem = ({
       >
         <TaskContentLeft>
           <TaskItemTitle>{data.task.title}</TaskItemTitle>
-          <TaskItemTimeLeft>4h 20min</TaskItemTimeLeft>
+          { (new Date(data.starts_at)).getHours() > 0 && 
+          <TaskItemTimeLeft>Starts in: {(new Date(data.starts_at)).getHours().toString()} hours</TaskItemTimeLeft>
+          } 
+          <TaskItemTimeLeft>Ends in: {(new Date(data.created_at)).getHours().toString()} hours</TaskItemTimeLeft>
           <TaskItemDesc>{data.task.desc}</TaskItemDesc>
         </TaskContentLeft>
         <TaskContentRight>
