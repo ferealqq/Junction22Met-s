@@ -101,6 +101,7 @@ const AddNew = styled.button`
 
 const SmallTitle = styled(Headline)`
   color: ${Colors.mdma};
+  margin-top: 4px;
 `;
 
 const SubTitle = styled.p`

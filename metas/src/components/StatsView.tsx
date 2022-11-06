@@ -43,6 +43,7 @@ export const StatsView = () => {
           You have saved up to 300kg of CO2 this week compared to average Finn..
         </WOWBody>
       </StatsText>
+      <StatisticsWrapper>
       <Statistics>
         {success && data && data?.length > 0 ? (
           <Bar
@@ -100,7 +101,66 @@ export const StatsView = () => {
           "Loading..."
         )}
       </Statistics>
-    </Container>
+      <Statistics>
+        {success && data && data?.length > 0 ? (
+          <Bar
+            options={{
+              responsive: true,
+              plugins: {
+                legend: {
+                  display: false,
+                },
+              },
+              elements: {
+                line: {
+                  fill: false,
+                  stepped: false,
+                },
+              },
+              scales: {
+                x: {
+                  grid: {
+                    display: false,
+                    drawBorder: false,
+                  },
+                },
+                y: {
+                  grid: {
+                    display: false,
+                    drawBorder: false,
+                  },
+                  title: {
+                    padding: 30099,
+                  },
+                },
+              },
+            }}
+            data={{
+              labels: data.map((item) => format(new Date(item["date"]), "EE")),
+              datasets: [
+                {
+                  data: data.map((item) => parseInt(item["emissions_saved"])),
+                  backgroundColor: [
+                    Colors.sins,
+                    Colors.base,
+                    Colors.mdma,
+                    Colors.sins,
+                    Colors.base,
+                    Colors.mdma,
+                    Colors.sins,
+                  ],
+                  maxBarThickness: 25,
+                },
+              ],
+            }}
+          />
+        ) : (
+          "Loading..."
+        )}
+      </Statistics>
+
+      </StatisticsWrapper>
+          </Container>
   );
 };
 
@@ -123,12 +183,25 @@ const StatsText = styled.div`
   align-items: center;
 `;
 
+const StatisticsWrapper = styled.div`
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  position: relative;
+  display: flex;
+  width: 100%;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
 const Statistics = styled.div`
-  width: 85%;
+  scroll-snap-align: center;
+  width: calc(85vw);
   height: 25vh;
+  flex-shrink: 0;
   background: ${Colors.snow};
   border-radius: 20px;
-  margin: 0 auto;
+  margin: 0 calc((100% - 85vw) / 2);
   margin-top: 20vh;
   display: flex;
   flex-direction: column;
