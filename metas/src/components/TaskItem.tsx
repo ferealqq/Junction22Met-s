@@ -201,6 +201,6 @@ const TaskItemContainer = styled.div<TaskBoxProps>`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  transition: 0.08s linear;
+  transition: 0.0s linear;
   min-height: 164px;
 `;
