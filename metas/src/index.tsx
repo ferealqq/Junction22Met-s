@@ -4,7 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import App from "./App";
 import create from "zustand";
 import { subscribeWithSelector } from "zustand/middleware";
-import { fetchCommunityData, fetchTasks, fetchUserData } from "./data/api";
+import { fetchCommunityData, fetchTasks, fetchUserData, getCookie, setCookie } from "./data/api";
 
 export interface User {
   id: string;
@@ -36,10 +36,12 @@ export const useCommunityStore = create(
 );
 export const useUserInfoStore = create(
   subscribeWithSelector((set, get) => ({
-    token: "",
+    token: getCookie('token'),
     userInfo: { id: "", username: "", emission_saved: 0 },
     fetchUser: async (userId: string) => {
       const tok = (get() as any).token;
+      setCookie('token', tok.jwt);
+      
       const userInfo = await fetchUserData(tok.jwt);
       set({ userInfo });
     },

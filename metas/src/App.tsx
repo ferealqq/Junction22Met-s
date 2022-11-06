@@ -4,9 +4,10 @@ import { useRef, useState, useEffect } from "react";
 import { HomeView } from "./components/HomeView";
 import { StatsView } from "./components/StatsView";
 import { TaskListView } from "./components/TaskListView";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 import { Login } from "./components/Login";
 import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { useTaskStore, useUserInfoStore, useWorldModelStore,useCommunityStore } from "./index";
 // import { QueryClient, QueryClientProvider } from 'react-query';
@@ -25,10 +26,11 @@ function App() {
 }
 
 function Home() {
+  const navigate = useNavigate();
   const fetchUserInfo = useUserInfoStore((state: any) => state.fetchUser);
   const fetchTasks = useTaskStore((state: any) => state.fetchTasks);
   const fetchCommunity = useCommunityStore((state: any) => state.fetchCommunity);
-
+  const token = useUserInfoStore((state: any) => state.token)
   useEffect(() => {
     fetchUserInfo("1");
     fetchTasks();
@@ -44,7 +46,9 @@ function Home() {
       })
   );
   const [currentView, setCurrentView] = useState("stats");
-
+  if(!token) {
+    navigate("/");
+  }
   const handleScroll = (e: any) => {
     const { scrollTop } = e.target;
 
