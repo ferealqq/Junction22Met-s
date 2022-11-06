@@ -29,7 +29,7 @@ export const CommunityHub = ({ open, closeCommunity, createForest }: CommunityHu
 
   return (
     <Container open={open}>
-      <TopBar>
+      <TopBar onClick={() => setCreateStatus(false)}>
         <BackArrow src={backArrow} onClick={closeCommunity} />
         <Title>Community</Title>
         <Space />
