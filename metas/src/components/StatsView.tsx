@@ -43,75 +43,141 @@ export const StatsView = () => {
   );
   return (
     <Container>
+      
       <StatisticsWrapper>
-        <StatsText>
-          <WOWW>Wow!</WOWW>
-          <WOWBody>
-            You have saved up to 300kg of CO2 this week compared to average
-            Finn..
-          </WOWBody>
-        </StatsText>
-        <Statistics>
-          {success && emissionData && emissionData?.length > 0 ? (
-            <Bar
-              options={{
-                responsive: true,
-                plugins: {
-                  legend: {
+
+      <StatWrapper>
+      <StatsText>
+        <WOWW>Wow!</WOWW>
+        <WOWBody>
+          You have saved up to 300kg of CO2 this week compared to average Finn..
+        </WOWBody>
+      </StatsText>
+      <Statistics>
+        {success && emissionData && emissionData?.length > 0 ? (
+          <Bar
+            options={{
+              responsive: true,
+              plugins: {
+                legend: {
+                  display: false,
+                },
+              },
+              elements: {
+                line: {
+                  fill: false,
+                  stepped: false,
+                },
+              },
+              scales: {
+                x: {
+                  grid: {
                     display: false,
+                    drawBorder: false,
                   },
                 },
-                elements: {
-                  line: {
-                    fill: false,
-                    stepped: false,
+                y: {
+                  grid: {
+                    display: false,
+                    drawBorder: false,
+                  },
+                  title: {
+                    padding: 30099,
                   },
                 },
-                scales: {
-                  x: {
-                    grid: {
-                      display: false,
-                      drawBorder: false,
-                    },
-                  },
-                  y: {
-                    grid: {
-                      display: false,
-                      drawBorder: false,
-                    },
-                    title: {
-                      padding: 30099,
-                    },
+              },
+            }}
+            data={{
+              labels: emissionData.map((item) => format(new Date(item["date"]), "EE")),
+              datasets: [
+                {
+                  data: emissionData.map((item) => parseInt(item["emissions_saved"])),
+                  backgroundColor: [
+                    Colors.sins,
+                    Colors.base,
+                    Colors.mdma,
+                    Colors.sins,
+                    Colors.base,
+                    Colors.mdma,
+                    Colors.sins,
+                  ],
+                  maxBarThickness: 25,
+                },
+              ],
+            }}
+          />
+        ) : (
+          "Loading..."
+        )}
+      </Statistics>
+      </StatWrapper>
+
+
+      <StatWrapper>
+      <StatsText>
+        <WOWW>Wow!</WOWW>
+        <WOWBody>
+          You have saved up to 300kg of CO2 this week compared to average Finn..
+        </WOWBody>
+      </StatsText>
+      <Statistics>
+        {success && spendingData && spendingData?.length > 0 ? (
+          <Bar
+            options={{
+              responsive: true,
+              plugins: {
+                legend: {
+                  display: false,
+                },
+              },
+              elements: {
+                line: {
+                  fill: false,
+                  stepped: false,
+                },
+              },
+              scales: {
+                x: {
+                  grid: {
+                    display: false,
+                    drawBorder: false,
                   },
                 },
-              }}
-              data={{
-                labels: emissionData.map((item) =>
-                  format(new Date(item["date"]), "EE")
-                ),
-                datasets: [
-                  {
-                    data: emissionData.map((item) =>
-                      parseInt(item["emissions_saved"])
-                    ),
-                    backgroundColor: [
-                      Colors.sins,
-                      Colors.base,
-                      Colors.mdma,
-                      Colors.sins,
-                      Colors.base,
-                      Colors.mdma,
-                      Colors.sins,
-                    ],
-                    maxBarThickness: 25,
+                y: {
+                  grid: {
+                    display: false,
+                    drawBorder: false,
                   },
-                ],
-              }}
-            />
-          ) : (
-            "Loading..."
-          )}
-        </Statistics>
+                  title: {
+                    padding: 30099,
+                  },
+                },
+              }
+            }}
+            data={{
+              labels: spendingData.map((item) => format(new Date(item["date"]), "EE")),
+              datasets: [
+                {
+                  data: spendingData.map((item) => parseInt(item["emissions_saved"])),
+                  backgroundColor: [
+                    Colors.sins,
+                    Colors.base,
+                    Colors.mdma,
+                    Colors.sins,
+                    Colors.base,
+                    Colors.mdma,
+                    Colors.sins,
+                  ],
+                  maxBarThickness: 25,
+                },
+              ],
+            }}
+          />
+        ) : (
+          "Loading..."
+        )}
+      </Statistics>
+      </StatWrapper>
 
         <StatsText>
           <WOWW>Wow!</WOWW>
@@ -182,7 +248,7 @@ export const StatsView = () => {
           )}
         </Statistics>
       </StatisticsWrapper>
-    </Container>
+      </Container>
   );
 };
 
@@ -195,15 +261,20 @@ const WOWBody = styled(SmallBold)`
 `;
 
 const StatsText = styled.div`
-  width: 85vw;
-  flex-shrink: 0;
   color: ${Colors.analgreen};
-  top: 36px;
   left: 0;
-  margin: 32px;
+  margin: 0 32px;
+  margin-top: 64px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+`;
+
+const StatWrapper = styled.div`
+  scroll-snap-align: center;
+  width: 85vw;
+  flex-shrink: 0;
+  margin: 0 calc((100% - 85vw) / 2);
 `;
 
 const StatisticsWrapper = styled.div`
@@ -217,15 +288,11 @@ const StatisticsWrapper = styled.div`
   }
 `;
 
-const Statistics = styled.div`
-  scroll-snap-align: center;
-  width: 85vw;
+const Statistics = styled.div` 
   height: 25vh;
-  flex-shrink: 0;
   background: ${Colors.snow};
   border-radius: 20px;
-  margin: 0 calc((100% - 85vw) / 2);
-  margin-top: 20vh;
+  margin-top: 42px;
   display: flex;
   flex-direction: column;
   align-items: center;
