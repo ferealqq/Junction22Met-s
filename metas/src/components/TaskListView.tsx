@@ -117,7 +117,7 @@ const TaskListContainer = styled.section`
   scroll-snap-align: center;
   overflow-x: hidden;
   padding-top: 0vh;
-  margin-top: -25vh;
+  margin-top: -35vh;
   margin-bottom: 10vh;
   transition: 1s;
 `;
