@@ -19,7 +19,7 @@ from app.models.user import User, UserIn, UserOut
 router = APIRouter()
 
 
-@router.get("/")
+@router.get("/get")
 def get_communities(
     db: Session = Depends(get_db),
     user : TokenUser = Depends(credential_check)
@@ -41,7 +41,7 @@ def get_communities(
     ).outerjoin(User,
         (CommunityMember.c.user_id == User.id) & (CommunityMember.c.community_id == Community.id)
     ).group_by(Community.id)
-    
+
     return data.all()
 
 
@@ -72,7 +72,9 @@ def post_community(
 
 def get_community_data(id, db = Depends(get_db)):
     return db.query(
-        func.array_agg(aggregate_order_by(User.username, User.money_saved)),
+        func.array_agg(aggregate_order_by(User.username, User.money_saved)).label("users"),
+        func.array_agg(aggregate_order_by(User.id, User.money_saved)).label("user_ids"),
+        # func.array_agg(aggregate_order_by(User.username, User.money_saved)),
         func.sum(User.emissions_saved).label("emissions_saved"),
         func.sum(User.money_saved).label("money_saved"),
         Community.created_at.label("created_at")
