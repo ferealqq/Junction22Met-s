@@ -5,7 +5,7 @@ import { tasksMockup } from "../data/tasksMockup";
 import { TaskItem } from "./TaskItem";
 import { Colors } from "../styles/colors";
 import { TitleThree } from "./text";
-import { useWorldModelStore } from "../index";
+import { useTaskStore, useWorldModelStore } from "../index";
 
 interface TaskListViewProps {
   currentView: string;
@@ -16,7 +16,8 @@ interface TitleProps {
 }
 
 export const TaskListView = ({ currentView }: TaskListViewProps) => {
-  const [tasks, setTasks] = useState<Task[]>(tasksMockup);
+  const tasks = useTaskStore((state: any) => state.tasks);
+  const setTasks = useTaskStore((state: any) => state.setTasks);
   const isCommunityWorld = useWorldModelStore(
     (state: any) => state.isCommunityWorld
   );
@@ -33,7 +34,7 @@ export const TaskListView = ({ currentView }: TaskListViewProps) => {
     (state: any) => state.decreaseCommunityPopulation
   );
   const removeTask = (id: string) => {
-    setTasks(tasks.filter((task) => task.id !== id));
+    setTasks(tasks.filter((task: Task) => task.id !== id));
   };
 
   return (
@@ -43,7 +44,7 @@ export const TaskListView = ({ currentView }: TaskListViewProps) => {
           Swipe To Complete Or Pass
         </ListTitle>
         {tasks.length !== 0 &&
-          tasks.slice(0, 3).map((task) => (
+          tasks.slice(0, 3).map((task: Task) => (
             <div>
               <TaskItem
                 removeTask={removeTask}

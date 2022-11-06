@@ -8,7 +8,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { TaskPage } from "./components/TaskPage";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useWorldModelStore } from "./index";
+import { useTaskStore, useUserInfoStore, useWorldModelStore } from "./index";
 // import { QueryClient, QueryClientProvider } from 'react-query';
 
 interface BGprops {
@@ -25,6 +25,13 @@ function App() {
 }
 
 function Home() {
+  const fetchUserInfo = useUserInfoStore((state: any) => state.fetchUser);
+  const fetchTasks = useTaskStore((state: any) => state.fetchTasks);
+  useEffect(() => {
+    fetchUserInfo("1");
+    fetchTasks();
+  }, []);
+
   const unsub3 = useWorldModelStore.subscribe(
     (state: any) => state.personalModelNumber,
     (num: any, previousNum: any) =>

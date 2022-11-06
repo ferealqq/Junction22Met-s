@@ -12,3 +12,16 @@ export const api = axios.create({
 export const fetchAnalytics = () => {
   return api.get("tasks/emission/analytics").then(({ data }) => data);
 };
+
+export const fetchUserData = (userId: string) => {
+  return api.get(`users/${userId}`).then(({ data }) => data);
+};
+
+// TODO:
+export const fetchCommunityData = (communityId: string) => {
+  return api.get(`...`);
+};
+
+export const fetchTasks = () => {
+  return api.get("tasks/").then(({ data }) => data);
+};
