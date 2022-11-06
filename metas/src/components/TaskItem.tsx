@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Task } from "../types/tasks";
+import { TaskActivity } from "../types/tasks";
 import styled from "styled-components";
 import { Colors } from "../styles/colors";
 import { Body, Data, SmallData, TitleTwo } from "./text";
@@ -16,7 +16,7 @@ export const TaskItem = ({
   increase,
   decrease,
 }: {
-  data: Task;
+  data: TaskActivity;
   removeTask: (id: string) => void;
   increase: () => void;
   decrease: () => void;
@@ -105,13 +105,13 @@ export const TaskItem = ({
         ref={draggableBox}
       >
         <TaskContentLeft>
-          <TaskItemTitle>{data.title}</TaskItemTitle>
+          <TaskItemTitle>{data.task.title}</TaskItemTitle>
           <TaskItemTimeLeft>4h 20min</TaskItemTimeLeft>
-          <TaskItemDesc>{data.desc}</TaskItemDesc>
+          <TaskItemDesc>{data.task.desc}</TaskItemDesc>
         </TaskContentLeft>
         <TaskContentRight>
           <TaskItemEmission>
-            <EmissionValue>{data.emission} kg</EmissionValue>
+            <EmissionValue>{data.task.emission} kg</EmissionValue>
             <EmissionUnit>of CO2</EmissionUnit>
           </TaskItemEmission>
         </TaskContentRight>

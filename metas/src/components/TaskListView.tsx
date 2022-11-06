@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Task } from "../types/tasks";
+import { TaskActivity } from "../types/tasks";
 import { TaskItem } from "./TaskItem";
 import { Colors } from "../styles/colors";
 import { TitleThree } from "./text";
@@ -33,7 +33,7 @@ export const TaskListView = ({ currentView }: TaskListViewProps) => {
     (state: any) => state.decreaseCommunityPopulation
   );
   const removeTask = (id: string) => {
-    setTasks(tasks.filter((task: Task) => task.id !== id));
+    setTasks(tasks.filter((task: TaskActivity) => task.id !== id));
   };
 
   return (
@@ -45,7 +45,7 @@ export const TaskListView = ({ currentView }: TaskListViewProps) => {
         {tasks.length !== 0 &&
           tasks
             .slice(0, 3)
-            .map((task: Task) => (
+            .map((task: TaskActivity) => (
               <TaskItem
                 removeTask={removeTask}
                 key={task.id}
@@ -60,8 +60,6 @@ export const TaskListView = ({ currentView }: TaskListViewProps) => {
             ))}
 
         {tasks.length === 0 && <NoTasks>No tasks available...</NoTasks>}
-
-        <AllTasksButton href={`tasks`}>All Tasks</AllTasksButton>
       </Content>
     </TaskListContainer>
   );
@@ -111,11 +109,11 @@ const Content = styled.div`
 
 const TaskListContainer = styled.section`
   width: 100%;
-  background: green opacity(30%);
-  //height: 72vh;
   position: relative;
   scroll-snap-align: center;
   overflow-x: hidden;
   padding-top: 0vh;
   margin-top: -25vh;
+  margin-bottom: 15vh;
+  transition: 1s;
 `;
