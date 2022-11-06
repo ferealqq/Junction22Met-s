@@ -46,7 +46,7 @@ def get_communities(
 
 
 @router.post(
-    "/",
+    "/create",
     response_model=Any,
 )
 def post_community(
