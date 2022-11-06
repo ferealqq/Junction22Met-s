@@ -108,7 +108,10 @@ export const TaskItem = ({
       >
         <TaskContentLeft>
           <TaskItemTitle>{data.task.title}</TaskItemTitle>
-          <TaskItemTimeLeft>4h 20min</TaskItemTimeLeft>
+          { (new Date(data.starts_at)).getHours() > 0 && 
+          <TaskItemTimeLeft>Starts in: {(new Date(data.starts_at)).getHours().toString()} hours</TaskItemTimeLeft>
+          } 
+          <TaskItemTimeLeft>Ends in: {(new Date(data.created_at)).getHours().toString()} hours</TaskItemTimeLeft>
           <TaskItemDesc>{data.task.desc}</TaskItemDesc>
         </TaskContentLeft>
         <TaskContentRight>
