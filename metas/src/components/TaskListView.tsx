@@ -112,6 +112,6 @@ const TaskListContainer = styled.section`
   overflow-x: hidden;
   padding-top: 0vh;
   margin-top: -25vh;
-  margin-bottom: 10vh;
+  margin-bottom: 15vh;
   transition: 1s;
 `;
