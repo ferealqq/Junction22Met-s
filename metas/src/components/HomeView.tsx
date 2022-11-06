@@ -12,6 +12,11 @@ export const HomeView = ({ currentView }: HomeViewProps) => {
   const [user, setUser] = useState({name: "Jaakko"});
   const [communityOpen, setCommunityOpen] = useState(false);
 
+  const createForest = () => {
+    console.log("Forest created");
+    setCommunityOpen(false);
+  };
+
   return (
     <Container>
       <ForestBar>
@@ -24,7 +29,7 @@ export const HomeView = ({ currentView }: HomeViewProps) => {
         </CommunityButton>
       </ForestBar>
       
-      <CommunityHub open={communityOpen} closeCommunity={() => setCommunityOpen(false)}/>
+      <CommunityHub createForest={createForest} open={communityOpen} closeCommunity={() => setCommunityOpen(false)}/>
     </Container>
   );
 };
