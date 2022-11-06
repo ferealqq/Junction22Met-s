@@ -39,7 +39,7 @@ export const TaskListView = ({ currentView }: TaskListViewProps) => {
   return (
     <TaskListContainer>
       <Content>
-        <ListTitle active={currentView == "tasks"}>
+        <ListTitle active={currentView === "tasks"}>
           Swipe To Complete Or Pass
         </ListTitle>
         {tasks.length !== 0 &&
