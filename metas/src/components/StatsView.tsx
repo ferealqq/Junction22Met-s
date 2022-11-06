@@ -195,7 +195,7 @@ const StatisticsWrapper = styled.div`
 
 const Statistics = styled.div`
   scroll-snap-align: center;
-  width: calc(85vw);
+  width: 85vw;
   height: 25vh;
   flex-shrink: 0;
   background: ${Colors.snow};

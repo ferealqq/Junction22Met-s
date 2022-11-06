@@ -84,8 +84,8 @@ const Community = (props: any) => {
           <InfoText>17 days</InfoText>
           <Desc>since seeding</Desc>
         </Box>
-        <CTA>
-          <InfoText onClick={props.openCommunityForest}>Enter Woods</InfoText>
+        <CTA onClick={props.openCommunityForest}>
+          <InfoText>Enter Woods</InfoText>
         </CTA>
       </Row>
     </SingleCommunity>
