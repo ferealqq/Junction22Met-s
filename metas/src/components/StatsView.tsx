@@ -117,7 +117,7 @@ export const StatsView = () => {
       <StatsText>
         <WOWW>Wow!</WOWW>
         <WOWBody>
-          You have saved up to 300kg of CO2 this week compared to average Finn..
+          You have saved over 40€ this week..
         </WOWBody>
       </StatsText>
       <Statistics>
