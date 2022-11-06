@@ -1,9 +1,10 @@
 import { useRef, useState } from "react";
-import { Task } from "../types/tasks";
+import { TaskActivity } from "../types/tasks";
 import styled from "styled-components";
 import { Colors } from "../styles/colors";
 import { Body, Data, SmallData, TitleTwo } from "./text";
 import Draggable from "react-draggable";
+import { sendCompleteTask } from "../data/api";
 
 interface TaskBoxProps {
   color: string;
@@ -15,7 +16,7 @@ export const TaskItem = ({
   increase,
   decrease,
 }: {
-  data: Task;
+  data: TaskActivity;
   removeTask: (id: string) => void;
   increase: () => void;
   decrease: () => void;
@@ -23,6 +24,19 @@ export const TaskItem = ({
   const [posData, setPosData] = useState({ x: 0, y: 0 });
   const [color, setColor] = useState<string>("#FFF");
   const draggableBox = useRef();
+
+  const [usersDone, setUsersDone] = useState([
+    {
+      id: "3fa85f64-5737-4562-b3fc-2c963f66afa6",
+      username: "Jasse",
+      color: "orange",
+    },
+    {
+      id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      username: "Pekka",
+      color: "violet",
+    },
+  ]);
 
   const handleDrag = (event: any) => {
     //@ts-ignore
@@ -54,7 +68,6 @@ export const TaskItem = ({
   const handleStop = (event: any) => {
     //@ts-ignore
     const xChange = draggableBox.current.getBoundingClientRect().x;
-    console.log(xChange);
 
     if (xChange < -180) {
       //Task deleted
@@ -65,7 +78,8 @@ export const TaskItem = ({
     } else if (xChange > 205) {
       //Trigger task completion
       removeTask(data.id);
-      console.log("Task done");
+      console.log(data);
+      sendCompleteTask(data.id);
       increase();
       setPosData({ x: 0, y: 0 });
     } else {
@@ -91,20 +105,46 @@ export const TaskItem = ({
         ref={draggableBox}
       >
         <TaskContentLeft>
-          <TaskItemTitle>{data.title}</TaskItemTitle>
+          <TaskItemTitle>{data.task.title}</TaskItemTitle>
           <TaskItemTimeLeft>4h 20min</TaskItemTimeLeft>
-          <TaskItemDesc>{data.desc}</TaskItemDesc>
+          <TaskItemDesc>{data.task.desc}</TaskItemDesc>
         </TaskContentLeft>
         <TaskContentRight>
           <TaskItemEmission>
-            <EmissionValue>{data.emission} kg</EmissionValue>
+            <EmissionValue>{data.task.emission} kg</EmissionValue>
             <EmissionUnit>of CO2</EmissionUnit>
           </TaskItemEmission>
         </TaskContentRight>
+        <CommunityDoneBalloons>
+          {usersDone.map((user) => (
+            <CommunityDoneBalloon color={user.color} />
+          ))}
+        </CommunityDoneBalloons>
       </TaskItemContainer>
     </Draggable>
   );
 };
+
+interface CommunityDoneBalloonProps {
+  color: string;
+}
+
+const CommunityDoneBalloon = styled.div<CommunityDoneBalloonProps>`
+  width: 12px;
+  height: 12px;
+  margin-left: 8px;
+  border-radius: 50%;
+  background: ${(props) =>
+    props.color === "violet" ? Colors.violet : Colors.orange};
+`;
+
+const CommunityDoneBalloons = styled.div`
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  justify-content: space-between;
+`;
 
 const EmissionUnit = styled(SmallData)`
   color: ${Colors.mdma};
@@ -162,5 +202,7 @@ const TaskItemContainer = styled.div<TaskBoxProps>`
   border-radius: 20px;
   display: flex;
   align-items: center;
-  transition: 0.08s linear;
+  justify-content: space-between;
+  transition: 0s linear;
+  min-height: 164px;
 `;
