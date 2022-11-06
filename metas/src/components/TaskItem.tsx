@@ -5,6 +5,7 @@ import { Colors } from "../styles/colors";
 import { Body, Data, SmallData, TitleTwo } from "./text";
 import Draggable from "react-draggable";
 import { sendCompleteTask } from "../data/api";
+import { useWorldModelStore } from "..";
 
 interface TaskBoxProps {
   color: string;
@@ -88,6 +89,9 @@ export const TaskItem = ({
     }
     setColor("#FFF");
   };
+  const isCommunityWorld = useWorldModelStore(
+    (state: any) => state.isCommunityWorld
+  );
 
   return (
     <Draggable
@@ -115,11 +119,15 @@ export const TaskItem = ({
             <EmissionUnit>of CO2</EmissionUnit>
           </TaskItemEmission>
         </TaskContentRight>
-        <CommunityDoneBalloons>
-          {usersDone.map((user) => (
-            <CommunityDoneBalloon color={user.color} />
-          ))}
-        </CommunityDoneBalloons>
+        {
+          isCommunityWorld && (
+            <CommunityDoneBalloons>
+              {usersDone.map((user) => (
+                <CommunityDoneBalloon color={user.color} />
+              ))}
+            </CommunityDoneBalloons>
+          )
+        }
       </TaskItemContainer>
     </Draggable>
   );
