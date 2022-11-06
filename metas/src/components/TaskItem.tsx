@@ -90,6 +90,9 @@ export const TaskItem = ({
     }
     setColor("#FFF");
   };
+  const isCommunityWorld = useWorldModelStore(
+    (state: any) => state.isCommunityWorld
+  );
 
   return (
     <Draggable
@@ -120,11 +123,15 @@ export const TaskItem = ({
             <EmissionUnit>of CO2</EmissionUnit>
           </TaskItemEmission>
         </TaskContentRight>
-        <CommunityDoneBalloons>
-          {usersDone.map((user) => (
-            <CommunityDoneBalloon color={user.color} />
-          ))}
-        </CommunityDoneBalloons>
+        {
+          isCommunityWorld && (
+            <CommunityDoneBalloons>
+              {usersDone.map((user) => (
+                <CommunityDoneBalloon color={user.color} />
+              ))}
+            </CommunityDoneBalloons>
+          )
+        }
       </TaskItemContainer>
     </Draggable>
   );

@@ -40,7 +40,8 @@ async def get_active_tasks(
             TaskActivity.id.not_in(
                 db.query(TaskCompletion.task_activity_id)
                     .filter(TaskCompletion.user_id == user.id)
-            )
+            ),
+            func.date(TaskActivity.ends_at) >= dt.date.today()
         ).
         order_by(TaskActivity.ends_at)
     )

@@ -35,7 +35,6 @@ export const TaskListView = ({ currentView }: TaskListViewProps) => {
   const removeTask = (id: string) => {
     setTasks(tasks.filter((task: TaskActivity) => task.id !== id));
   };
-
   return (
     <TaskListContainer>
       <Content>

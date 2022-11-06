@@ -20,15 +20,12 @@ export const fetchSpendingAnalytics = (token: string) => {
     .then(({ data }) => data);
 };
 
-export const fetchUserData = (token: string) => {
-  return api(token)
-    .get(`user/user`)
-    .then(({ data }) => data);
+export const fetchUserData = () => {
+  return api.get(`user/user`).then(({ data }) => data);
 };
 
-// TODO:
-export const fetchCommunityData = (communityId: string, token: string) => {
-  return api(token).get(`...`);
+export const fetchCommunityData = () => {
+  return api.get(`communities/get`);
 };
 
 export const fetchTasks = (token: string) => {
@@ -48,3 +45,8 @@ export const loginUser = (username: string) => {
     .post("user/login", { username })
     .then(({ data }) => data);
 };
+
+export const postCommunity = (names: any) => {
+  return api.post("communities",names
+  ).then(({data}) => data)
+}
