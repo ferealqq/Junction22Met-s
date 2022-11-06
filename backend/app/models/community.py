@@ -16,7 +16,7 @@ from ..db.base import Base
 
 
 CommunityMember = sa.Table(
-    "community_member",
+    "community_members",
     Base.metadata,
     sa.Column("community_id", sa.ForeignKey("community.id"), primary_key=True),
     sa.Column("user_id", sa.ForeignKey("user.id"), primary_key=True),
@@ -26,15 +26,13 @@ CommunityMember = sa.Table(
 class Community(Base):
     __tablename__ = "community"
     id = sa.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    user_id = sa.Column("owner_id", sa.ForeignKey("user.id"), primary_key=True),
-    
     created_at = sa.Column("created_at", sa.DateTime(), server_default=sa.text("now()"), nullable=True)
 
     members = relationship("User", secondary=CommunityMember, backref="communities")
 
 class CommunityIn(BaseModel):
-    member_names: Any
-    member_ids: Any
+    names: Optional[list]
+    ids: Optional[list]
     # member_ids: Optional[List[uuid.UUID]]
 
 class CommunityOut(BaseModel):

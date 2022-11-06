@@ -8,36 +8,53 @@ from seeders.seeder import seed_analytics, seed_task, seed_task_activity, seed_u
 
 # db = Depends(get_db)
 db = next(get_db())
-users = [
-  pekka := seed_user(db, "pekka"),
-  seed_user(db, "jasse"),
-  seed_user(db, "jaakko"),
-  seed_user(db, "aleksi"),
-  seed_user(db, "ilkka"),
-  seed_user(db, "gcp_cron_trigger"),
-]
+def vanha():
+  users = [
+    pekka := seed_user(db, "pekka"),
+    seed_user(db, "jasse"),
+    seed_user(db, "jaakko"),
+    seed_user(db, "aleksi"),
+    seed_user(db, "ilkka"),
+    seed_user(db, "gcp_cron_trigger"),
+  ]
 
-# tasks = []
-# tas = []
-# for i in range(5):
-#   tasks.append(task := seed_task(db))
-#   tas.append(seed_task_activity(db,task_id=task.id))
+  # tasks = []
+  # tas = []
+  # for i in range(5):
+  #   tasks.append(task := seed_task(db))
+  #   tas.append(seed_task_activity(db,task_id=task.id))
 
-seed_analytics(db, pekka)
+  seed_analytics(db, pekka)
 
-print("seed analytics")
-# owner = seed_user(db)
+  print("seed analytics")
 
-# comm = Community(
-#     user_id = owner.id
-# )
-# db.commit()
-# db.refresh(comm)
-# comm.members.extend([owner,pekka:=User(username="pekka"),jasse:=User(username="jasse")])
-# db.add_all([comm,owner,pekka,jasse])
-# db.commit()
-# db.refresh(comm)
-# tasks = [seed_task(db) for _ in range(4)]
-# for i in [owner,pekka,jasse]:
-#     seed_analytics(db,i,tasks)
-# print("seed analytics")
+def rikki():
+  owner = seed_user(db)
+
+  comm = Community(
+      user_id = owner.id
+  )
+  db.commit()
+  db.refresh(comm)
+  comm.members.extend([owner,pekka:=User(username="pekka"),jasse:=User(username="jasse")])
+  db.add_all([comm,owner,pekka,jasse])
+  db.commit()
+  db.refresh(comm)
+  tasks = [seed_task(db) for _ in range(4)]
+  for i in [owner,pekka,jasse]:
+      seed_analytics(db,i,tasks)
+  print("seed analytics")
+
+def uus():
+  owner = seed_user(db)
+  comm = Community(
+      user_id = owner.id
+  )
+  comm.members.extend([seed_user(db,username="jaakko"),pekka:=User(username="pekka"),jasse:=User(username="jasse")])
+  db.add_all([comm,owner,pekka,jasse])
+  # tasks = [seed_task(db) for _ in range(4)]
+  # for i in [owner,pekka,jasse]:
+  #     seed_analytics(db,i,tasks)
+  db.commit()
+
+vanha()

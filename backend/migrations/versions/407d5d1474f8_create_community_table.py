@@ -21,8 +21,6 @@ def upgrade():
     op.create_table('community',
         sa.Column("id", postgresql.UUID(as_uuid=True), nullable=False),
         sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=True),
-        sa.Column("user_id", postgresql.UUID(as_uuid=True), nullable=False),
-        sa.ForeignKeyConstraint(['user_id'], ['user.id']),
         sa.PrimaryKeyConstraint('id')
     )
     op.create_table('community_members',

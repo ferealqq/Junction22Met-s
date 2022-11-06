@@ -13,4 +13,4 @@ os.system('poetry run alembic upgrade head')
 
 # time.sleep(3)
 
-# import seed
+import seed

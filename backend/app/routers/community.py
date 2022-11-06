@@ -18,22 +18,24 @@ from app.models.user import User, UserIn, UserOut
 router = APIRouter()
 
 
-@router.get("/", response_model=List[UserOut])
-async def get_communities(
+@router.get("/")
+def get_communities(
     db: Session = Depends(get_db),
     user : TokenUser = Depends(credential_check)
 ):
-    return db.query(
-        func.array_agg(aggregate_order_by(User.username, User.money_saved)),
+    data = db.query(
+        func.array_agg(aggregate_order_by(User.username, User.money_saved)).label("users"),
+        func.array_agg(aggregate_order_by(User.id, User.money_saved)).label("user_ids"),
         func.sum(User.emissions_saved).label("emissions_saved"),
         func.sum(User.money_saved).label("money_saved"),
         Community.created_at.label("created_at")
     ).filter(
         Community.id.in_(
-            db.query(CommunityMember.id.distinct()).outerjoin(User, User.id == CommunityMember.user_id)
+            db.query(Community.id.distinct()).filter(CommunityMember.c.user_id == user.id)
         )
     ).group_by(Community.id).all()
 
+    return data    
 
 
 @router.post(
@@ -41,19 +43,22 @@ async def get_communities(
     response_model=Any,
 )
 def post_community(
-    data: Any, 
+    data: CommunityIn, 
     db: Session = Depends(get_db),
     user : TokenUser = Depends(credential_check)
 ):
-    if data.member_names != None and len(data.member_names) > 0:
-        users = db.query(User).filter(User.username._in(data.member_names)).all()
-    elif data.member_ids != None and len(data.member_ids) > 0:
-        users = db.query(User).filter(User.username._in(data.member_ids)).all()
+    usr = db.query(User).filter(User.id == user.id).one_or_none()
+    if usr == None:
+        raise BAD_REQUEST_EXCEPTION
+    if data.names != None and len(data.names) > 0:
+        users = db.query(User).filter(User.username.in_(data.names)).all()
+    elif data.ids != None and len(data.ids) > 0:
+        users = db.query(User).filter(User.username.in_(data.ids)).all()
     else:
         raise BAD_REQUEST_EXCEPTION
 
-    comm = Community(owner_id = user.id) 
-    comm.members.extend(users)
+    comm = Community() 
+    comm.members.extend([*users,usr])
     comm = save_model(db,comm)
     
     return get_community_data(comm.id,db)
