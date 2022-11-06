@@ -169,7 +169,7 @@ async def post_calculate_activites(
     db.add(TaskActivity(starts_at=startTime, ends_at=endTime, task_id=pyykinpesukoneTask.iloc[0]['id'], emissions_saved=(47*float(pyykinpesukoneTask['emission'])), money_saved=(Bestsavings * float(pyykinpesukoneTask['emission']))))
     db.add(TaskActivity(starts_at=startTime, ends_at=endTime, task_id=teslaTask.iloc[0]['id'], emissions_saved=(47*float(teslaTask['emission'])), money_saved=(Bestsavings * float(teslaTask['emission']))))
     
-    startTime = datetime.datetime.now()
+    startTime = datetime.datetime(date.year, date.month, date.day, 0, 0, 0)
     endTime = startTime + datetime.timedelta(days=1)
     db.add(TaskActivity(starts_at=startTime, ends_at=endTime, task_id=kiuasTask.iloc[0]['id'], emissions_saved=(47*float(kiuasTask['emission'])), money_saved=(Bestsavings * float(kiuasTask['emission']))))
     db.commit()
