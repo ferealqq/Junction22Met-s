@@ -36,14 +36,14 @@ export const useCommunityStore = create(
 );
 export const useUserInfoStore = create(
   subscribeWithSelector((set, get) => ({
-    token: getCookie('token'),
+    token: getCookie('token') || undefined,
     userInfo: { id: "", username: "", emission_saved: 0 },
     fetchUser: async (userId: string) => {
       const tok = (get() as any).token;
       setCookie('token', tok.jwt);
       
       const userInfo = await fetchUserData(tok.jwt);
-      set({ userInfo });
+      set({ userInfo, token: tok });
     },
     setToken: (token: string) => set({ token }),
   }))

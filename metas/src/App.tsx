@@ -10,6 +10,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { useTaskStore, useUserInfoStore, useWorldModelStore,useCommunityStore } from "./index";
+import { checkToken } from "./data/api";
 // import { QueryClient, QueryClientProvider } from 'react-query';
 
 interface BGprops {
@@ -61,6 +62,13 @@ function Home() {
     }
   };
 
+  useEffect(() => {
+    checkToken().catch(err => {
+      console.log(err);
+      navigate("/");
+    })
+  }, [])
+  
   return (
     <MainView onScroll={handleScroll}>
       <ToastContainer />

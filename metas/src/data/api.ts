@@ -21,7 +21,7 @@ export function getCookie(name: string) {
 }
 let localToken = getCookie('token') || null;
 
-export const api = (token: string) =>
+export const api = (token: string = "") =>
   axios.create({
     baseURL: `https://metsabakkari.fly.dev/api/`,
     headers: {
@@ -70,4 +70,8 @@ export const loginUser = (username: string) => {
 export const postCommunity = (names: any, token:string) => {
   return api(token).post("communities/create",names
   ).then(({data}) => data)
+}
+
+export const checkToken = () => {
+  return api().post("user/ping").then(({data}) => data)
 }

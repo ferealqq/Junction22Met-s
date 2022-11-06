@@ -14,7 +14,6 @@ export const Login = () => {
   const handleLogin = async (username: string) => {
     const token = await loginUser(username);
     setToken(token);
-    localStorage.setItem('token', token);
     navigate("/app");
   };
 
