@@ -6,6 +6,7 @@ import { StatsView } from "./components/StatsView";
 import { TaskListView } from "./components/TaskListView";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { TaskPage } from "./components/TaskPage";
+import { Login } from "./components/Login";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useTaskStore, useUserInfoStore, useWorldModelStore } from "./index";
@@ -17,7 +18,7 @@ interface BGprops {
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
-  { path: "/login", element: <TaskPage /> },
+  { path: "/login", element: <Login /> },
 ]);
 
 function App() {
@@ -56,7 +57,7 @@ function Home() {
 
   return (
     <MainView onScroll={handleScroll}>
-      <ToastContainer/>
+      <ToastContainer />
       <StatsView />
       <HomeView currentView={currentView} />
       <TaskListView currentView={currentView} />
