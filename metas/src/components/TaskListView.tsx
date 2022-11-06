@@ -1,7 +1,5 @@
 import styled from "styled-components";
-import { useState } from "react";
-import { Task } from "../types/tasks";
-import { tasksMockup } from "../data/tasksMockup";
+import { TaskActivity } from "../types/tasks";
 import { TaskItem } from "./TaskItem";
 import { Colors } from "../styles/colors";
 import { TitleThree } from "./text";
@@ -18,6 +16,7 @@ interface TitleProps {
 export const TaskListView = ({ currentView }: TaskListViewProps) => {
   const tasks = useTaskStore((state: any) => state.tasks);
   const setTasks = useTaskStore((state: any) => state.setTasks);
+
   const isCommunityWorld = useWorldModelStore(
     (state: any) => state.isCommunityWorld
   );
@@ -34,7 +33,7 @@ export const TaskListView = ({ currentView }: TaskListViewProps) => {
     (state: any) => state.decreaseCommunityPopulation
   );
   const removeTask = (id: string) => {
-    setTasks(tasks.filter((task: Task) => task.id !== id));
+    setTasks(tasks.filter((task: TaskActivity) => task.id !== id));
   };
 
   return (
@@ -44,7 +43,9 @@ export const TaskListView = ({ currentView }: TaskListViewProps) => {
           Swipe To Complete Or Pass
         </ListTitle>
         {tasks.length !== 0 &&
-          tasks.slice(0,3).map((task: any) => (
+          tasks
+            .slice(0, 3)
+            .map((task: TaskActivity) => (
               <TaskItem
                 removeTask={removeTask}
                 key={task.id}
@@ -56,11 +57,12 @@ export const TaskListView = ({ currentView }: TaskListViewProps) => {
                   isCommunityWorld ? decreaseCommunity : decreasePersonal
                 }
               />
-          ))}
+            ))}
+
         {tasks.length === 0 && <NoTasks>No tasks available...</NoTasks>}
 
         {
-        //<AllTasksButton href={`tasks`}>All Tasks</AllTasksButton>
+          //<AllTasksButton href={`tasks`}>All Tasks</AllTasksButton>
         }
       </Content>
     </TaskListContainer>

@@ -1,31 +1,43 @@
-import styled from "styled-components"
-import { useEffect, useState } from "react"
-import { Colors } from "../styles/colors"
-import { Body, Headline, SmallData, TitleOne } from "./text"
-import backArrow from '../assets/images/backArrow.png'
-import { CreateCommunity } from "./CreateCommunity"
+import styled from "styled-components";
+import { useEffect, useState } from "react";
+import { Colors } from "../styles/colors";
+import { Body, Headline, SmallData, TitleOne } from "./text";
+import backArrow from "../assets/images/backArrow.png";
+import { CreateCommunity } from "./CreateCommunity";
+import { useWorldModelStore } from "../index";
 
 interface CommunityHubProps {
-    open: boolean,
-    closeCommunity: () => void,
-    createForest: () => void
+  open: boolean;
+  closeCommunity: () => void;
+  createForest: () => void;
 }
 
 interface ContainerProps {
   open: boolean;
 }
 
-export const CommunityHub = ({ open, closeCommunity, createForest }: CommunityHubProps) => {
-    const [createStatus, setCreateStatus] = useState(false)
+export const CommunityHub = ({
+  open,
+  closeCommunity,
+  createForest,
+}: CommunityHubProps) => {
+  const setCommunityForest = useWorldModelStore(
+    (state: any) => state.setCommunityWorld
+  );
+  const openCommunityForest = () => {
+    setCommunityForest();
+    closeCommunity();
+  };
+  const [createStatus, setCreateStatus] = useState(false);
 
-    useEffect(() => {
-        console.log(createStatus)
-    }, [createStatus])
+  useEffect(() => {
+    console.log(createStatus);
+  }, [createStatus]);
 
-    const createForestAndClose = () => {
-        setCreateStatus(false)
-        createForest()
-    }
+  const createForestAndClose = () => {
+    setCreateStatus(false);
+    createForest();
+  };
 
   return (
     <Container open={open}>
@@ -35,63 +47,65 @@ export const CommunityHub = ({ open, closeCommunity, createForest }: CommunityHu
         <Space />
       </TopBar>
 
-      <Community/>
-      <Community/>
+      <Community openCommunityForest={openCommunityForest} />
+      <Community openCommunityForest={openCommunityForest} />
 
-            <AddNew onClick={() => setCreateStatus(true)}>
-                <AddNewText>Plant New Forest</AddNewText>
-            </AddNew>
+      <AddNew onClick={() => setCreateStatus(true)}>
+        <AddNewText>Plant New Forest</AddNewText>
+      </AddNew>
 
-            <CreateCommunity createForest={createForestAndClose} open={createStatus}/>
-        </Container>
-    )
-}
+      <CreateCommunity
+        createForest={createForestAndClose}
+        open={createStatus}
+      />
+    </Container>
+  );
+};
 
-
-const Community = () => {
-    return (
-        <SingleCommunity>
-                <Row>
-                    <TextBox>
-                        <SubTitle>Community Forest</SubTitle>
-                        <SmallTitle>Pekka, Aleksi, Jasse</SmallTitle>
-                    </TextBox>
-                    <HalfBox>
-                        <InfoText>12 mil €</InfoText>
-                        <Desc>total saved</Desc>
-                    </HalfBox>
-                </Row>
-                <Row>
-                    <Box>
-                        <InfoText>3</InfoText>
-                        <Desc>players</Desc>
-                    </Box>
-                    <Box>
-                        <InfoText>17 days</InfoText>
-                        <Desc>since seeding</Desc>
-                    </Box>
-                    <CTA>
-                        <InfoText>Enter Woods</InfoText> 
-                    </CTA>
-                </Row>
-            </SingleCommunity>
-    )
-}
+const Community = (props: any) => {
+  return (
+    <SingleCommunity>
+      <Row>
+        <TextBox>
+          <SubTitle>Community Forest</SubTitle>
+          <SmallTitle>Pekka, Aleksi, Jasse</SmallTitle>
+        </TextBox>
+        <HalfBox>
+          <InfoText>12 mil €</InfoText>
+          <Desc>total saved</Desc>
+        </HalfBox>
+      </Row>
+      <Row>
+        <Box>
+          <InfoText>3</InfoText>
+          <Desc>players</Desc>
+        </Box>
+        <Box>
+          <InfoText>17 days</InfoText>
+          <Desc>since seeding</Desc>
+        </Box>
+        <CTA>
+          <InfoText onClick={props.openCommunityForest}>Enter Woods</InfoText>
+        </CTA>
+      </Row>
+    </SingleCommunity>
+  );
+};
 
 const AddNewText = styled(Body)`
   color: ${Colors.sins};
 `;
 
 const AddNew = styled.button`
-    background: ${Colors.snow};
-    margin-top: 32px;
-    padding: 1rem 1.5rem; 
-    border-radius: 8px;
-    outline: none;
-    border: none;
-    transition: 0.1s;
-    z-index: 9;
-    filter: drop-shadow(0px 4px 0px rgba(0, 0, 0, 0.25));
+  background: ${Colors.snow};
+  margin-top: 32px;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  outline: none;
+  border: none;
+  transition: 0.1s;
+  z-index: 9;
+  filter: drop-shadow(0px 4px 0px rgba(0, 0, 0, 0.25));
 
   &:active {
     filter: drop-shadow(0px 0px 0px rgba(0, 0, 0, 0.25));

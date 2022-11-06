@@ -23,5 +23,9 @@ export const fetchCommunityData = (communityId: string) => {
 };
 
 export const fetchTasks = () => {
-  return api.get("tasks/").then(({ data }) => data);
+  return api.get("tasks/active").then(({ data }) => data);
+};
+
+export const sendCompleteTask = (id: string) => {
+  return api.post(`tasks/complete/${id}`).then(({ data }) => data);
 };
