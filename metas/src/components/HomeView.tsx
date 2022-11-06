@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useTaskStore } from "../index";
+import { useEffect, useState, useRef } from "react";
 import { Headline, SmallBold } from "./text";
 import { Colors } from "../styles/colors";
 import { useWorldModelStore } from "../index";
@@ -10,6 +11,8 @@ interface HomeViewProps {
 }
 
 export const HomeView = ({ currentView }: HomeViewProps) => {
+  const ref = useRef(null);
+
   const [users, setUsers] = useState([
     {
       id: "3fa85f64-5737-4562-b3fc-2c963f66afa6",
@@ -42,12 +45,21 @@ export const HomeView = ({ currentView }: HomeViewProps) => {
   const [communityOpen, setCommunityOpen] = useState(false);
 
   const createForest = () => {
-    console.log("Forest created");
     setCommunityOpen(false);
   };
+  
+  const tasks = useTaskStore((state: any) => state.tasks);
+
+  useEffect(() => {
+    if (ref.current && tasks.length > 0) {
+      //@ts-ignore
+      ref.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [tasks])
+
 
   return (
-    <Container>
+    <Container ref={ref}>
       <ForestBar>
         <Titles active={currentView == "home"}>
           <SubTitle>

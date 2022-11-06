@@ -8,7 +8,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Login } from "./components/Login";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useTaskStore, useUserInfoStore, useWorldModelStore } from "./index";
+import { useTaskStore, useUserInfoStore, useWorldModelStore,useCommunityStore } from "./index";
 // import { QueryClient, QueryClientProvider } from 'react-query';
 
 interface BGprops {
@@ -16,8 +16,8 @@ interface BGprops {
 }
 
 const router = createBrowserRouter([
-  { path: "/", element: <Home /> },
-  { path: "/login", element: <Login /> },
+  { path: "/", element: <Login /> },
+  { path: "/app", element: <Home /> },
 ]);
 
 function App() {
@@ -27,9 +27,12 @@ function App() {
 function Home() {
   const fetchUserInfo = useUserInfoStore((state: any) => state.fetchUser);
   const fetchTasks = useTaskStore((state: any) => state.fetchTasks);
+  const fetchCommunity = useCommunityStore((state: any) => state.fetchCommunity);
+
   useEffect(() => {
     fetchUserInfo("1");
     fetchTasks();
+    fetchCommunity();
   }, []);
 
   const unsub3 = useWorldModelStore.subscribe(
