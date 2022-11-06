@@ -4,7 +4,8 @@ import { Colors } from "../styles/colors";
 import { Body, Headline, SmallData, TitleOne } from "./text";
 import backArrow from "../assets/images/backArrow.png";
 import { CreateCommunity } from "./CreateCommunity";
-import { useWorldModelStore } from "../index";
+import { useWorldModelStore,useCommunityStore } from "../index";
+import { postCommunity } from "../data/api";
 
 interface CommunityHubProps {
   open: boolean;
@@ -21,6 +22,10 @@ export const CommunityHub = ({
   closeCommunity,
   createForest,
 }: CommunityHubProps) => {
+  const comms = useCommunityStore((state: any) => state.communities)
+  const fetchCommunity = useCommunityStore((state: any) => state.fetchCommunity);
+  const setCommunities = useCommunityStore((state: any) => state.setCommunities);
+
   const setCommunityForest = useWorldModelStore(
     (state: any) => state.setCommunityWorld
   );
@@ -32,13 +37,32 @@ export const CommunityHub = ({
 
   useEffect(() => {
     console.log(createStatus);
+    fetchCommunity();
   }, [createStatus]);
 
-  const createForestAndClose = () => {
-    setCreateStatus(false);
-    createForest();
+  const createForestAndClose = async (names: string[]) => {
+    postCommunity({names}).then((comm)=>{
+      setCommunities({
+        comm,
+        ...comms,
+      });
+      setCreateStatus(false);
+      createForest();
+    });
+    // const comm = await postCommunity({names})
+
+    // postCommunity({names}).then((new) => {
+    //   setCommunities({
+    //     new,
+    //     ...comms,
+    //   });
+    //   setCreateStatus(false);
+    //   createForest();
+    // });
   };
 
+  console.log("community")
+  console.log(comms)
   return (
     <Container open={open}>
       <TopBar onClick={() => setCreateStatus(false)}>
@@ -46,9 +70,13 @@ export const CommunityHub = ({
         <Title>Community</Title>
         <Space />
       </TopBar>
-
-      <Community openCommunityForest={openCommunityForest} />
-      <Community openCommunityForest={openCommunityForest} />
+      {
+        comms.length > 0 && comms.map((item:any) => {
+          return <Community openCommunityForest={openCommunityForest} data={item} key={item.created_at} />;
+        })
+      }
+      {/* <Community openCommunityForest={openCommunityForest} />
+      <Community openCommunityForest={openCommunityForest} /> */}
 
       <AddNew onClick={() => setCreateStatus(true)}>
         <AddNewText>Plant New Forest</AddNewText>
@@ -62,29 +90,29 @@ export const CommunityHub = ({
   );
 };
 
-const Community = (props: any) => {
+const Community = ({data,openCommunityForest}: any) => {
   return (
     <SingleCommunity>
       <Row>
         <TextBox>
           <SubTitle>Community Forest</SubTitle>
-          <SmallTitle>Pekka, Aleksi, Jasse</SmallTitle>
+          <SmallTitle>{data.users.map((name: string) => name.charAt(0).toUpperCase() + name.slice(1)).join(", ")}</SmallTitle>
         </TextBox>
         <HalfBox>
-          <InfoText>12 mil €</InfoText>
+          <InfoText>{data.money_saved} €</InfoText>
           <Desc>total saved</Desc>
         </HalfBox>
       </Row>
       <Row>
         <Box>
-          <InfoText>3</InfoText>
+          <InfoText>{data.users.length}</InfoText>
           <Desc>players</Desc>
         </Box>
         <Box>
           <InfoText>17 days</InfoText>
           <Desc>since seeding</Desc>
         </Box>
-        <CTA onClick={props.openCommunityForest}>
+        <CTA onClick={openCommunityForest}>
           <InfoText>Enter Woods</InfoText>
         </CTA>
       </Row>

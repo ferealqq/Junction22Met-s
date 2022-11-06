@@ -1,11 +1,13 @@
 import styled from "styled-components"
+import { useState } from 'react';
 import { Colors } from "../styles/colors";
 import { Body, Headline, SmallBold } from "./text";
 import plusIcon from '../assets/images/plusIcon.png'
 
 export const CreateCommunity = ({ open, createForest }: CreateCommunityProps) => {
     const playerName = "Jaakko"
-
+    const [name, setName] = useState<string>("");
+    const [name2,setN2] = useState<string>("");
     return (
         <Container open={open}>
             <SubTitle>Community Forest</SubTitle>
@@ -16,14 +18,14 @@ export const CreateCommunity = ({ open, createForest }: CreateCommunityProps) =>
                 <Input value={playerName} disabled/> 
             </InputBar>
             <InputBar>
-                <Input placeholder="Second Username..."/> 
+                <Input placeholder="Second Username..." onChange={(evt) => setName(evt.target.value as string)}/> 
                 <AddButton src={plusIcon}/>
             </InputBar>
             <InputBar>
-                <Input placeholder="Third Username..."/> 
+                <Input placeholder="Third Username..." onChange={evt => setN2(evt.target.value as string)}/> 
                 <AddButton src={plusIcon}/>
             </InputBar>
-            <CreateButton onClick={createForest}>
+            <CreateButton onClick={() => createForest([name,name2])}>
                 <CreateText>Plant The Seed</CreateText>
             </CreateButton>
         </Container>
@@ -118,5 +120,5 @@ const Container = styled.div<{ open: boolean }>`
 
 interface CreateCommunityProps {
     open: boolean,
-    createForest: () => void
+    createForest: (names: string[]) => Promise<void>
 }

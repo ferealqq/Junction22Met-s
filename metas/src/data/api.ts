@@ -17,13 +17,12 @@ export const fetchSpendingAnalytics = () => {
   return api.get("tasks/money/analytics").then(({ data }) => data);
 };
 
-export const fetchUserData = (userId: string) => {
-  return api.get(`users/${userId}`).then(({ data }) => data);
+export const fetchUserData = () => {
+  return api.get(`user/user`).then(({ data }) => data);
 };
 
-// TODO:
-export const fetchCommunityData = (communityId: string) => {
-  return api.get(`...`);
+export const fetchCommunityData = () => {
+  return api.get(`communities/get`);
 };
 
 export const fetchTasks = () => {
@@ -37,3 +36,8 @@ export const sendCompleteTask = (id: string) => {
 export const loginUser = (username: string) => {
   return api.post("user/login", { username }).then(({ data }) => data);
 };
+
+export const postCommunity = (names: any) => {
+  return api.post("communities",names
+  ).then(({data}) => data)
+}
