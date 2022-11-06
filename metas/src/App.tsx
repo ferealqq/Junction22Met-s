@@ -27,9 +27,10 @@ function App() {
 function Home() {
   const fetchUserInfo = useUserInfoStore((state: any) => state.fetchUser);
   const fetchTasks = useTaskStore((state: any) => state.fetchTasks);
+
   useEffect(() => {
     fetchUserInfo("1");
-    fetchTasks();
+    fetchTasks()
   }, []);
 
   const unsub3 = useWorldModelStore.subscribe(

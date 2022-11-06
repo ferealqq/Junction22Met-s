@@ -18,6 +18,7 @@ export const useTaskStore = create(
     fetchTasks: async () => {
       const tasks = await fetchTasks();
       set({ tasks });
+      return Promise.resolve(tasks);
     },
     setTasks: (tasks: any) => set({ tasks }),
   }))

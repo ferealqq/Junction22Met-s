@@ -15,6 +15,7 @@ export const Login = () => {
     setToken(token);
     navigate("/");
   };
+
   return (
     <Container>
       <BGImage src={Image} />
