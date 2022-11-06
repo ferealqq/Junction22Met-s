@@ -29,6 +29,8 @@ class User(Base):
     task_completions = relationship(
         "TaskCompletion", back_populates="user", primaryjoin="User.id == TaskCompletion.user_id"
     )
+    # members = relationship("User", secondary=CommunityMember, backref="communities")
+    # communities = relationship("Community", secondary="CommunityMember", backref="members")
 
 class UserIn(BaseModel):
     username: str

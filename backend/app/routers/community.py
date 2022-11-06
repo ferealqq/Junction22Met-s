@@ -1,3 +1,4 @@
+from logging import log
 from typing import Any, Optional, List
 import uuid
 
@@ -22,7 +23,9 @@ router = APIRouter()
 def get_communities(
     db: Session = Depends(get_db),
     user : TokenUser = Depends(credential_check)
-):
+):    
+    # return db.query(Community.id).filter(CommunityMember.c.user_id == user.id).all()
+    # log.info("halooo")
     data = db.query(
         func.array_agg(aggregate_order_by(User.username, User.money_saved)).label("users"),
         func.array_agg(aggregate_order_by(User.id, User.money_saved)).label("user_ids"),
@@ -31,11 +34,15 @@ def get_communities(
         Community.created_at.label("created_at")
     ).filter(
         Community.id.in_(
-            db.query(Community.id.distinct()).filter(CommunityMember.c.user_id == user.id)
+            db.query(CommunityMember.c.community_id).filter(CommunityMember.c.user_id == user.id).subquery()
         )
-    ).group_by(Community.id).all()
-
-    return data    
+    ).outerjoin(
+        CommunityMember, CommunityMember.c.community_id == Community.id 
+    ).outerjoin(User,
+        (CommunityMember.c.user_id == User.id) & (CommunityMember.c.community_id == Community.id)
+    ).group_by(Community.id)
+    
+    return data.all()
 
 
 @router.post(
