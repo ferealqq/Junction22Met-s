@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useState } from "react";
 import { Headline, SmallBold } from "./text";
 import { Colors } from "../styles/colors";
+import { CommunityHub } from "./CommunityHub";
 
 interface HomeViewProps {
   currentView: string;
@@ -9,6 +10,12 @@ interface HomeViewProps {
 
 export const HomeView = ({ currentView }: HomeViewProps) => {
   const [user, setUser] = useState({name: "Jaakko"});
+  const [communityOpen, setCommunityOpen] = useState(false);
+
+  const createForest = () => {
+    console.log("Forest created");
+    setCommunityOpen(false);
+  };
 
   return (
     <Container>
@@ -17,10 +24,12 @@ export const HomeView = ({ currentView }: HomeViewProps) => {
           <SubTitle>Private Forest</SubTitle>
           <Title>{user.name}</Title>
         </Titles>
-        <CommunityButton active={currentView == 'home'}>
+        <CommunityButton active={currentView == 'home'} onClick={() => setCommunityOpen(true)}>
           <CommunityText>Community</CommunityText>
         </CommunityButton>
       </ForestBar>
+      
+      <CommunityHub createForest={createForest} open={communityOpen} closeCommunity={() => setCommunityOpen(false)}/>
     </Container>
   );
 };

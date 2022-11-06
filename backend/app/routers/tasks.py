@@ -65,6 +65,14 @@ async def post_complete_task(
         task_id = task_activity.task.id,
         user_id = user.id
     )
+    usr = db.query(User).filter(User.id == user.id).one_or_none()
+
+    if user == None:
+        raise NOT_FOUND_EXCEPTION
+
+    usr.emissions_saved += task_activity.emissions_saved
+    usr.money_saved += task_activity.money_saved
+    db.add(usr)
 
     usr = db.query(User).filter(User.id == user.id).one_or_none()
 
