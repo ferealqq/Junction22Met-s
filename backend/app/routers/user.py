@@ -1,4 +1,5 @@
 from typing import Any, Optional, List
+from app.dependencies.auth import TokenUser
 
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel
@@ -6,17 +7,16 @@ from sqlalchemy import String, bindparam
 from sqlalchemy.orm import Session
 from app.db.deps import get_db
 from app.db.utils import save_model
-from app.dependencies.auth import JWTService
-
+from app.dependencies.auth import JWTService, credential_check
 from app.models.user import User, UserIn, UserOut
 
 
 router = APIRouter()
 
 
-@router.get("/{user_id}", response_model=UserOut)
-async def get_user(user_id: str, db: Session = Depends(get_db)):
-    user = db.query(User).filter(str(User.id) == user_id).one_or_none()
+@router.get("/user", response_model=UserOut)
+async def get_user(db: Session = Depends(get_db),user : TokenUser = Depends(credential_check)):
+    user = db.query(User).filter(User.id == user.id).one_or_none()
     return user
 
 

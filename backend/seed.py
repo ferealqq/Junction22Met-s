@@ -27,14 +27,14 @@ users = [
   seed_user(db, "gcp_cron_trigger"),
 ]
 
-pyykinpesu = seed_task(db, "pyykinpesu", "pyykinpesu", 1.2)
-astianpesukone = seed_task(db, "astianpesukone", "astianpesukone", 1)
-lappari = seed_task(db, "lappari", "lappari", 0.12)
-lamput = seed_task(db, "lamput", "lamput", 0.05)
-kiuas = seed_task(db, "kiuas", "kiuas", 10)
-lounas = seed_task(db, "lounas", "lounas", 1.1)
-dinner = seed_task(db, "dinner", "dinner", 1.1)
-tesla = seed_task(db, "tesla", "tesla", 80)
+pyykinpesu = seed_task(db, "Washing clothes", "You should program your washing machine to run at this time to optimise savings and minimize your carbon footprint", 1.2)
+astianpesukone = seed_task(db, "Washing Dishes", "You should program your dishwasher to run at this time to optimise savings and minimize your carbon footprint", 1)
+lappari = seed_task(db, "Laptop charging", "An energy consumption peak is coming! Don't charge your laptop for the next hour to save on energy.", 0.12)
+lamput = seed_task(db, "Turn lamps off", "An energy consumption peak is coming and it's still sunny outside, save energy by turning the ligths of.", 0.05)
+kiuas = seed_task(db, "Sauna", "This day has higher energy prices and consumption than unsual. You should avoid going to the sauna today.", 10)
+lounas = seed_task(db, "Lunch", "We have determined that this time is the most efficient time slot to take a lunch.", 1.1)
+dinner = seed_task(db, "Dinner", "We have determined that this time is the most efficient time slot to take a lunch.", 1.1)
+tesla = seed_task(db, "Electric vehicles charging", "Charge your electric vehicle at this time to get massive savings and you'll also have a big impact on your carbon footprint.", 80)
 
 now = datetime.datetime.now()
 today = datetime.date.today()
@@ -57,84 +57,236 @@ lamput1 = seed_task_activity(db, task_id=lamput.id, starts_at=two_days_ago, ends
 lappari1 = seed_task_activity(db, task_id=lappari.id, starts_at=two_days_ago, ends_at=two_days_ago + datetime.timedelta(hours=1), emissions_saved=0.12, money_saved=0.1)
 astianpesukone1 = seed_task_activity(db, task_id=astianpesukone.id, starts_at=two_days_ago, ends_at=two_days_ago + datetime.timedelta(hours=1), emissions_saved=1, money_saved=0.3)
 
+
 seed_task_completion(db, user_id=pekka.id, task_id=pyykinpesu.id, task_activity_id=pyykki1.id, completed_at=today)
+pekka.emissions_saved += pyykki1.emissions_saved
+pekka.money_saved += pyykki1.money_saved
 seed_task_completion(db, user_id=pekka.id, task_id=lounas.id, task_activity_id=lounas2.id, completed_at=today)
+pekka.emissions_saved += lounas2.emissions_saved
+pekka.money_saved += lounas2.money_saved
 seed_task_completion(db, user_id=pekka.id, task_id=lounas.id, task_activity_id=lounas1.id, completed_at=yesterday)
+pekka.emissions_saved += lounas1.emissions_saved
+pekka.money_saved += lounas1.money_saved
 seed_task_completion(db, user_id=pekka.id, task_id=lounas.id, task_activity_id=lounas1.id, completed_at=yesterday)
+pekka.emissions_saved += lounas1.emissions_saved
+pekka.money_saved += lounas1.money_saved
 seed_task_completion(db, user_id=pekka.id, task_id=lounas.id, task_activity_id=lounas1.id, completed_at=two_days_ago)
+pekka.emissions_saved += lounas1.emissions_saved
+pekka.money_saved += lounas1.money_saved
 seed_task_completion(db, user_id=pekka.id, task_id=pyykinpesu.id, task_activity_id=pyykki1.id, completed_at=two_days_ago)
+pekka.emissions_saved += pyykki1.emissions_saved
+pekka.money_saved += pyykki1.money_saved
 seed_task_completion(db, user_id=pekka.id, task_id=pyykinpesu.id, task_activity_id=pyykki1.id, completed_at=two_days_ago)
+pekka.emissions_saved += pyykki1.emissions_saved
+pekka.money_saved += pyykki1.money_saved
 seed_task_completion(db, user_id=pekka.id, task_id=pyykinpesu.id, task_activity_id=pyykki1.id, completed_at=two_days_ago)
+pekka.emissions_saved += pyykki1.emissions_saved
+pekka.money_saved += pyykki1.money_saved
 seed_task_completion(db, user_id=pekka.id, task_id=pyykinpesu.id, task_activity_id=pyykki2.id, completed_at=three_days_ago)
+pekka.emissions_saved += pyykki2.emissions_saved
+pekka.money_saved += pyykki2.money_saved
 seed_task_completion(db, user_id=pekka.id, task_id=lounas.id, task_activity_id=lounas2.id, completed_at=three_days_ago)
+pekka.emissions_saved += lounas2.emissions_saved
+pekka.money_saved += lounas2.money_saved
 seed_task_completion(db, user_id=pekka.id, task_id=lounas.id, task_activity_id=lounas2.id, completed_at=four_days_ago)
+pekka.emissions_saved += lounas2.emissions_saved
+pekka.money_saved += lounas2.money_saved
 seed_task_completion(db, user_id=pekka.id, task_id=dinner.id, task_activity_id=dinner2.id, completed_at=four_days_ago)
+pekka.emissions_saved += dinner2.emissions_saved
+pekka.money_saved += dinner2.money_saved
 seed_task_completion(db, user_id=pekka.id, task_id=kiuas.id, task_activity_id=kiuas1.id, completed_at=five_days_ago)
+pekka.emissions_saved += kiuas1.emissions_saved
+pekka.money_saved += kiuas1.money_saved
 seed_task_completion(db, user_id=pekka.id, task_id=lounas.id, task_activity_id=lounas2.id, completed_at=five_days_ago)
+pekka.emissions_saved += lounas2.emissions_saved
+pekka.money_saved += lounas2.money_saved
 seed_task_completion(db, user_id=pekka.id, task_id=dinner.id, task_activity_id=dinner1.id, completed_at=six_days_ago)
+pekka.emissions_saved += dinner1.emissions_saved
+pekka.money_saved += dinner1.money_saved
 seed_task_completion(db, user_id=pekka.id, task_id=lounas.id, task_activity_id=lounas2.id, completed_at=six_days_ago)
+pekka.emissions_saved += lounas2.emissions_saved
+pekka.money_saved += lounas2.money_saved
+
 
 seed_task_completion(db, user_id=ilkka.id, task_id=pyykinpesu.id, task_activity_id=pyykki1.id, completed_at=today)
+ilkka.emissions_saved += pyykki1.emissions_saved
+ilkka.money_saved += pyykki1.money_saved
 seed_task_completion(db, user_id=ilkka.id, task_id=lounas.id, task_activity_id=lounas2.id, completed_at=today)
+ilkka.emissions_saved += lounas2.emissions_saved
+ilkka.money_saved += lounas2.money_saved
 seed_task_completion(db, user_id=ilkka.id, task_id=lounas.id, task_activity_id=lounas1.id, completed_at=yesterday)
+ilkka.emissions_saved += lounas1.emissions_saved
+ilkka.money_saved += lounas1.money_saved
 seed_task_completion(db, user_id=ilkka.id, task_id=lounas.id, task_activity_id=lounas1.id, completed_at=yesterday)
+ilkka.emissions_saved += lounas1.emissions_saved
+ilkka.money_saved += lounas1.money_saved
 seed_task_completion(db, user_id=ilkka.id, task_id=pyykinpesu.id, task_activity_id=pyykki2.id, completed_at=two_days_ago)
+ilkka.emissions_saved += pyykki2.emissions_saved
+ilkka.money_saved += pyykki2.money_saved
 seed_task_completion(db, user_id=ilkka.id, task_id=pyykinpesu.id, task_activity_id=pyykki1.id, completed_at=two_days_ago)
+ilkka.emissions_saved += pyykki1.emissions_saved
+ilkka.money_saved += pyykki1.money_saved
 seed_task_completion(db, user_id=ilkka.id, task_id=tesla.id, task_activity_id=tesla1.id, completed_at=three_days_ago)
+ilkka.emissions_saved += tesla1.emissions_saved
+ilkka.money_saved += tesla1.money_saved
 seed_task_completion(db, user_id=ilkka.id, task_id=pyykinpesu.id, task_activity_id=pyykki1.id, completed_at=three_days_ago)
+ilkka.emissions_saved += pyykki1.emissions_saved
+ilkka.money_saved += pyykki1.money_saved
 seed_task_completion(db, user_id=ilkka.id, task_id=lappari.id, task_activity_id=lappari1.id, completed_at=four_days_ago)
+ilkka.emissions_saved += lappari1.emissions_saved
+ilkka.money_saved += lappari1.money_saved
 seed_task_completion(db, user_id=ilkka.id, task_id=dinner.id, task_activity_id=dinner1.id, completed_at=four_days_ago)
+ilkka.emissions_saved += dinner1.emissions_saved
+ilkka.money_saved += dinner1.money_saved
 seed_task_completion(db, user_id=ilkka.id, task_id=dinner.id, task_activity_id=dinner2.id, completed_at=five_days_ago)
+ilkka.emissions_saved += dinner2.emissions_saved
+ilkka.money_saved += dinner2.money_saved
 seed_task_completion(db, user_id=ilkka.id, task_id=pyykinpesu.id, task_activity_id=pyykki1.id, completed_at=five_days_ago)
+ilkka.emissions_saved += pyykki1.emissions_saved
+ilkka.money_saved += pyykki1.money_saved
 seed_task_completion(db, user_id=ilkka.id, task_id=lamput.id, task_activity_id=lamput1.id, completed_at=six_days_ago)
+ilkka.emissions_saved += lamput1.emissions_saved
+ilkka.money_saved += lamput1.money_saved
 seed_task_completion(db, user_id=ilkka.id, task_id=pyykinpesu.id, task_activity_id=pyykki1.id, completed_at=six_days_ago)
+ilkka.emissions_saved += pyykki1.emissions_saved
+ilkka.money_saved += pyykki1.money_saved
 
 seed_task_completion(db, user_id=jasse.id, task_id=pyykinpesu.id, task_activity_id=pyykki1.id, completed_at=today)
+jasse.emissions_saved += pyykki1.emissions_saved
+jasse.money_saved += pyykki1.money_saved
 seed_task_completion(db, user_id=jasse.id, task_id=lounas.id, task_activity_id=lounas2.id, completed_at=yesterday)
+jasse.emissions_saved += lounas2.emissions_saved
+jasse.money_saved += lounas2.money_saved
 seed_task_completion(db, user_id=jasse.id, task_id=lounas.id, task_activity_id=lounas1.id, completed_at=yesterday)
+jasse.emissions_saved += lounas1.emissions_saved
+jasse.money_saved += lounas1.money_saved
 seed_task_completion(db, user_id=jasse.id, task_id=lounas.id, task_activity_id=lounas1.id, completed_at=today)
+jasse.emissions_saved += lounas1.emissions_saved
+jasse.money_saved += lounas1.money_saved
 seed_task_completion(db, user_id=jasse.id, task_id=pyykinpesu.id, task_activity_id=pyykki2.id, completed_at=two_days_ago)
+jasse.emissions_saved += pyykki2.emissions_saved
+jasse.money_saved += pyykki2.money_saved
 seed_task_completion(db, user_id=jasse.id, task_id=pyykinpesu.id, task_activity_id=pyykki1.id, completed_at=three_days_ago)
+jasse.emissions_saved += pyykki1.emissions_saved
+jasse.money_saved += pyykki1.money_saved
 seed_task_completion(db, user_id=jasse.id, task_id=tesla.id, task_activity_id=tesla1.id, completed_at=three_days_ago)
+jasse.emissions_saved += tesla1.emissions_saved
+jasse.money_saved += tesla1.money_saved
 seed_task_completion(db, user_id=jasse.id, task_id=pyykinpesu.id, task_activity_id=pyykki1.id, completed_at=two_days_ago)
+jasse.emissions_saved += pyykki1.emissions_saved
+jasse.money_saved += pyykki1.money_saved
 seed_task_completion(db, user_id=jasse.id, task_id=lappari.id, task_activity_id=lappari1.id, completed_at=six_days_ago)
+jasse.emissions_saved += lappari1.emissions_saved
+jasse.money_saved += lappari1.money_saved
 seed_task_completion(db, user_id=jasse.id, task_id=dinner.id, task_activity_id=dinner1.id, completed_at=four_days_ago)
+jasse.emissions_saved += dinner1.emissions_saved
+jasse.money_saved += dinner1.money_saved
 seed_task_completion(db, user_id=jasse.id, task_id=dinner.id, task_activity_id=dinner2.id, completed_at=five_days_ago)
+jasse.emissions_saved += dinner2.emissions_saved
+jasse.money_saved += dinner2.money_saved
 seed_task_completion(db, user_id=jasse.id, task_id=pyykinpesu.id, task_activity_id=pyykki1.id, completed_at=four_days_ago)
+jasse.emissions_saved += pyykki1.emissions_saved
+jasse.money_saved += pyykki1.money_saved
 seed_task_completion(db, user_id=jasse.id, task_id=lamput.id, task_activity_id=lamput1.id, completed_at=six_days_ago)
+jasse.emissions_saved += lamput1.emissions_saved
+jasse.money_saved += lamput1.money_saved
 seed_task_completion(db, user_id=jasse.id, task_id=pyykinpesu.id, task_activity_id=pyykki1.id, completed_at=five_days_ago)
+jasse.emissions_saved += pyykki1.emissions_saved
+jasse.money_saved += pyykki1.money_saved
 
 seed_task_completion(db, user_id=jaakko.id, task_id=pyykinpesu.id, task_activity_id=pyykki1.id, completed_at=six_days_ago)
+jaakko.emissions_saved += pyykki1.emissions_saved
+jaakko.money_saved += pyykki1.money_saved
 seed_task_completion(db, user_id=jaakko.id, task_id=lounas.id, task_activity_id=lounas2.id, completed_at=four_days_ago)
+jaakko.emissions_saved += lounas2.emissions_saved
+jaakko.money_saved += lounas2.money_saved
 seed_task_completion(db, user_id=jaakko.id, task_id=lounas.id, task_activity_id=lounas1.id, completed_at=six_days_ago)
+jaakko.emissions_saved += lounas1.emissions_saved
+jaakko.money_saved += lounas1.money_saved
 seed_task_completion(db, user_id=jaakko.id, task_id=lounas.id, task_activity_id=lounas1.id, completed_at=five_days_ago)
+jaakko.emissions_saved += lounas1.emissions_saved
+jaakko.money_saved += lounas1.money_saved
 seed_task_completion(db, user_id=jaakko.id, task_id=pyykinpesu.id, task_activity_id=pyykki2.id, completed_at=two_days_ago)
+jaakko.emissions_saved += pyykki2.emissions_saved
+jaakko.money_saved += pyykki2.money_saved
 seed_task_completion(db, user_id=jaakko.id, task_id=pyykinpesu.id, task_activity_id=pyykki1.id, completed_at=five_days_ago)
+jaakko.emissions_saved += pyykki1.emissions_saved
+jaakko.money_saved += pyykki1.money_saved
 seed_task_completion(db, user_id=jaakko.id, task_id=tesla.id, task_activity_id=tesla1.id, completed_at=three_days_ago)
+jaakko.emissions_saved += tesla1.emissions_saved
+jaakko.money_saved += tesla1.money_saved
 seed_task_completion(db, user_id=jaakko.id, task_id=pyykinpesu.id, task_activity_id=pyykki1.id, completed_at=yesterday)
+jaakko.emissions_saved += pyykki1.emissions_saved
+jaakko.money_saved += pyykki1.money_saved
 seed_task_completion(db, user_id=jaakko.id, task_id=lappari.id, task_activity_id=lappari1.id, completed_at=three_days_ago)
+jaakko.emissions_saved += lappari1.emissions_saved
+jaakko.money_saved += lappari1.money_saved
 seed_task_completion(db, user_id=jaakko.id, task_id=dinner.id, task_activity_id=dinner1.id, completed_at=today)
+jaakko.emissions_saved += dinner1.emissions_saved
+jaakko.money_saved += dinner1.money_saved
 seed_task_completion(db, user_id=jaakko.id, task_id=dinner.id, task_activity_id=dinner2.id, completed_at=two_days_ago)
+jaakko.emissions_saved += dinner2.emissions_saved
+jaakko.money_saved += dinner2.money_saved
 seed_task_completion(db, user_id=jaakko.id, task_id=pyykinpesu.id, task_activity_id=pyykki1.id, completed_at=four_days_ago)
+jaakko.emissions_saved += pyykki1.emissions_saved
+jaakko.money_saved += pyykki1.money_saved
 seed_task_completion(db, user_id=jaakko.id, task_id=lamput.id, task_activity_id=lamput1.id, completed_at=today)
+jaakko.emissions_saved += lamput1.emissions_saved
+jaakko.money_saved += lamput1.money_saved
 seed_task_completion(db, user_id=jaakko.id, task_id=pyykinpesu.id, task_activity_id=pyykki1.id, completed_at=yesterday)
+jaakko.emissions_saved += pyykki1.emissions_saved
+jaakko.money_saved += pyykki1.money_saved
+
+
 
 seed_task_completion(db, user_id=aleksi.id, task_id=pyykinpesu.id, task_activity_id=pyykki1.id, completed_at=six_days_ago)
+aleksi.emissions_saved += pyykki1.emissions_saved
+aleksi.money_saved += pyykki1.money_saved
 seed_task_completion(db, user_id=aleksi.id, task_id=lounas.id, task_activity_id=lounas2.id, completed_at=six_days_ago)
+aleksi.emissions_saved += lounas2.emissions_saved
+aleksi.money_saved += lounas2.money_saved
 seed_task_completion(db, user_id=aleksi.id, task_id=lounas.id, task_activity_id=lounas1.id, completed_at=five_days_ago)
+aleksi.emissions_saved += lounas1.emissions_saved
+aleksi.money_saved += lounas1.money_saved
 seed_task_completion(db, user_id=aleksi.id, task_id=lounas.id, task_activity_id=lounas1.id, completed_at=five_days_ago)
+aleksi.emissions_saved += lounas1.emissions_saved
+aleksi.money_saved += lounas1.money_saved
 seed_task_completion(db, user_id=aleksi.id, task_id=lounas.id, task_activity_id=lounas1.id, completed_at=four_days_ago)
+aleksi.emissions_saved += lounas1.emissions_saved
+aleksi.money_saved += lounas1.money_saved
 seed_task_completion(db, user_id=aleksi.id, task_id=pyykinpesu.id, task_activity_id=pyykki1.id, completed_at=four_days_ago)
+aleksi.emissions_saved += pyykki1.emissions_saved
+aleksi.money_saved += pyykki1.money_saved
 seed_task_completion(db, user_id=aleksi.id, task_id=pyykinpesu.id, task_activity_id=pyykki1.id, completed_at=three_days_ago)
+aleksi.emissions_saved += pyykki1.emissions_saved
+aleksi.money_saved += pyykki1.money_saved
 seed_task_completion(db, user_id=aleksi.id, task_id=pyykinpesu.id, task_activity_id=pyykki1.id, completed_at=six_days_ago)
+aleksi.emissions_saved += pyykki1.emissions_saved
+aleksi.money_saved += pyykki1.money_saved
 seed_task_completion(db, user_id=aleksi.id, task_id=pyykinpesu.id, task_activity_id=pyykki2.id, completed_at=today)
+aleksi.emissions_saved += pyykki2.emissions_saved
+aleksi.money_saved += pyykki2.money_saved
 seed_task_completion(db, user_id=aleksi.id, task_id=lounas.id, task_activity_id=lounas2.id, completed_at=three_days_ago)
+aleksi.emissions_saved += lounas2.emissions_saved
+aleksi.money_saved += lounas2.money_saved
 seed_task_completion(db, user_id=aleksi.id, task_id=lounas.id, task_activity_id=lounas2.id, completed_at=two_days_ago)
+aleksi.emissions_saved += lounas2.emissions_saved
+aleksi.money_saved += lounas2.money_saved
 seed_task_completion(db, user_id=aleksi.id, task_id=dinner.id, task_activity_id=dinner2.id, completed_at=two_days_ago)
+aleksi.emissions_saved += dinner2.emissions_saved
+aleksi.money_saved += dinner2.money_saved
 seed_task_completion(db, user_id=aleksi.id, task_id=kiuas.id, task_activity_id=kiuas1.id, completed_at=yesterday)
+aleksi.emissions_saved += kiuas1.emissions_saved
+aleksi.money_saved += kiuas1.money_saved
 seed_task_completion(db, user_id=aleksi.id, task_id=lounas.id, task_activity_id=lounas2.id, completed_at=yesterday)
+aleksi.emissions_saved += lounas2.emissions_saved
+aleksi.money_saved += lounas2.money_saved
 seed_task_completion(db, user_id=aleksi.id, task_id=dinner.id, task_activity_id=dinner1.id, completed_at=today)
+aleksi.emissions_saved += dinner1.emissions_saved
+aleksi.money_saved += dinner1.money_saved
 seed_task_completion(db, user_id=aleksi.id, task_id=lounas.id, task_activity_id=lounas2.id, completed_at=today)
+aleksi.emissions_saved += lounas2.emissions_saved
+aleksi.money_saved += lounas2.money_saved
 
 # tasks = []
 # tas = []
@@ -143,3 +295,5 @@ seed_task_completion(db, user_id=aleksi.id, task_id=lounas.id, task_activity_id=
 #   tas.append(seed_task_activity(db,task_id=task.id))
 
 # seed_analytics(db, pekka)
+
+print("Done!")
