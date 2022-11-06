@@ -1,7 +1,5 @@
 import styled from "styled-components";
-import { useState } from "react";
 import { Task } from "../types/tasks";
-import { tasksMockup } from "../data/tasksMockup";
 import { TaskItem } from "./TaskItem";
 import { Colors } from "../styles/colors";
 import { TitleThree } from "./text";
@@ -18,6 +16,7 @@ interface TitleProps {
 export const TaskListView = ({ currentView }: TaskListViewProps) => {
   const tasks = useTaskStore((state: any) => state.tasks);
   const setTasks = useTaskStore((state: any) => state.setTasks);
+
   const isCommunityWorld = useWorldModelStore(
     (state: any) => state.isCommunityWorld
   );
@@ -44,8 +43,9 @@ export const TaskListView = ({ currentView }: TaskListViewProps) => {
           Swipe To Complete Or Pass
         </ListTitle>
         {tasks.length !== 0 &&
-          tasks.slice(0, 3).map((task: Task) => (
-            <div>
+          tasks
+            .slice(0, 3)
+            .map((task: Task) => (
               <TaskItem
                 removeTask={removeTask}
                 key={task.id}
@@ -57,8 +57,7 @@ export const TaskListView = ({ currentView }: TaskListViewProps) => {
                   isCommunityWorld ? decreaseCommunity : decreasePersonal
                 }
               />
-            </div>
-          ))}
+            ))}
 
         {tasks.length === 0 && <NoTasks>No tasks available...</NoTasks>}
 

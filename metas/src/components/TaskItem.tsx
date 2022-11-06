@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { Colors } from "../styles/colors";
 import { Body, Data, SmallData, TitleTwo } from "./text";
 import Draggable from "react-draggable";
+import { sendCompleteTask } from "../data/api";
 
 interface TaskBoxProps {
   color: string;
@@ -28,13 +29,13 @@ export const TaskItem = ({
     {
       id: "3fa85f64-5737-4562-b3fc-2c963f66afa6",
       username: "Jasse",
-      color: 'orange'
+      color: "orange",
     },
     {
       id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
       username: "Pekka",
-      color: 'violet'  
-    }
+      color: "violet",
+    },
   ]);
 
   const handleDrag = (event: any) => {
@@ -77,7 +78,8 @@ export const TaskItem = ({
     } else if (xChange > 205) {
       //Trigger task completion
       removeTask(data.id);
-      console.log("Task done");
+      console.log(data);
+      sendCompleteTask(data.id);
       increase();
       setPosData({ x: 0, y: 0 });
     } else {
@@ -115,8 +117,8 @@ export const TaskItem = ({
         </TaskContentRight>
         <CommunityDoneBalloons>
           {usersDone.map((user) => (
-            <CommunityDoneBalloon color={user.color}/>
-          ))}          
+            <CommunityDoneBalloon color={user.color} />
+          ))}
         </CommunityDoneBalloons>
       </TaskItemContainer>
     </Draggable>
@@ -132,8 +134,8 @@ const CommunityDoneBalloon = styled.div<CommunityDoneBalloonProps>`
   height: 12px;
   margin-left: 8px;
   border-radius: 50%;
-  background: ${(props) => 
-    props.color === 'violet' ? Colors.violet : Colors.orange};
+  background: ${(props) =>
+    props.color === "violet" ? Colors.violet : Colors.orange};
 `;
 
 const CommunityDoneBalloons = styled.div`
